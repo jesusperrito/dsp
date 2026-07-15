@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Times of the Wild — Dubai Safari Park</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+
+<!-- Reusable icon sprites -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-paw" viewBox="0 0 64 64">
+    <ellipse cx="32" cy="42" rx="16" ry="13"/>
+    <ellipse cx="12" cy="24" rx="7" ry="9" transform="rotate(-18 12 24)"/>
+    <ellipse cx="27" cy="14" rx="7.5" ry="9.5" transform="rotate(-6 27 14)"/>
+    <ellipse cx="44" cy="14" rx="7.5" ry="9.5" transform="rotate(6 44 14)"/>
+    <ellipse cx="58" cy="25" rx="7" ry="9" transform="rotate(20 58 25)"/>
+  </symbol>
+  <symbol id="icon-x" viewBox="0 0 24 24">
+    <path d="M4 4 L20 20 M20 4 L4 20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<!-- Masthead -->
+<header class="masthead">
+  <p class="masthead-eyebrow">Season Opening · Edition 01 · DSPN</p>
+  <h1 class="masthead-title">Times of the Wild</h1>
+  <p class="masthead-tagline">The official paper of unofficial wild business.</p>
+  <div class="masthead-credits">
+    <div class="credit"><span class="credit-role">Editor-in-chief</span><span class="credit-name">Molly, The Meerkat</span></div>
+    <div class="credit"><span class="credit-role">Assistant Editor</span><span class="credit-name">G. Raph Longlook</span></div>
+  </div>
+</header>
+
+<!-- Breaking news ticker -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
+    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
+    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
+    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
+    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
+    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
+    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
+    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
+  </div>
+</div>
+
+<!-- Nav rail -->
+<nav class="rail" id="navRail" aria-label="Sections">
+  <button class="rail-toggle" id="railToggle" aria-expanded="true" aria-controls="railList" type="button">
+    <span class="rail-toggle-icon"></span>
+    <span class="rail-toggle-label">Sections</span>
+  </button>
+  <ol class="rail-list" id="railList">
+    <li><a href="#front-page" data-target="front-page">Front Page</a></li>
+    <li><a href="#park-affairs" data-target="park-affairs">Park Affairs</a></li>
+    <li><a href="#fashion" data-target="fashion">Fashion</a></li>
+    <li><a href="#art-design" data-target="art-design">Art &amp; Design</a></li>
+    <li><a href="#wild-moodcast" data-target="wild-moodcast">Wild Moodcast</a></li>
+    <li><a href="#media-tech" data-target="media-tech">Media &amp; Tech</a></li>
+    <li><a href="#health-science" data-target="health-science">Health &amp; Science</a></li>
+    <li><a href="#sports-fitness" data-target="sports-fitness">Sports &amp; Fitness</a></li>
+    <li><a href="#classifieds" data-target="classifieds">Classifieds</a></li>
+    <li><a href="#puzzles-comic" data-target="puzzles-comic">Puzzles &amp; Comic</a></li>
+    <li><a href="#fin" data-target="fin">Fin.</a></li>
+  </ol>
+</nav>
+
+<main>
+
+  <!-- FRONT PAGE -->
+  <section id="front-page" class="issue-section front-page" data-nav-label="Front Page">
+    <p class="eyebrow" data-reveal>Front Page</p>
+    <article class="hero-article" data-reveal>
+      <h2 class="headline headline--hero">Crocodile Turns Things Turn Salty At Park Opening Rehearsal</h2>
+      <p class="dek">Hippo intervenes, crocodile objects, and tortoise brokers compromise before ceremony loses all remaining dignity entirely.</p>
+      <p class="byline">Sept 25 · Beatrice Hornbill, Civic Affairs Correspondent</p>
+      <hr>
+      <div class="body-cols">
+        <p>The official rehearsal for Dubai Safari Park&rsquo;s season opening faced an unexpected delay yesterday after the appointed chief guest, a saltwater crocodile, failed to appear for the ceremonial ribbon cutting on time.</p>
+        <p>The crocodile had been selected for the role due to what organisers described as &ldquo;a natural understanding of sharp gestures.&rdquo; However, when the ribbon was placed, the photographers assembled, and the opening music began, the chief guest was still absent.</p>
+        <p>After several minutes of silence, the hippo stepped forward and took a decisive chew at the ribbon. The act was not formally approved, though some witnesses admitted it moved the programme along.</p>
+        <p>The crocodile arrived shortly after and objected strongly to what he called &ldquo;a clear breach of ceremonial protocol.&rdquo; Sources confirmed tears were visible, though the newsroom has been advised to avoid speculation.</p>
+        <p>The hippo responded with a series of grunts interpreted as &ldquo;first come, first served.&rdquo; Tensions eased only when a tortoise suggested that the hippo be credited with the rehearsal opening, while the crocodile retain the official opening duties.</p>
+        <p>The proposal was accepted slowly, which helped.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- PARK AFFAIRS -->
+  <section id="park-affairs" class="issue-section" data-nav-label="Park Affairs">
+    <details class="section-fold" open>
+      <summary>
+        <span class="eyebrow">Section</span>
+        <h2 class="section-title">Park Affairs</h2>
+        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
+      </summary>
+      <div class="section-content" data-reveal>
+        <div class="card-deck" data-swipe>
+
+          <article class="card">
+            <h3 class="headline">Rangers Deny Favouritism After Baby Gazelle Receives 17 Nicknames</h3>
+            <p class="dek">Officials insist extra attention is standard procedure, despite mounting cuddle-based evidence.</p>
+            <p class="byline">Sept 22 · Nora Noseworthy, Park Affairs Correspondent</p>
+            <hr>
+            <p>Rangers at Dubai Safari Park have denied claims of favouritism after a baby gazelle, born during the summer closure, was reportedly given seventeen nicknames by members of staff.</p>
+            <p>The gazelle, whose official name remains &ldquo;under careful consideration,&rdquo; has also been called Tiny Hooves, Madam Bounce, Little Madam, The Blur, Biscuit, Princess Sprint, and, according to one emotional ranger, &ldquo;my reason for checking the morning rounds twice.&rdquo;</p>
+            <p>Management insists the additional attention was purely professional and in line with the park&rsquo;s animal care standards. However, sources confirmed the gazelle&rsquo;s first steps were witnessed by six rangers, two keepers, one nutritionist, and a maintenance officer who &ldquo;just happened to be nearby.&rdquo;</p>
+            <p>A naming committee has since been formed to restore order. It has already suggested three more nicknames.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">New Wayfinding After Giraffe Complains Directions Were &ldquo;Too Low&rdquo;</h3>
+            <p class="dek">Direction signages get upgraded following repeated visibility concerns from taller residents.</p>
+            <p class="byline">Sept 22 · Cedric D. Cat, Civic Reporter</p>
+            <hr>
+            <p>Dubai Safari Park has completed a refresh of its visitor signage after a giraffe raised concerns that several directions were positioned &ldquo;unnecessarily close to the ground.&rdquo;</p>
+            <p>The complaint, submitted verbally and from a considerable height, argued that previous signs failed to consider residents with &ldquo;a broader visual relationship with the horizon.&rdquo;</p>
+            <p>The giraffe has welcomed the changes, though he has requested that future maps include &ldquo;lane assist.&rdquo; Meerkats, meanwhile, have criticised the update, claiming that people who know where they are going are &ldquo;harder to monitor.&rdquo;</p>
+            <p>The signage team has declined to comment on whether any animals were consulted officially. Unofficially, everyone had notes.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">Unidentified Footprints Cause Stir As Animals Refuse To Name Names</h3>
+            <p class="dek">Mysterious overnight tracks trigger rumours, theories, and one suspiciously quiet ostrich.</p>
+            <p class="byline">Sept 19 · Percy Parrotalia, Investigations Desk</p>
+            <hr>
+            <p>Unidentified footprints discovered near one of Dubai Safari Park&rsquo;s internal pathways have caused considerable speculation among residents, according to sources who immediately asked not to be quoted.</p>
+            <p>Early theories suggested a lion, a ranger, a restless flamingo, or &ldquo;someone new who has not yet been formally introduced.&rdquo;</p>
+            <p>Park teams inspected the area and confirmed there was no cause for concern. They did not, however, confirm whose footprints they were. This has done little to stop the rumours.</p>
+            <p>The ostrich has denied involvement, despite refusing to make eye contact.</p>
+          </article>
+
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- FASHION -->
+  <section id="fashion" class="issue-section" data-nav-label="Fashion">
+    <details class="section-fold" open>
+      <summary>
+        <span class="eyebrow">Section</span>
+        <h2 class="section-title">Fashion</h2>
+        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
+      </summary>
+      <div class="section-content" data-reveal>
+        <div class="card-deck" data-swipe>
+
+          <article class="card">
+            <h3 class="headline">Flamingo Met Gala Hit By Forty-Three Identical Pink Looks</h3>
+            <p class="dek">Wardrobe crisis unfolds as guests discover everyone understood the theme too well.</p>
+            <p class="byline">Sept 22 · Celeste Crane, Fashion Correspondent</p>
+            <hr>
+            <p>The annual Flamingo Met Gala was thrown into mild but beautifully balanced chaos last night after forty-three attendees arrived wearing nearly identical shades of pink.</p>
+            <p>Witnesses reported several long silences, followed by aggressive preening. One guest described the situation as &ldquo;deeply unfortunate,&rdquo; before admitting she looked excellent.</p>
+            <p>No official winner was announced, as all forty-three looks were considered too similar to separate without causing further tension. The after-party was delayed by seventeen minutes while everyone tried to enter last.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">Giraffe&rsquo;s New Hairstyle Goes Viral Across The Savannah</h3>
+            <p class="dek">Long-necked layers spark copycat cuts and several height-related styling concerns.</p>
+            <p class="byline">Sept 22 · Mimi Macaw, Style Reporter</p>
+            <hr>
+            <p>A giraffe&rsquo;s new hairstyle has become the most discussed look of the season after witnesses described it as &ldquo;effortless,&rdquo; &ldquo;architectural,&rdquo; and &ldquo;difficult to reach without a ladder.&rdquo;</p>
+            <p>A warthog has already attempted a version of the look. Reviews were mixed, though generously described as &ldquo;brave.&rdquo;</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">Safari Chic Declared Official Look Of The New Season</h3>
+            <p class="dek">Rangers, guides and drivers debut refreshed uniforms built for dust, sun and sudden tantrums.</p>
+            <p class="byline">Sept 22 · Penelope Peacock, Fashion Correspondent</p>
+            <hr>
+            <p>Safari chic has officially been declared the look of the new season after Dubai Safari Park unveiled refreshed uniforms for its rangers, guides and safari drivers ahead of reopening.</p>
+            <p>The flamingos asked if there would be a more dramatic evening version. A lion described the look as &ldquo;appropriately authoritative, for humans.&rdquo;</p>
+            <p>The safari drivers are reportedly standing slightly taller. The rangers remain focused on the work.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">Zebra Print Returns To Fashion. Zebras Ask When It Left.</h3>
+            <p class="dek">Striped residents question human trend cycles after centuries of consistent styling.</p>
+            <p class="byline">Sept 23 · Felix Finch, Trends Desk</p>
+            <hr>
+            <p>&ldquo;We don&rsquo;t follow trends,&rdquo; said one zebra, standing perfectly inside one. &ldquo;Trends follow us, usually badly.&rdquo;</p>
+            <p>The zebras objected to the word &ldquo;pattern,&rdquo; calling it &ldquo;a lifestyle.&rdquo; The leopard declined to comment, but looked prepared.</p>
+          </article>
+
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- AD BREAK: MERCH -->
+  <section id="ad-merch" class="issue-section ad-break" data-ad="merch" data-ad-title="Ad Break — Merch">
+    <div class="ad-inline" data-reveal>
+      <p class="eyebrow">Ad Break — Merch</p>
+      <div class="ad-tiles">
+        <div class="ad-tile">
+          <div class="qr" aria-hidden="true"></div>
+          <h3>Get Your New Field-Trip Drip.</h3>
+          <p>Visit the gift shop at Dubai Safari Park.</p>
+          <p class="fine-print">Park Opens on Oct 01</p>
+        </div>
+        <div class="ad-tile">
+          <div class="qr" aria-hidden="true"></div>
+          <h3>For Those Who Like Their Wonder Branded.</h3>
+          <p>Visit the gift shop at Dubai Safari Park.</p>
+          <p class="fine-print">Park Opens on Oct 01</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ART & DESIGN -->
+  <section id="art-design" class="issue-section" data-nav-label="Art & Design">
+    <details class="section-fold" open>
+      <summary>
+        <span class="eyebrow">Section</span>
+        <h2 class="section-title">Art &amp; Design</h2>
+        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
+      </summary>
+      <div class="section-content" data-reveal>
+        <div class="card-deck" data-swipe>
+
+          <article class="card">
+            <h3 class="headline">Park Logo Celebrates Ancient Human Symbol Of Snoopery</h3>
+            <p class="dek">Residents react as Dubai Safari Park&rsquo;s fresh mark makes its first public appearance.</p>
+            <p class="byline">Sept 18 · Viola Vulture, Art &amp; Design Correspondent</p>
+            <hr>
+            <p>According to the Design Desk, the logo is inspired by a behaviour long observed across the park: humans suddenly becoming detectives.</p>
+            <p>The new logo takes that little human gesture &mdash; the looking, the searching, the almost comical need to know what&rsquo;s hiding just beyond the obvious &mdash; and turns it into the park&rsquo;s new mark.</p>
+            <p>By late afternoon, several animals had gathered near the entrance to stare at the logo in silence. Sources say it stared back beautifully.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">Colour Palette Approved After Heated Debate At The Watering Hole</h3>
+            <p class="dek">Flamingos pushed pink, lions backed gold, and nature quietly won the room.</p>
+            <p class="byline">Sept 18 · Iris Ibis, Colour Desk</p>
+            <hr>
+            <p>Earth, foliage, sunlight, shade, texture, habitat, feather, fur, and sky all found their way into the new identity. Design observers praised the result for feeling alive without screaming.</p>
+            <p>The flamingos have accepted the decision, though they maintain the palette would benefit from &ldquo;a touch more flamingo.&rdquo; Rhino, as usual, declined to comment. It had already made the point.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">The Letters Speak: Porcupine Gives Sharp Review Of New Typeface</h3>
+            <p class="dek">A quilled expert discusses serifs, spacing, and why good letters need manners.</p>
+            <p class="byline">Sept 18 · Interview by Tilly Toucan, Design Editor</p>
+            <hr>
+            <p><strong>TWT:</strong> Serif or sans-serif?</p>
+            <p><strong>Professor Quill:</strong> A serif is like a tiny paw at the end of a letter. Charming, traditional, sometimes a little overdressed. For a park, clarity matters.</p>
+            <p><strong>TWT:</strong> Final verdict?</p>
+            <p><strong>Professor Quill:</strong> Nicely shaped. Well-spaced. No unnecessary drama. I&rsquo;d give it four and a half quills.</p>
+          </article>
+
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- WILD MOODCAST -->
+  <section id="wild-moodcast" class="issue-section" data-nav-label="Wild Moodcast">
+    <details class="section-fold" open>
+      <summary>
+        <span class="eyebrow">Section</span>
+        <h2 class="section-title">The Wild Moodcast</h2>
+        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
+      </summary>
+      <div class="section-content" data-reveal>
+        <p class="dek">High excitement, scattered drama, and visibility excellent for wonder.</p>
+        <p class="byline">Sept 18 · Interview by Tilly Toucan, Design Editor</p>
+        <hr>
+        <ul class="moodcast-list">
+          <li><strong>Moon Bears:</strong> Thoughtful pacing, with a chance of sudden emotional appearance.</li>
+          <li><strong>Gibbons:</strong> High energy. Acrobatics moving in from the canopy.</li>
+          <li><strong>Red-Crowned Cranes:</strong> Grace levels rising. Ceremonial movement possible.</li>
+          <li><strong>Arabian Wolves:</strong> Quiet confidence after sunset. Ears on high alert.</li>
+          <li><strong>Ostriches:</strong> Gossip winds active. Eye contact unlikely.</li>
+          <li><strong>Pygmy Hippos:</strong> Charm humidity rising near water.</li>
+          <li><strong>Mandarin Ducks:</strong> Colour confidence high. Pattern visibility excellent.</li>
+          <li><strong>Lemurs:</strong> Joy scattered. Tail visibility strong.</li>
+          <li><strong>Sand Gazelles:</strong> Light-footed optimism, with sudden dashes likely.</li>
+          <li><strong>Arabian Oryx:</strong> Elegant visibility. Horn drama holding steady.</li>
+          <li><strong>Komodo Dragons:</strong> Stillness expected. Intensity somehow increasing.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- MEDIA & TECH -->
+  <section id="media-tech" class="issue-section" data-nav-label="Media & Tech">
+    <details class="section-fold" open>
+      <summary>
+        <span class="eyebrow">Section</span>
+        <h2 class="section-title">Media &amp; Tech</h2>
+        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
+      </summary>
+      <div class="section-content" data-reveal>
+        <div class="card-deck" data-swipe>
+
+          <article class="card">
+            <h3 class="headline">Times Of The Wild Launches The Pawdcast</h3>
+            <p class="dek">After years of being observed, the wild would like to own the narrative.</p>
+            <p class="byline">Sept 18 · Hugo Hornbill, Media Correspondent</p>
+            <hr>
+            <p>Times of the Wild has announced the launch of The Pawdcast, a new radio series hosted by Editor-in-Chief Molly D. Meerkat and Assistant Editor G. Raph Longlook.</p>
+            <p>&ldquo;For too long, we have been watched, described, captioned, narrated, misidentified, and occasionally called &lsquo;cute&rsquo; by people with no formal training in our personalities,&rdquo; said Molly. &ldquo;It is time the wild had the microphone.&rdquo;</p>
+            <p>The first episode, &lsquo;WHAT DO HUMANS WONDER ABOUT?,&rsquo; will be the season opener.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">Dubai Safari Park Launches First Aerospace Mission With News Satellite</h3>
+            <p class="dek">Dr. Otto Ostrich confirms floating news satellite will transmit wild headlines across human society.</p>
+            <p class="byline">Sept 21 · Stella Starling, Tech Reporter</p>
+            <hr>
+            <p>The satellite, which some humans continue to describe as &ldquo;a hot air balloon,&rdquo; will carry the Times of the Wild masthead, the park&rsquo;s new logo, a scan code, and a dangling scroll carrying fresh bulletins from inside the park.</p>
+            <p>The first test was declared successful after the satellite remained airborne, visible, and almost entirely unpecked.</p>
+          </article>
+
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- HEALTH & SCIENCE -->
+  <section id="health-science" class="issue-section" data-nav-label="Health & Science">
+    <details class="section-fold" open>
+      <summary>
+        <span class="eyebrow">Section</span>
+        <h2 class="section-title">Health &amp; Science</h2>
+        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
+      </summary>
+      <div class="section-content" data-reveal>
+        <div class="card-deck" data-swipe>
+
+          <article class="card">
+            <h3 class="headline">New CareBnB Designs Reach Full Occupancy Across The Park</h3>
+            <p class="dek">Residents praise custom habitats, with cooling rocks voted best wellness retreat by a landslide.</p>
+            <p class="byline">Sept 18 · Amara Antie, Conservation &amp; Care Correspondent</p>
+            <hr>
+            <p>Unlike ordinary accommodation, these homes do not come with tiny shampoo bottles, questionable pillows, or confusing light switches. Instead, they offer shade, space, privacy, movement, comfort and enrichment.</p>
+            <p>A tortoise reportedly gave his CareBnB five stars, though the review took most of the afternoon to arrive.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">MasterChef: Wild Edition Returns With 3,000 Very Particular Diners</h3>
+            <p class="dek">Smart feeding technology helps care teams create the right nutrition for every resident.</p>
+            <p class="byline">Sept 21 · Basil Baboon, Food &amp; Welfare Critic</p>
+            <hr>
+            <p>Behind the scenes, the nutrition team works with expert precision to create species-specific diets that support health, energy, growth, recovery, and daily wellbeing.</p>
+            <p>One resident gave breakfast four stars, then ate all of it.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">Baby Boom Declared As 144 Newborns Join Park Family</h3>
+            <p class="dek">Nursery teams celebrate tiny paws, hooves, feathers, and several emotional first steps.</p>
+            <p class="byline">Sept 21 · Laila Lemurosa, Family Affairs Reporter</p>
+            <hr>
+            <p>Keepers, veterinarians, nutritionists and welfare teams have worked closely to support mothers, monitor young residents, and make sure each new arrival receives the right care from the very beginning.</p>
+            <p>The babies, meanwhile, have declined comment, citing naps, milk, and the urgent business of being impossibly small.</p>
+          </article>
+
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- AD BREAK: OOH & DIGITAL -->
+  <section id="ad-ooh-digital" class="issue-section ad-break" data-ad="ooh-digital" data-ad-title="Ad Break — OOH & Digital">
+    <div class="ad-inline" data-reveal>
+      <p class="eyebrow">Ad Break — OOH &amp; Digital Ads</p>
+      <div class="ad-tiles">
+        <div class="ad-tile">
+          <div class="qr" aria-hidden="true"></div>
+          <h3>The Wild Is Back On Record.</h3>
+          <p>Catch all the news about Dubai&rsquo;s Safari Park&rsquo;s new season.</p>
+          <p class="fine-print">Park Opens on Oct 01</p>
+        </div>
+        <div class="ad-tile">
+          <div class="qr" aria-hidden="true"></div>
+          <h3>The Wild Reopens Soon. The Drama Is Ongoing.</h3>
+          <p>Catch all the news about Dubai&rsquo;s Safari Park&rsquo;s new season.</p>
+          <p class="fine-print">Park Opens on Oct 01</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPORTS & FITNESS -->
+  <section id="sports-fitness" class="issue-section" data-nav-label="Sports & Fitness">
+    <details class="section-fold" open>
+      <summary>
+        <span class="eyebrow">Section</span>
+        <h2 class="section-title">Sports &amp; Fitness</h2>
+        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
+      </summary>
+      <div class="section-content" data-reveal>
+        <div class="card-deck" data-swipe>
+
+          <article class="card">
+            <h3 class="headline">Gibbons Sweep Canopy Gymnastics Amid Home Advantage Claims</h3>
+            <p class="dek">Officials defend branch selection after gold-medal routine sparks complaints from ground-based rivals.</p>
+            <p class="byline">Sept 21 · Oscar Oryx, Sports Desk</p>
+            <hr>
+            <p>The gibbons denied any unfair advantage during a press conference conducted entirely from above the reporters&rsquo; heads.</p>
+            <p>&ldquo;We simply trained hard,&rdquo; said one gold medallist, while eating fruit upside down.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="headline">Mandarin Ducks Clinch Synchronised Swim Gold Despite Gloss Inquiry</h3>
+            <p class="dek">Officials confirm dazzling plumage was legal, coordinated, and frankly difficult to ignore.</p>
+            <p class="byline">Sept 21 · Daphne Duck, Sports Desk</p>
+            <hr>
+            <p>&ldquo;The plumage is legal,&rdquo; confirmed one official. &ldquo;It is also distracting, but that is not currently against the rules.&rdquo;</p>
+            <p>The silver medallists have requested stricter lighting conditions next season.</p>
+          </article>
+
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- CLASSIFIEDS -->
+  <section id="classifieds" class="issue-section" data-nav-label="Classifieds">
+    <details class="section-fold" open>
+      <summary>
+        <span class="eyebrow">Section</span>
+        <h2 class="section-title">Classifieds</h2>
+        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
+      </summary>
+      <div class="section-content" data-reveal>
+        <div class="placeholder-note">
+          <p>Classified ads go here — send over the copy and we&rsquo;ll wire them into this grid as small stamped tiles.</p>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- AD BREAK: SOCIAL APP -->
+  <section id="ad-social" class="issue-section ad-break" data-ad="social" data-ad-title="Ad Break — Social App">
+    <div class="ad-inline" data-reveal>
+      <p class="eyebrow">Ad Break — Social App</p>
+      <div class="phone-mock">
+        <div class="phone-notch"></div>
+        <div class="phone-icons">
+          <div class="app-icon"></div>
+          <div class="app-icon"></div>
+          <div class="app-icon"></div>
+          <div class="app-icon"></div>
+          <div class="app-icon"></div>
+          <div class="app-icon"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUZZLES & COMIC STRIP -->
+  <section id="puzzles-comic" class="issue-section" data-nav-label="Puzzles & Comic">
+    <details class="section-fold" open>
+      <summary>
+        <span class="eyebrow">Section</span>
+        <h2 class="section-title">Puzzles &amp; Comic Strip</h2>
+        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
+      </summary>
+      <div class="section-content" data-reveal>
+        <div class="comic-strip">
+          <div class="comic-panel"><p>&ldquo;Wild on Safari&rdquo; — panel art coming soon.</p></div>
+          <div class="comic-panel"><p>WILD</p></div>
+          <div class="comic-panel"><p>&hellip;</p></div>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- FIN -->
+  <footer id="fin" class="issue-section fin" data-nav-label="Fin.">
+    <p class="fin-mark" data-reveal>Fin.</p>
+    <p class="credits" data-reveal>Times of the Wild — Season Opening, Edition 01, DSPN.<br>Editor-in-Chief: Molly, The Meerkat &middot; Assistant Editor: G. Raph Longlook</p>
+  </footer>
+
+</main>
+
+<!-- Ad popup overlay (populated by JS) -->
+<div class="ad-popup-overlay" id="adPopupOverlay" hidden>
+  <div class="ad-popup" id="adPopup" role="dialog" aria-modal="true">
+    <button class="ad-popup-close" id="adPopupClose" type="button" aria-label="Close ad">
+      <svg><use href="#icon-paw"/></svg>
+    </button>
+    <div class="ad-popup-content" id="adPopupContent"></div>
+  </div>
+</div>
+
+<script src="src/main.js" defer></script>
+</body>
+</html>
