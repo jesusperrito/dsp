@@ -20,17 +20,64 @@
   <symbol id="icon-x" viewBox="0 0 24 24">
     <path d="M4 4 L20 20 M20 4 L4 20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   </symbol>
+  <symbol id="icon-search" viewBox="0 0 24 24">
+    <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <path d="M19.5 19.5 15 15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-reg" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.3"/>
+    <path d="M12 1v6M12 17v6M1 12h6M17 12h6" stroke="currentColor" stroke-width="1.3"/>
+  </symbol>
+  <symbol id="icon-image" viewBox="0 0 24 24">
+    <rect x="2" y="4" width="20" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <circle cx="8" cy="10" r="1.6" fill="currentColor"/>
+    <path d="M3 17.5 8.8 11.7a1.5 1.5 0 0 1 2.1 0L15 15.8l1.6-1.6a1.5 1.5 0 0 1 2.1 0L21.5 17" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  </symbol>
 </svg>
+
+<!-- Blob clip-shapes, in their own zero-size (not display:none) SVG: some
+     engines won't resolve clip-path: url(#id) references into a
+     display:none ancestor, so these live separately from the icon sprite
+     above. blob-1 traces the studio's clipping-mask-1.svg exactly;
+     blob-2/blob-3 are generated variants (rotation + a non-uniform stretch)
+     in the same quatrefoil family, for visual variety across hero spots. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="blob-1" clipPathUnits="objectBoundingBox">
+      <path d="M0.07897,0.46397 C0.02986,0.41473 0.00000,0.34990 0.00000,0.27881 0.00000,0.12260 0.14402,-0.00361 0.32005,0.00007 c0.06715,0.00141 0.12922,0.02203 0.17962,0.05587 C0.55381,0.01959 0.62161,-0.00147 0.69499,0.00007 c0.16679,0.00349 0.30239,0.12552 0.30497,0.27433 0.00125,0.07275 -0.02877,0.13922 -0.07882,0.18946 -0.02063,0.02071 -0.02063,0.05158 0.00000,0.07228 0.05005,0.05024 0.08007,0.11669 0.07882,0.18946 -0.00256,0.14881 -0.13818,0.27083 -0.30497,0.27433 -0.07338,0.00154 -0.14118,-0.01952 -0.19533,-0.05587 -0.05040,0.03385 -0.11247,0.05446 -0.17962,0.05587 C0.14402,1.00361 0.00000,0.87742 0.00000,0.72119 c0.00000,-0.07110 0.02986,-0.13595 0.07897,-0.18518 0.02056,-0.02061 0.02056,-0.05145 0.00000,-0.07204 Z"/>
+    </clipPath>
+    <clipPath id="blob-2" clipPathUnits="objectBoundingBox">
+      <path transform="rotate(90 0.5 0.5)" d="M0.07897,0.46397 C0.02986,0.41473 0.00000,0.34990 0.00000,0.27881 0.00000,0.12260 0.14402,-0.00361 0.32005,0.00007 c0.06715,0.00141 0.12922,0.02203 0.17962,0.05587 C0.55381,0.01959 0.62161,-0.00147 0.69499,0.00007 c0.16679,0.00349 0.30239,0.12552 0.30497,0.27433 0.00125,0.07275 -0.02877,0.13922 -0.07882,0.18946 -0.02063,0.02071 -0.02063,0.05158 0.00000,0.07228 0.05005,0.05024 0.08007,0.11669 0.07882,0.18946 -0.00256,0.14881 -0.13818,0.27083 -0.30497,0.27433 -0.07338,0.00154 -0.14118,-0.01952 -0.19533,-0.05587 -0.05040,0.03385 -0.11247,0.05446 -0.17962,0.05587 C0.14402,1.00361 0.00000,0.87742 0.00000,0.72119 c0.00000,-0.07110 0.02986,-0.13595 0.07897,-0.18518 0.02056,-0.02061 0.02056,-0.05145 0.00000,-0.07204 Z"/>
+    </clipPath>
+    <clipPath id="blob-3" clipPathUnits="objectBoundingBox">
+      <path transform="rotate(38 0.5 0.5) scale(1.08 0.94)" transform-origin="0.5 0.5" d="M0.07897,0.46397 C0.02986,0.41473 0.00000,0.34990 0.00000,0.27881 0.00000,0.12260 0.14402,-0.00361 0.32005,0.00007 c0.06715,0.00141 0.12922,0.02203 0.17962,0.05587 C0.55381,0.01959 0.62161,-0.00147 0.69499,0.00007 c0.16679,0.00349 0.30239,0.12552 0.30497,0.27433 0.00125,0.07275 -0.02877,0.13922 -0.07882,0.18946 -0.02063,0.02071 -0.02063,0.05158 0.00000,0.07228 0.05005,0.05024 0.08007,0.11669 0.07882,0.18946 -0.00256,0.14881 -0.13818,0.27083 -0.30497,0.27433 -0.07338,0.00154 -0.14118,-0.01952 -0.19533,-0.05587 -0.05040,0.03385 -0.11247,0.05446 -0.17962,0.05587 C0.14402,1.00361 0.00000,0.87742 0.00000,0.72119 c0.00000,-0.07110 0.02986,-0.13595 0.07897,-0.18518 0.02056,-0.02061 0.02056,-0.05145 0.00000,-0.07204 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+
+<!-- Corner registration marks (decorative, print-crop-mark motif) -->
+<div class="registration-marks" aria-hidden="true">
+  <svg class="reg-mark reg-mark--tl"><use href="#icon-reg"/></svg>
+  <svg class="reg-mark reg-mark--tr"><use href="#icon-reg"/></svg>
+  <svg class="reg-mark reg-mark--bl"><use href="#icon-reg"/></svg>
+  <svg class="reg-mark reg-mark--br"><use href="#icon-reg"/></svg>
+</div>
 
 <!-- Masthead -->
 <header class="masthead">
-  <p class="masthead-eyebrow">Season Opening · Edition 01 · DSPN</p>
-  <h1 class="masthead-title">Times of the Wild</h1>
-  <p class="masthead-tagline">The official paper of unofficial wild business.</p>
-  <div class="masthead-credits">
-    <div class="credit"><span class="credit-role">Editor-in-chief</span><span class="credit-name">Molly, The Meerkat</span></div>
-    <div class="credit"><span class="credit-role">Assistant Editor</span><span class="credit-name">G. Raph Longlook</span></div>
+  <div class="masthead-row">
+    <p class="masthead-eyebrow">Season Opening · Edition 01 · DSPN</p>
+    <div class="masthead-credits">
+      <div class="credit"><span class="credit-role">Editor-in-chief</span><span class="credit-name">Molly, The Meerkat</span></div>
+      <div class="credit"><span class="credit-role">Assistant Editor</span><span class="credit-name">G. Raph Longlook</span></div>
+    </div>
   </div>
+  <div class="crest crest--header">
+    <img class="crest-art" src="assets/images/totw-logo-header.svg" alt="Times of the Wild" width="581" height="249">
+    <span class="crest-eye crest-eye--left" aria-hidden="true"></span>
+    <span class="crest-eye crest-eye--right" aria-hidden="true"></span>
+  </div>
+  <p class="masthead-tagline">The official paper of unofficial wild business.</p>
 </header>
 
 <!-- Breaking news ticker -->
@@ -47,60 +94,75 @@
   </div>
 </div>
 
-<!-- Nav rail -->
-<nav class="rail" id="navRail" aria-label="Sections">
-  <button class="rail-toggle" id="railToggle" aria-expanded="true" aria-controls="railList" type="button">
-    <span class="rail-toggle-icon"></span>
-    <span class="rail-toggle-label">Sections</span>
-  </button>
-  <ol class="rail-list" id="railList">
+<!-- Section tab bar -->
+<nav class="tabbar" id="navRail" aria-label="Sections">
+  <a class="tabbar-brand" href="#front-page" data-target="front-page" aria-label="Times of the Wild — back to top">
+    <img src="assets/images/totw-wordmark.svg" alt="" width="581" height="110">
+  </a>
+  <ol class="tabbar-list" id="railList">
     <li><a href="#front-page" data-target="front-page">Front Page</a></li>
     <li><a href="#park-affairs" data-target="park-affairs">Park Affairs</a></li>
     <li><a href="#fashion" data-target="fashion">Fashion</a></li>
+    <li><a href="#ad-merch" data-target="ad-merch">Ad Break</a></li>
     <li><a href="#art-design" data-target="art-design">Art &amp; Design</a></li>
-    <li><a href="#wild-moodcast" data-target="wild-moodcast">Wild Moodcast</a></li>
+    <li><a href="#wild-moodcast" data-target="wild-moodcast">The Wild Moodcast</a></li>
     <li><a href="#media-tech" data-target="media-tech">Media &amp; Tech</a></li>
     <li><a href="#health-science" data-target="health-science">Health &amp; Science</a></li>
     <li><a href="#sports-fitness" data-target="sports-fitness">Sports &amp; Fitness</a></li>
+    <li><a href="#ad-ooh-digital" data-target="ad-ooh-digital">Ad Break</a></li>
     <li><a href="#classifieds" data-target="classifieds">Classifieds</a></li>
-    <li><a href="#puzzles-comic" data-target="puzzles-comic">Puzzles &amp; Comic</a></li>
-    <li><a href="#fin" data-target="fin">Fin.</a></li>
+    <li><a href="#puzzles-comic" data-target="puzzles-comic">Puzzles &amp; Comic Strip</a></li>
   </ol>
+  <button class="tabbar-search" type="button" aria-label="Search">
+    <svg><use href="#icon-search"/></svg>
+  </button>
 </nav>
 
 <main>
 
   <!-- FRONT PAGE -->
   <section id="front-page" class="issue-section front-page" data-nav-label="Front Page">
-    <p class="eyebrow" data-reveal>Front Page</p>
+    <p class="eyebrow front-page-eyebrow" data-reveal>Front Page</p>
     <article class="hero-article" data-reveal>
-      <h2 class="headline headline--hero">Crocodile Turns Things Turn Salty At Park Opening Rehearsal</h2>
-      <p class="dek">Hippo intervenes, crocodile objects, and tortoise brokers compromise before ceremony loses all remaining dignity entirely.</p>
-      <p class="byline">Sept 25 · Beatrice Hornbill, Civic Affairs Correspondent</p>
-      <hr>
-      <div class="body-cols">
-        <p>The official rehearsal for Dubai Safari Park&rsquo;s season opening faced an unexpected delay yesterday after the appointed chief guest, a saltwater crocodile, failed to appear for the ceremonial ribbon cutting on time.</p>
-        <p>The crocodile had been selected for the role due to what organisers described as &ldquo;a natural understanding of sharp gestures.&rdquo; However, when the ribbon was placed, the photographers assembled, and the opening music began, the chief guest was still absent.</p>
-        <p>After several minutes of silence, the hippo stepped forward and took a decisive chew at the ribbon. The act was not formally approved, though some witnesses admitted it moved the programme along.</p>
-        <p>The crocodile arrived shortly after and objected strongly to what he called &ldquo;a clear breach of ceremonial protocol.&rdquo; Sources confirmed tears were visible, though the newsroom has been advised to avoid speculation.</p>
-        <p>The hippo responded with a series of grunts interpreted as &ldquo;first come, first served.&rdquo; Tensions eased only when a tortoise suggested that the hippo be credited with the rehearsal opening, while the crocodile retain the official opening duties.</p>
-        <p>The proposal was accepted slowly, which helped.</p>
+      <div class="hero-media">
+        <div class="media-slot media-slot--hero-full" aria-hidden="true">
+          <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+        </div>
+      </div>
+      <div class="hero-card-wrap">
+        <div class="hero-card">
+          <h2 class="headline headline--hero">Crocodile Turns Things Turn Salty At Park Opening Rehearsal</h2>
+          <p class="dek">Hippo intervenes, crocodile objects, and tortoise brokers compromise before ceremony loses all remaining dignity entirely.</p>
+          <p class="byline">Sept 25 · Beatrice Hornbill, Civic Affairs Correspondent</p>
+        </div>
+      </div>
+      <div class="hero-body-wrap">
+        <hr>
+        <div class="body-cols">
+          <p>The official rehearsal for Dubai Safari Park&rsquo;s season opening faced an unexpected delay yesterday after the appointed chief guest, a saltwater crocodile, failed to appear for the ceremonial ribbon cutting on time.</p>
+          <p>The crocodile had been selected for the role due to what organisers described as &ldquo;a natural understanding of sharp gestures.&rdquo; However, when the ribbon was placed, the photographers assembled, and the opening music began, the chief guest was still absent.</p>
+          <p>After several minutes of silence, the hippo stepped forward and took a decisive chew at the ribbon. The act was not formally approved, though some witnesses admitted it moved the programme along.</p>
+          <p>The crocodile arrived shortly after and objected strongly to what he called &ldquo;a clear breach of ceremonial protocol.&rdquo; Sources confirmed tears were visible, though the newsroom has been advised to avoid speculation.</p>
+          <p>The hippo responded with a series of grunts interpreted as &ldquo;first come, first served.&rdquo; Tensions eased only when a tortoise suggested that the hippo be credited with the rehearsal opening, while the crocodile retain the official opening duties.</p>
+          <p>The proposal was accepted slowly, which helped.</p>
+        </div>
       </div>
     </article>
   </section>
 
   <!-- PARK AFFAIRS -->
   <section id="park-affairs" class="issue-section" data-nav-label="Park Affairs">
-    <details class="section-fold" open>
-      <summary>
-        <span class="eyebrow">Section</span>
-        <h2 class="section-title">Park Affairs</h2>
-        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
-      </summary>
+    <div class="section-head">
+      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
+      <h2 class="section-title">Park Affairs</h2>
+    </div>
       <div class="section-content" data-reveal>
         <div class="card-deck" data-swipe>
 
           <article class="card">
+            <div class="media-slot media-slot--blob is-blob-2" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Rangers Deny Favouritism After Baby Gazelle Receives 17 Nicknames</h3>
             <p class="dek">Officials insist extra attention is standard procedure, despite mounting cuddle-based evidence.</p>
             <p class="byline">Sept 22 · Nora Noseworthy, Park Affairs Correspondent</p>
@@ -112,6 +174,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">New Wayfinding After Giraffe Complains Directions Were &ldquo;Too Low&rdquo;</h3>
             <p class="dek">Direction signages get upgraded following repeated visibility concerns from taller residents.</p>
             <p class="byline">Sept 22 · Cedric D. Cat, Civic Reporter</p>
@@ -123,6 +188,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Unidentified Footprints Cause Stir As Animals Refuse To Name Names</h3>
             <p class="dek">Mysterious overnight tracks trigger rumours, theories, and one suspiciously quiet ostrich.</p>
             <p class="byline">Sept 19 · Percy Parrotalia, Investigations Desk</p>
@@ -135,21 +203,21 @@
 
         </div>
       </div>
-    </details>
   </section>
 
   <!-- FASHION -->
   <section id="fashion" class="issue-section" data-nav-label="Fashion">
-    <details class="section-fold" open>
-      <summary>
-        <span class="eyebrow">Section</span>
-        <h2 class="section-title">Fashion</h2>
-        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
-      </summary>
+    <div class="section-head">
+      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
+      <h2 class="section-title">Fashion</h2>
+    </div>
       <div class="section-content" data-reveal>
         <div class="card-deck" data-swipe>
 
           <article class="card">
+            <div class="media-slot media-slot--blob is-blob-3" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Flamingo Met Gala Hit By Forty-Three Identical Pink Looks</h3>
             <p class="dek">Wardrobe crisis unfolds as guests discover everyone understood the theme too well.</p>
             <p class="byline">Sept 22 · Celeste Crane, Fashion Correspondent</p>
@@ -160,6 +228,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Giraffe&rsquo;s New Hairstyle Goes Viral Across The Savannah</h3>
             <p class="dek">Long-necked layers spark copycat cuts and several height-related styling concerns.</p>
             <p class="byline">Sept 22 · Mimi Macaw, Style Reporter</p>
@@ -169,6 +240,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Safari Chic Declared Official Look Of The New Season</h3>
             <p class="dek">Rangers, guides and drivers debut refreshed uniforms built for dust, sun and sudden tantrums.</p>
             <p class="byline">Sept 22 · Penelope Peacock, Fashion Correspondent</p>
@@ -179,6 +253,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Zebra Print Returns To Fashion. Zebras Ask When It Left.</h3>
             <p class="dek">Striped residents question human trend cycles after centuries of consistent styling.</p>
             <p class="byline">Sept 23 · Felix Finch, Trends Desk</p>
@@ -189,7 +266,6 @@
 
         </div>
       </div>
-    </details>
   </section>
 
   <!-- AD BREAK: MERCH -->
@@ -215,16 +291,17 @@
 
   <!-- ART & DESIGN -->
   <section id="art-design" class="issue-section" data-nav-label="Art & Design">
-    <details class="section-fold" open>
-      <summary>
-        <span class="eyebrow">Section</span>
-        <h2 class="section-title">Art &amp; Design</h2>
-        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
-      </summary>
+    <div class="section-head">
+      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
+      <h2 class="section-title">Art &amp; Design</h2>
+    </div>
       <div class="section-content" data-reveal>
         <div class="card-deck" data-swipe>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Park Logo Celebrates Ancient Human Symbol Of Snoopery</h3>
             <p class="dek">Residents react as Dubai Safari Park&rsquo;s fresh mark makes its first public appearance.</p>
             <p class="byline">Sept 18 · Viola Vulture, Art &amp; Design Correspondent</p>
@@ -235,6 +312,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Colour Palette Approved After Heated Debate At The Watering Hole</h3>
             <p class="dek">Flamingos pushed pink, lions backed gold, and nature quietly won the room.</p>
             <p class="byline">Sept 18 · Iris Ibis, Colour Desk</p>
@@ -244,6 +324,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">The Letters Speak: Porcupine Gives Sharp Review Of New Typeface</h3>
             <p class="dek">A quilled expert discusses serifs, spacing, and why good letters need manners.</p>
             <p class="byline">Sept 18 · Interview by Tilly Toucan, Design Editor</p>
@@ -256,50 +339,136 @@
 
         </div>
       </div>
-    </details>
   </section>
 
   <!-- WILD MOODCAST -->
   <section id="wild-moodcast" class="issue-section" data-nav-label="Wild Moodcast">
-    <details class="section-fold" open>
-      <summary>
-        <span class="eyebrow">Section</span>
-        <h2 class="section-title">The Wild Moodcast</h2>
-        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
-      </summary>
+    <div class="section-head">
+      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
+      <h2 class="section-title">The Wild Moodcast</h2>
+    </div>
       <div class="section-content" data-reveal>
         <p class="dek">High excitement, scattered drama, and visibility excellent for wonder.</p>
         <p class="byline">Sept 18 · Interview by Tilly Toucan, Design Editor</p>
         <hr>
-        <ul class="moodcast-list">
-          <li><strong>Moon Bears:</strong> Thoughtful pacing, with a chance of sudden emotional appearance.</li>
-          <li><strong>Gibbons:</strong> High energy. Acrobatics moving in from the canopy.</li>
-          <li><strong>Red-Crowned Cranes:</strong> Grace levels rising. Ceremonial movement possible.</li>
-          <li><strong>Arabian Wolves:</strong> Quiet confidence after sunset. Ears on high alert.</li>
-          <li><strong>Ostriches:</strong> Gossip winds active. Eye contact unlikely.</li>
-          <li><strong>Pygmy Hippos:</strong> Charm humidity rising near water.</li>
-          <li><strong>Mandarin Ducks:</strong> Colour confidence high. Pattern visibility excellent.</li>
-          <li><strong>Lemurs:</strong> Joy scattered. Tail visibility strong.</li>
-          <li><strong>Sand Gazelles:</strong> Light-footed optimism, with sudden dashes likely.</li>
-          <li><strong>Arabian Oryx:</strong> Elegant visibility. Horn drama holding steady.</li>
-          <li><strong>Komodo Dragons:</strong> Stillness expected. Intensity somehow increasing.</li>
-        </ul>
+        <p class="moodcast-note">Hover (or tap) a pin for the reading.</p>
+        <div class="moodcast-map">
+          <img class="moodcast-map-bg" src="assets/images/moodcast-map.svg" alt="Illustrated map of Dubai Safari Park">
+          <img class="moodcast-compass" src="assets/images/mooncast-compass.svg" alt="" aria-hidden="true">
+
+          <button class="moodcast-pin" style="left:22%;top:32%" type="button" aria-label="Moon Bears mood">
+            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
+            <span class="moodcast-tooltip">
+              <span class="moodcast-portrait">
+                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
+                <img class="moodcast-face" src="assets/images/mooncast-bear.svg" alt="">
+              </span>
+              <strong>Moon Bears</strong>
+              <span>Thoughtful pacing, with a chance of sudden emotional appearance.</span>
+            </span>
+          </button>
+
+          <button class="moodcast-pin" style="left:68%;top:16%" type="button" aria-label="Red-Crowned Cranes mood">
+            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
+            <span class="moodcast-tooltip">
+              <span class="moodcast-portrait">
+                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
+                <img class="moodcast-face" src="assets/images/mooncast-crane.svg" alt="">
+              </span>
+              <strong>Red-Crowned Cranes</strong>
+              <span>Grace levels rising. Ceremonial movement possible.</span>
+            </span>
+          </button>
+
+          <button class="moodcast-pin" style="left:14%;top:64%" type="button" aria-label="Arabian Wolves mood">
+            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
+            <span class="moodcast-tooltip">
+              <span class="moodcast-portrait">
+                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
+                <img class="moodcast-face" src="assets/images/mooncast-wolf.svg" alt="">
+              </span>
+              <strong>Arabian Wolves</strong>
+              <span>Quiet confidence after sunset. Ears on high alert.</span>
+            </span>
+          </button>
+
+          <button class="moodcast-pin" style="left:46%;top:78%" type="button" aria-label="Ostriches mood">
+            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
+            <span class="moodcast-tooltip">
+              <span class="moodcast-portrait">
+                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
+                <img class="moodcast-face" src="assets/images/mooncast-ostrich.svg" alt="">
+              </span>
+              <strong>Ostriches</strong>
+              <span>Gossip winds active. Eye contact unlikely.</span>
+            </span>
+          </button>
+
+          <button class="moodcast-pin" style="left:66%;top:48%" type="button" aria-label="Pygmy Hippos mood">
+            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
+            <span class="moodcast-tooltip">
+              <span class="moodcast-portrait">
+                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
+                <img class="moodcast-face" src="assets/images/mooncast-hippo.svg" alt="">
+              </span>
+              <strong>Pygmy Hippos</strong>
+              <span>Charm humidity rising near water.</span>
+            </span>
+          </button>
+
+          <button class="moodcast-pin" style="left:80%;top:62%" type="button" aria-label="Mandarin Ducks mood">
+            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
+            <span class="moodcast-tooltip">
+              <span class="moodcast-portrait">
+                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
+                <img class="moodcast-face" src="assets/images/mooncast-duck.svg" alt="">
+              </span>
+              <strong>Mandarin Ducks</strong>
+              <span>Colour confidence high. Pattern visibility excellent.</span>
+            </span>
+          </button>
+
+          <button class="moodcast-pin" style="left:38%;top:22%" type="button" aria-label="Lemurs mood">
+            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
+            <span class="moodcast-tooltip">
+              <span class="moodcast-portrait">
+                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
+                <img class="moodcast-face" src="assets/images/mooncast-lemur.svg" alt="">
+              </span>
+              <strong>Lemurs</strong>
+              <span>Joy scattered. Tail visibility strong.</span>
+            </span>
+          </button>
+
+          <button class="moodcast-pin" style="left:56%;top:34%" type="button" aria-label="Arabian Oryx mood">
+            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
+            <span class="moodcast-tooltip">
+              <span class="moodcast-portrait">
+                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
+                <img class="moodcast-face" src="assets/images/mooncast-onyx.svg" alt="">
+              </span>
+              <strong>Arabian Oryx</strong>
+              <span>Elegant visibility. Horn drama holding steady.</span>
+            </span>
+          </button>
+        </div>
+        <p class="moodcast-note">Also reporting this week: Gibbons (high energy, acrobatics from the canopy), Sand Gazelles (light-footed optimism, sudden dashes likely), Komodo Dragons (stillness expected, intensity somehow increasing) — portraits coming once their art arrives.</p>
       </div>
-    </details>
   </section>
 
   <!-- MEDIA & TECH -->
   <section id="media-tech" class="issue-section" data-nav-label="Media & Tech">
-    <details class="section-fold" open>
-      <summary>
-        <span class="eyebrow">Section</span>
-        <h2 class="section-title">Media &amp; Tech</h2>
-        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
-      </summary>
+    <div class="section-head">
+      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
+      <h2 class="section-title">Media &amp; Tech</h2>
+    </div>
       <div class="section-content" data-reveal>
         <div class="card-deck" data-swipe>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Times Of The Wild Launches The Pawdcast</h3>
             <p class="dek">After years of being observed, the wild would like to own the narrative.</p>
             <p class="byline">Sept 18 · Hugo Hornbill, Media Correspondent</p>
@@ -310,6 +479,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Dubai Safari Park Launches First Aerospace Mission With News Satellite</h3>
             <p class="dek">Dr. Otto Ostrich confirms floating news satellite will transmit wild headlines across human society.</p>
             <p class="byline">Sept 21 · Stella Starling, Tech Reporter</p>
@@ -320,21 +492,21 @@
 
         </div>
       </div>
-    </details>
   </section>
 
   <!-- HEALTH & SCIENCE -->
   <section id="health-science" class="issue-section" data-nav-label="Health & Science">
-    <details class="section-fold" open>
-      <summary>
-        <span class="eyebrow">Section</span>
-        <h2 class="section-title">Health &amp; Science</h2>
-        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
-      </summary>
+    <div class="section-head">
+      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
+      <h2 class="section-title">Health &amp; Science</h2>
+    </div>
       <div class="section-content" data-reveal>
         <div class="card-deck" data-swipe>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">New CareBnB Designs Reach Full Occupancy Across The Park</h3>
             <p class="dek">Residents praise custom habitats, with cooling rocks voted best wellness retreat by a landslide.</p>
             <p class="byline">Sept 18 · Amara Antie, Conservation &amp; Care Correspondent</p>
@@ -344,6 +516,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">MasterChef: Wild Edition Returns With 3,000 Very Particular Diners</h3>
             <p class="dek">Smart feeding technology helps care teams create the right nutrition for every resident.</p>
             <p class="byline">Sept 21 · Basil Baboon, Food &amp; Welfare Critic</p>
@@ -353,6 +528,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Baby Boom Declared As 144 Newborns Join Park Family</h3>
             <p class="dek">Nursery teams celebrate tiny paws, hooves, feathers, and several emotional first steps.</p>
             <p class="byline">Sept 21 · Laila Lemurosa, Family Affairs Reporter</p>
@@ -363,7 +541,6 @@
 
         </div>
       </div>
-    </details>
   </section>
 
   <!-- AD BREAK: OOH & DIGITAL -->
@@ -389,16 +566,17 @@
 
   <!-- SPORTS & FITNESS -->
   <section id="sports-fitness" class="issue-section" data-nav-label="Sports & Fitness">
-    <details class="section-fold" open>
-      <summary>
-        <span class="eyebrow">Section</span>
-        <h2 class="section-title">Sports &amp; Fitness</h2>
-        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
-      </summary>
+    <div class="section-head">
+      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
+      <h2 class="section-title">Sports &amp; Fitness</h2>
+    </div>
       <div class="section-content" data-reveal>
         <div class="card-deck" data-swipe>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Gibbons Sweep Canopy Gymnastics Amid Home Advantage Claims</h3>
             <p class="dek">Officials defend branch selection after gold-medal routine sparks complaints from ground-based rivals.</p>
             <p class="byline">Sept 21 · Oscar Oryx, Sports Desk</p>
@@ -408,6 +586,9 @@
           </article>
 
           <article class="card">
+            <div class="media-slot media-slot--card" aria-hidden="true">
+              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+            </div>
             <h3 class="headline">Mandarin Ducks Clinch Synchronised Swim Gold Despite Gloss Inquiry</h3>
             <p class="dek">Officials confirm dazzling plumage was legal, coordinated, and frankly difficult to ignore.</p>
             <p class="byline">Sept 21 · Daphne Duck, Sports Desk</p>
@@ -418,23 +599,19 @@
 
         </div>
       </div>
-    </details>
   </section>
 
   <!-- CLASSIFIEDS -->
   <section id="classifieds" class="issue-section" data-nav-label="Classifieds">
-    <details class="section-fold" open>
-      <summary>
-        <span class="eyebrow">Section</span>
-        <h2 class="section-title">Classifieds</h2>
-        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
-      </summary>
+    <div class="section-head">
+      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
+      <h2 class="section-title">Classifieds</h2>
+    </div>
       <div class="section-content" data-reveal>
         <div class="placeholder-note">
           <p>Classified ads go here — send over the copy and we&rsquo;ll wire them into this grid as small stamped tiles.</p>
         </div>
       </div>
-    </details>
   </section>
 
   <!-- AD BREAK: SOCIAL APP -->
@@ -457,20 +634,107 @@
 
   <!-- PUZZLES & COMIC STRIP -->
   <section id="puzzles-comic" class="issue-section" data-nav-label="Puzzles & Comic">
-    <details class="section-fold" open>
-      <summary>
-        <span class="eyebrow">Section</span>
-        <h2 class="section-title">Puzzles &amp; Comic Strip</h2>
-        <span class="fold-toggle" aria-hidden="true"><svg><use href="#icon-paw"/></svg></span>
-      </summary>
+    <div class="section-head">
+      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
+      <h2 class="section-title">Puzzles &amp; Comic Strip</h2>
+    </div>
       <div class="section-content" data-reveal>
-        <div class="comic-strip">
-          <div class="comic-panel"><p>&ldquo;Wild on Safari&rdquo; — panel art coming soon.</p></div>
-          <div class="comic-panel"><p>WILD</p></div>
-          <div class="comic-panel"><p>&hellip;</p></div>
+        <div class="puzzle-row">
+          <div class="puzzle-tile puzzle-tile--logo">
+            <img src="assets/images/wild-times-puzzle-logo.svg" alt="The Wild Times" width="519" height="282">
+          </div>
+          <div class="puzzle-tile puzzle-tile--sudoku">
+            <div class="sudoku-grid" id="sudokuGrid">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="5" readonly data-row="0" data-col="0" data-box="0" tabindex="-1" aria-label="Row 1 column 1, given 5">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="3" readonly data-row="0" data-col="1" data-box="0" tabindex="-1" aria-label="Row 1 column 2, given 3">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="2" data-box="0" aria-label="Row 1 column 3, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="3" data-box="1" aria-label="Row 1 column 4, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="7" readonly data-row="0" data-col="4" data-box="1" tabindex="-1" aria-label="Row 1 column 5, given 7">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="5" data-box="1" aria-label="Row 1 column 6, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="6" data-box="2" aria-label="Row 1 column 7, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="7" data-box="2" aria-label="Row 1 column 8, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="8" data-box="2" aria-label="Row 1 column 9, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="6" readonly data-row="1" data-col="0" data-box="0" tabindex="-1" aria-label="Row 2 column 1, given 6">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="1" data-col="1" data-box="0" aria-label="Row 2 column 2, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="1" data-col="2" data-box="0" aria-label="Row 2 column 3, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="1" readonly data-row="1" data-col="3" data-box="1" tabindex="-1" aria-label="Row 2 column 4, given 1">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="9" readonly data-row="1" data-col="4" data-box="1" tabindex="-1" aria-label="Row 2 column 5, given 9">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="5" readonly data-row="1" data-col="5" data-box="1" tabindex="-1" aria-label="Row 2 column 6, given 5">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="1" data-col="6" data-box="2" aria-label="Row 2 column 7, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="1" data-col="7" data-box="2" aria-label="Row 2 column 8, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="1" data-col="8" data-box="2" aria-label="Row 2 column 9, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="0" data-box="0" aria-label="Row 3 column 1, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="9" readonly data-row="2" data-col="1" data-box="0" tabindex="-1" aria-label="Row 3 column 2, given 9">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="8" readonly data-row="2" data-col="2" data-box="0" tabindex="-1" aria-label="Row 3 column 3, given 8">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="3" data-box="1" aria-label="Row 3 column 4, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="4" data-box="1" aria-label="Row 3 column 5, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="5" data-box="1" aria-label="Row 3 column 6, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="6" data-box="2" aria-label="Row 3 column 7, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="6" readonly data-row="2" data-col="7" data-box="2" tabindex="-1" aria-label="Row 3 column 8, given 6">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="8" data-box="2" aria-label="Row 3 column 9, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="8" readonly data-row="3" data-col="0" data-box="3" tabindex="-1" aria-label="Row 4 column 1, given 8">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="1" data-box="3" aria-label="Row 4 column 2, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="2" data-box="3" aria-label="Row 4 column 3, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="3" data-box="4" aria-label="Row 4 column 4, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="6" readonly data-row="3" data-col="4" data-box="4" tabindex="-1" aria-label="Row 4 column 5, given 6">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="5" data-box="4" aria-label="Row 4 column 6, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="6" data-box="5" aria-label="Row 4 column 7, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="7" data-box="5" aria-label="Row 4 column 8, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="3" readonly data-row="3" data-col="8" data-box="5" tabindex="-1" aria-label="Row 4 column 9, given 3">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="4" readonly data-row="4" data-col="0" data-box="3" tabindex="-1" aria-label="Row 5 column 1, given 4">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="4" data-col="1" data-box="3" aria-label="Row 5 column 2, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="4" data-col="2" data-box="3" aria-label="Row 5 column 3, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="8" readonly data-row="4" data-col="3" data-box="4" tabindex="-1" aria-label="Row 5 column 4, given 8">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="4" data-col="4" data-box="4" aria-label="Row 5 column 5, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="3" readonly data-row="4" data-col="5" data-box="4" tabindex="-1" aria-label="Row 5 column 6, given 3">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="4" data-col="6" data-box="5" aria-label="Row 5 column 7, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="4" data-col="7" data-box="5" aria-label="Row 5 column 8, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="1" readonly data-row="4" data-col="8" data-box="5" tabindex="-1" aria-label="Row 5 column 9, given 1">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="7" readonly data-row="5" data-col="0" data-box="3" tabindex="-1" aria-label="Row 6 column 1, given 7">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="1" data-box="3" aria-label="Row 6 column 2, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="2" data-box="3" aria-label="Row 6 column 3, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="3" data-box="4" aria-label="Row 6 column 4, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="2" readonly data-row="5" data-col="4" data-box="4" tabindex="-1" aria-label="Row 6 column 5, given 2">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="5" data-box="4" aria-label="Row 6 column 6, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="6" data-box="5" aria-label="Row 6 column 7, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="7" data-box="5" aria-label="Row 6 column 8, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="6" readonly data-row="5" data-col="8" data-box="5" tabindex="-1" aria-label="Row 6 column 9, given 6">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="0" data-box="6" aria-label="Row 7 column 1, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="6" readonly data-row="6" data-col="1" data-box="6" tabindex="-1" aria-label="Row 7 column 2, given 6">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="2" data-box="6" aria-label="Row 7 column 3, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="3" data-box="7" aria-label="Row 7 column 4, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="4" data-box="7" aria-label="Row 7 column 5, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="5" data-box="7" aria-label="Row 7 column 6, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="2" readonly data-row="6" data-col="6" data-box="8" tabindex="-1" aria-label="Row 7 column 7, given 2">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="8" readonly data-row="6" data-col="7" data-box="8" tabindex="-1" aria-label="Row 7 column 8, given 8">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="8" data-box="8" aria-label="Row 7 column 9, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="7" data-col="0" data-box="6" aria-label="Row 8 column 1, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="7" data-col="1" data-box="6" aria-label="Row 8 column 2, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="7" data-col="2" data-box="6" aria-label="Row 8 column 3, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="4" readonly data-row="7" data-col="3" data-box="7" tabindex="-1" aria-label="Row 8 column 4, given 4">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="1" readonly data-row="7" data-col="4" data-box="7" tabindex="-1" aria-label="Row 8 column 5, given 1">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="9" readonly data-row="7" data-col="5" data-box="7" tabindex="-1" aria-label="Row 8 column 6, given 9">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="7" data-col="6" data-box="8" aria-label="Row 8 column 7, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="7" data-col="7" data-box="8" aria-label="Row 8 column 8, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="5" readonly data-row="7" data-col="8" data-box="8" tabindex="-1" aria-label="Row 8 column 9, given 5">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="0" data-box="6" aria-label="Row 9 column 1, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="1" data-box="6" aria-label="Row 9 column 2, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="2" data-box="6" aria-label="Row 9 column 3, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="3" data-box="7" aria-label="Row 9 column 4, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="8" readonly data-row="8" data-col="4" data-box="7" tabindex="-1" aria-label="Row 9 column 5, given 8">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="5" data-box="7" aria-label="Row 9 column 6, empty">
+              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="6" data-box="8" aria-label="Row 9 column 7, empty">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="7" readonly data-row="8" data-col="7" data-box="8" tabindex="-1" aria-label="Row 9 column 8, given 7">
+              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="9" readonly data-row="8" data-col="8" data-box="8" tabindex="-1" aria-label="Row 9 column 9, given 9">
+            </div>
+            <p class="sudoku-solved-note" aria-live="polite">Solved! You've earned your safari stripes.</p>
+          </div>
+          <div class="media-slot media-slot--card puzzle-tile" aria-hidden="true">
+            <svg class="media-slot-icon"><use href="#icon-image"/></svg>
+          </div>
         </div>
+        <img class="comic-strip-art" src="assets/images/strip.svg" alt="Wild on Safari comic strip: a meerkat and a camera-toting rabbit spot a lion who has struck a pose, captioned RAD" width="1173" height="372">
       </div>
-    </details>
   </section>
 
   <!-- FIN -->
@@ -480,6 +744,29 @@
   </footer>
 
 </main>
+
+<!-- Site footer -->
+<footer class="site-footer">
+  <svg class="footer-paw" aria-hidden="true"><use href="#icon-paw"/></svg>
+  <p class="footer-tagline">Welcome to The Wild Times<br>the official magazine from Dubai Safari Park.</p>
+  <img class="social-row" src="assets/images/social-icons.svg" alt="Follow Times of the Wild on Facebook, Instagram, TikTok, Snapchat and YouTube" width="497" height="33">
+  <hr class="footer-rule">
+  <div class="masthead-row">
+    <p class="masthead-eyebrow">Season Opening · Edition 01 · DSPN</p>
+    <div class="masthead-credits">
+      <div class="credit"><span class="credit-role">Editor-in-chief</span><span class="credit-name">Molly, The Meerkat</span></div>
+      <div class="credit"><span class="credit-role">Assistant Editor</span><span class="credit-name">G. Raph Longlook</span></div>
+    </div>
+  </div>
+  <div class="crest crest--footer">
+    <img class="crest-art" src="assets/images/totw-footer-no-eyes.svg" alt="Times of the Wild" width="497" height="216">
+  </div>
+</footer>
+
+<!-- Paw trinket: occasional idle animation, positioned/triggered by main.js -->
+<div class="paw-trinket edge-bottom" id="pawTrinket" aria-hidden="true">
+  <div class="paw-wave-inner"><img src="assets/images/paw.png" alt=""></div>
+</div>
 
 <!-- Ad popup overlay (populated by JS) -->
 <div class="ad-popup-overlay" id="adPopupOverlay" hidden>

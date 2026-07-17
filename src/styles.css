@@ -26,7 +26,7 @@
   --bg-dim: #D8ED45;       /* ticker / recessed strips */
   --ink: #15150C;          /* near-black ink */
   --paper: #FBF6E4;        /* cream card surface */
-  --accent: #FF14D6;       /* placeholder magenta accent */
+  --accent: #F47568;       /* brand coral — sourced from the DSP key visual, per DESIGN.md */
   --line: rgba(21, 21, 12, 0.85);
 
   --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
@@ -40,7 +40,20 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* No global scroll-behavior:smooth and no page-level overflow-x:hidden
+   here or on body — both turned out to be footguns during testing:
+   - scroll-behavior:smooth on html made programmatic scrollTo /
+     scrollIntoView calls silently stall/no-op in some environments
+     (confirmed in this project's own test harness). The nav's
+     click-to-jump already requests smooth scrolling explicitly per-call
+     in main.js (with a fallback that snaps to an instant jump if the
+     animation doesn't actually complete), so a global default added
+     risk without adding capability.
+   - overflow-x:hidden on the root element propagates to the viewport's
+     native scrolling mechanism rather than behaving like a normal box,
+     and disabled ALL scrolling (both axes) in testing here. The one
+     element that could bleed horizontally (the ticker) already
+     self-clips via its own `overflow: hidden`, so this wasn't needed. */
 
 body {
   margin: 0;
@@ -48,7 +61,6 @@ body {
   color: var(--ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 
 a { color: inherit; }
@@ -67,44 +79,87 @@ hr {
   color: var(--ink);
   margin: 0 0 8px;
 }
+.eyebrow--tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.eyebrow-paw { width: 12px; height: 12px; fill: var(--ink); opacity: 0.8; }
 
 /* ---------------- Masthead ---------------- */
 
 .masthead {
   text-align: center;
-  padding: 56px 24px 28px;
+  padding: 28px 24px 32px;
   border-bottom: 3px solid var(--ink);
+}
+.masthead-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 28px; /* clears the corner registration marks (~14-34px inset) */
+  gap: 16px;
+  flex-wrap: wrap;
+  text-align: left;
+  margin-bottom: 32px;
 }
 .masthead-eyebrow {
   font-family: var(--font-sans);
   font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  margin: 0 0 18px;
-}
-.masthead-title {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(48px, 10vw, 108px);
-  line-height: 0.95;
-  margin: 0;
+  margin: 8px 0 0;
 }
 .masthead-tagline {
   font-family: var(--font-display);
   font-size: clamp(16px, 2.4vw, 22px);
-  margin: 14px 0 26px;
+  margin: 16px 0 0;
 }
 .masthead-credits {
   display: flex;
-  justify-content: center;
-  gap: 64px;
+  justify-content: flex-end;
+  gap: 32px;
   flex-wrap: wrap;
   font-family: var(--font-sans);
   font-size: 13px;
+  text-align: right;
 }
 .credit-role { font-weight: 700; display: block; }
 .credit-name { opacity: 0.8; }
+
+/* ---------------- Crest + wordmark ---------------- */
+
+.crest {
+  position: relative;
+  width: min(420px, 78vw);
+  margin: 0 auto;
+}
+.crest-art { display: block; width: 100%; height: auto; }
+.crest-eye {
+  position: absolute;
+  width: 2%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ink);
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s linear;
+}
+/* Coordinates calibrated visually against totw-logo-header.svg's own
+   socket openings via a grid-overlay test (this file's crest sits in a
+   different composition/canvas than the plain crest-only asset, so
+   simple viewBox-ratio math didn't line up — verified pixel-by-pixel). */
+.crest--header .crest-eye--left { left: 48%; top: 37%; }
+.crest--header .crest-eye--right { left: 63%; top: 37%; }
+@media (prefers-reduced-motion: reduce) {
+  .crest-eye { transition: none; }
+}
+
+.wordmark {
+  display: block;
+  width: min(480px, 82vw);
+  height: auto;
+  margin: 20px auto 0;
+}
 
 /* ---------------- Ticker ---------------- */
 
@@ -139,96 +194,107 @@ hr {
   .ticker-track { animation: none; }
 }
 
-/* ---------------- Nav rail ---------------- */
+/* ---------------- Registration marks ---------------- */
+/* Decorative print-crop-mark motif in the four page corners. */
 
-.rail {
+.registration-marks {
   position: fixed;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-  z-index: 60;
-  font-family: var(--font-sans);
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
 }
-.rail-toggle {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  background: var(--ink);
-  color: var(--bg);
-  border: none;
-  border-radius: 999px;
-  padding: 10px 16px;
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-.rail-toggle-icon {
-  width: 14px; height: 10px;
-  position: relative;
-}
-.rail-toggle-icon::before,
-.rail-toggle-icon::after,
-.rail-toggle-icon {
-  background: currentColor;
-}
-.rail-toggle-icon,
-.rail-toggle-icon::before,
-.rail-toggle-icon::after {
-  height: 2px;
-}
-.rail-toggle-icon::before,
-.rail-toggle-icon::after {
-  content: "";
+.reg-mark {
   position: absolute;
-  left: 0; width: 100%;
+  width: 20px;
+  height: 20px;
+  color: var(--ink);
+  opacity: 0.32;
 }
-.rail-toggle-icon::before { top: -5px; }
-.rail-toggle-icon::after { top: 5px; }
+.reg-mark--tl { top: 14px; left: 14px; }
+.reg-mark--tr { top: 14px; right: 14px; }
+.reg-mark--bl { bottom: 14px; left: 14px; }
+.reg-mark--br { bottom: 14px; right: 14px; }
+@media (max-width: 640px) {
+  .registration-marks { display: none; }
+}
 
-.rail-list {
+/* ---------------- Section tab bar ---------------- */
+/* A sticky, horizontally-scrollable segmented bar replaces the earlier
+   floating vertical pill rail, matching the Layout 2.pdf / studio reference.
+   Active-section tracking and click-to-jump logic live in main.js, unchanged
+   from the pill-rail version — only the container markup/styling moved. */
+
+.tabbar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  align-items: stretch;
+  background: var(--paper);
+  border-bottom: 2px solid var(--ink);
+  font-family: var(--font-sans);
+}
+.tabbar-brand {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 0 16px;
+  border-right: 1px solid var(--line);
+}
+.tabbar-brand img { display: block; height: 16px; width: auto; }
+.tabbar-list {
   list-style: none;
   margin: 0;
-  padding: 10px;
-  background: var(--paper);
-  border: 2px solid var(--ink);
-  border-radius: 16px;
-  box-shadow: 4px 4px 0 var(--ink);
+  padding: 0;
+  display: flex;
+  flex: 1 1 auto;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
-.rail-list a {
-  display: block;
+.tabbar-list::-webkit-scrollbar { display: none; }
+.tabbar-list li {
+  flex: 0 0 auto;
+  border-right: 1px solid var(--line);
+}
+.tabbar-list a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: 44px; /* touch target minimum */
+  padding: 0 16px;
   text-decoration: none;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 7px 12px;
-  border-radius: 999px;
   white-space: nowrap;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--ink);
-  opacity: 0.55;
-  transition: opacity 0.15s, background 0.15s;
+  opacity: 0.65; /* 0.55 failed WCAG AA (3.99:1) at this font size; 0.65 matches the byline convention at 5.5:1 */
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
 }
-.rail-list a:hover { opacity: 0.9; }
-.rail-list a.is-active {
+.tabbar-list a:hover { opacity: 0.9; }
+.tabbar-list a.is-active {
   opacity: 1;
   background: var(--accent);
   color: var(--paper);
 }
-
-@media (max-width: 900px) {
-  .rail { top: auto; bottom: 18px; right: 18px; transform: none; }
-  .rail-toggle { display: inline-flex; }
-  .rail-list {
-    position: absolute;
-    bottom: calc(100% + 10px);
-    right: 0;
-    max-height: 60vh;
-    overflow-y: auto;
-    display: none;
-  }
-  .rail.is-open .rail-list { display: block; }
+.tabbar-search {
+  flex: 0 0 auto;
+  width: 48px;
+  min-height: 44px; /* touch target minimum */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-left: 1px solid var(--line);
+  color: var(--ink);
+  cursor: pointer;
 }
+.tabbar-search svg { width: 17px; height: 17px; fill: none; stroke: currentColor; }
+
+/* Anchor targets should clear the sticky bar when jumped to via nav click. */
+.issue-section { scroll-margin-top: 52px; }
 
 /* ---------------- Layout / sections ---------------- */
 
@@ -250,6 +316,12 @@ main { display: block; }
 [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    transform: none;
+    transition: opacity 0.3s ease;
+  }
 }
 
 /* ---------------- Headlines / body copy ---------------- */
@@ -289,35 +361,23 @@ main { display: block; }
 
 .card p { font-size: 15px; line-height: 1.55; margin: 0 0 12px; }
 
-/* ---------------- Section folds (hybrid nav accordion) ---------------- */
+/* ---------------- Section headers ---------------- */
+/* Sections are always fully present (no collapse/accordion — removed as
+   an unnecessary interaction for this stage). Eyebrow tag stacks above
+   the section title rather than sitting inline beside it. */
 
-.section-fold summary {
-  list-style: none;
-  cursor: pointer;
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
+.section-head {
   padding-bottom: 14px;
   border-bottom: 3px solid var(--ink);
-  user-select: none;
 }
-.section-fold summary::-webkit-details-marker { display: none; }
-.section-fold summary .eyebrow { margin: 0; flex: 0 0 auto; }
+.section-head .eyebrow { margin: 0 0 8px; }
 .section-title {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
   font-size: clamp(30px, 4.4vw, 46px);
   margin: 0;
-  flex: 1 1 auto;
 }
-.fold-toggle {
-  width: 22px; height: 22px;
-  flex: 0 0 auto;
-  transition: transform 0.3s ease;
-}
-.fold-toggle svg { width: 100%; height: 100%; fill: var(--ink); }
-.section-fold[open] summary .fold-toggle { transform: rotate(180deg); }
 
 .section-content { padding-top: 28px; }
 
@@ -341,7 +401,8 @@ main { display: block; }
   padding: 32px 26px 26px;
   position: relative;
 }
-.card::before {
+.card::before,
+.hero-card::before {
   /* stamped/torn top edge, zigzag via clip-path (cheap — no mask/gradient rasterization) */
   content: "";
   position: absolute;
@@ -356,29 +417,147 @@ main { display: block; }
 }
 
 /* ---------------- Front page hero ---------------- */
+/* Full-bleed hero photo (breaks out of the standard 920px column) with the
+   headline card overlapping its bottom edge — a stronger "cover story"
+   opening moment than a hero constrained to the same column as everything
+   else. Recommended over an agency-landing-page layout (badges/testimonial
+   cards) as a better register fit for a tabloid front page. */
 
-.front-page .hero-article { padding-top: 10px; }
-
-/* ---------------- Moodcast ---------------- */
-
-.moodcast-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 14px 26px;
+.issue-section.front-page {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
 }
-.moodcast-list li {
-  font-size: 15px;
-  line-height: 1.5;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
+.front-page-eyebrow {
+  max-width: 872px;
+  margin: 0 auto 16px;
+  padding: 0 24px;
 }
-.moodcast-list li:nth-child(odd) { margin-right: 8%; }
-.moodcast-list li:nth-child(even) { margin-left: 8%; text-align: right; }
+.hero-media { width: 100%; }
+.media-slot--hero-full {
+  width: 100%;
+  height: min(60vh, 600px);
+  min-height: 320px;
+  border-radius: 0;
+}
+.hero-card-wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.hero-card {
+  position: relative;
+  max-width: 600px;
+  margin-top: -64px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  padding: 32px 26px 26px;
+}
+.hero-body-wrap {
+  max-width: 872px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.hero-body-wrap hr { margin-top: 48px; }
 @media (max-width: 640px) {
-  .moodcast-list li:nth-child(odd),
-  .moodcast-list li:nth-child(even) { margin: 0; text-align: left; }
+  .media-slot--hero-full { height: 46vh; min-height: 260px; }
+  .hero-card { margin-top: -40px; max-width: none; }
+}
+
+/* ---------------- Moodcast map ---------------- */
+
+.moodcast-map {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  margin: 8px auto 20px;
+}
+.moodcast-map-bg { display: block; width: 100%; height: auto; }
+.moodcast-compass {
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  width: 11%;
+  height: auto;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.moodcast-pin {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  width: 6.5%;
+  min-width: 26px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.moodcast-pin-icon {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.15s ease;
+}
+.moodcast-pin:hover .moodcast-pin-icon,
+.moodcast-pin:focus-visible .moodcast-pin-icon,
+.moodcast-pin.is-open .moodcast-pin-icon {
+  transform: translateY(-3px);
+}
+.moodcast-pin:hover,
+.moodcast-pin:focus-visible,
+.moodcast-pin.is-open { z-index: 10; }
+
+.moodcast-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  width: 176px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  padding: 14px 12px 12px;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translate(-50%, 6px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.moodcast-tooltip strong {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.moodcast-pin:hover .moodcast-tooltip,
+.moodcast-pin:focus-visible .moodcast-tooltip,
+.moodcast-pin.is-open .moodcast-tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+.moodcast-portrait {
+  position: relative;
+  display: block;
+  width: 64px;
+  margin: 0 auto 8px;
+}
+.moodcast-holder-frame { display: block; width: 100%; height: auto; }
+.moodcast-face {
+  position: absolute;
+  width: 58%;
+  left: 50%;
+  top: 58%;
+  transform: translate(-50%, -50%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .moodcast-pin-icon, .moodcast-tooltip { transition: none; }
 }
 
 /* ---------------- Ad breaks (inline, non-popup fallback) ---------------- */
@@ -443,36 +622,155 @@ main { display: block; }
   border-radius: 16px;
 }
 
-/* ---------------- Placeholder / comic ---------------- */
+/* ---------------- Placeholder note ---------------- */
 
 .placeholder-note {
   border: 2px dashed var(--line);
-  border-radius: 8px;
+  border-radius: 4px; /* matches the card/ad-tile radius scale */
   padding: 24px;
   font-family: var(--font-sans);
   font-size: 14px;
   opacity: 0.75;
   text-align: center;
 }
-.comic-strip {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-.comic-panel {
-  aspect-ratio: 4/3;
-  background: var(--paper);
-  border: 2px solid var(--ink);
+
+/* ---------------- Media placeholders ---------------- */
+/* Temporary stand-ins until real photography/video lands. Regular article
+   cards get a plain quiet box, newspaper-style; a few featured spots get the
+   quatrefoil blob treatment via the blob-1/2/3 clip-paths defined in
+   index.html (blob-1 traces the studio's clipping-mask-1.svg exactly). The
+   fill is ink mixed into the page background — an "olive" tone made purely
+   from the two colors already in the palette, not a new hue. */
+
+.media-slot {
+  --placeholder: color-mix(in srgb, var(--ink) 42%, var(--bg) 58%);
+  background: var(--placeholder);
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 18px;
-  padding: 12px;
+  position: relative;
 }
-@media (max-width: 640px) { .comic-strip { grid-template-columns: 1fr; } }
+.media-slot-icon { width: 26px; height: 26px; color: var(--paper); opacity: 0.6; }
+
+.media-slot--card {
+  aspect-ratio: 16/10;
+  border-radius: 4px; /* matches the card/ad-tile radius scale */
+  margin-bottom: 18px;
+}
+
+.media-slot--blob {
+  aspect-ratio: 480/538;
+  max-width: 300px;
+  margin: 0 auto 24px;
+  clip-path: url(#blob-1);
+}
+.media-slot--blob.is-blob-2 { clip-path: url(#blob-2); }
+.media-slot--blob.is-blob-3 { clip-path: url(#blob-3); }
+
+.media-slot--avatar {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+}
+.media-slot--avatar .media-slot-icon { width: 16px; height: 16px; }
+
+/* ---------------- Puzzles & Comic Strip ---------------- */
+
+.moodcast-note {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  opacity: 0.6;
+  margin: 0 0 18px;
+}
+
+.puzzle-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.puzzle-tile {
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  background: var(--paper);
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+.puzzle-tile--logo img { width: 100%; height: auto; }
+.puzzle-tile.media-slot--card { margin-bottom: 0; aspect-ratio: 4/3; }
+.puzzle-tile--sudoku {
+  aspect-ratio: auto;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sudoku-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1.5px solid var(--ink);
+}
+.sudoku-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0.5px solid var(--line);
+  border-radius: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: clamp(9px, 2vw, 13px);
+  font-weight: 700;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+.sudoku-cell.given { background: var(--bg-dim); }
+.sudoku-cell:not(.given) { cursor: text; }
+.sudoku-cell:not(.given):focus {
+  outline: none;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 2px var(--accent);
+  position: relative;
+  z-index: 1;
+}
+.sudoku-cell.is-conflict { color: var(--accent); }
+.sudoku-cell:nth-child(3n) { border-right: 1.5px solid var(--ink); }
+.sudoku-cell:nth-child(9n+1) { border-left: 1.5px solid var(--ink); }
+.sudoku-cell:nth-child(n+19):nth-child(-n+27),
+.sudoku-cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 1.5px solid var(--ink); }
+.sudoku-cell:nth-child(-n+9) { border-top: 1.5px solid var(--ink); }
+.sudoku-cell:nth-child(n+73) { border-bottom: 1.5px solid var(--ink); }
+
+.puzzle-tile--sudoku.is-solved .sudoku-grid { box-shadow: 0 0 0 3px var(--accent); }
+.sudoku-solved-note {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.puzzle-tile--sudoku.is-solved .sudoku-solved-note { opacity: 1; }
+
+.comic-strip-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+}
 
 /* ---------------- Fin ---------------- */
 
@@ -507,12 +805,19 @@ main { display: block; }
   position: relative;
   background: var(--paper);
   border: 3px solid var(--ink);
-  border-radius: 6px;
+  border-radius: 4px; /* matches the card/ad-tile radius scale */
   box-shadow: 8px 8px 0 var(--ink);
   max-width: 420px;
   width: 100%;
   padding: 36px 30px 30px;
   animation: pop-in 0.35s cubic-bezier(.2,1.4,.4,1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ad-popup { animation: pop-in-fade 0.2s ease; }
+}
+@keyframes pop-in-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 @keyframes pop-in {
   from { opacity: 0; transform: scale(0.85) rotate(-2deg); }
@@ -520,13 +825,13 @@ main { display: block; }
 }
 .ad-popup-close {
   position: absolute;
-  top: -16px; right: -16px;
-  width: 40px; height: 40px;
+  top: -18px; right: -18px;
+  width: 44px; height: 44px; /* touch target minimum */
   border-radius: 50%;
   background: var(--accent);
   border: 3px solid var(--ink);
   cursor: pointer;
-  padding: 9px;
+  padding: 10px;
   transition: transform 0.15s ease;
 }
 .ad-popup-close svg { width: 100%; height: 100%; fill: var(--paper); }
@@ -538,3 +843,76 @@ main { display: block; }
   margin: 0 0 10px;
 }
 .ad-popup-content p { font-size: 14px; margin: 0 0 6px; }
+
+/* ---------------- Site footer ---------------- */
+
+.site-footer {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 56px 24px 48px;
+  text-align: center;
+}
+.footer-paw { width: 20px; height: 20px; fill: var(--ink); opacity: 0.55; margin-bottom: 22px; }
+.footer-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.3;
+  margin: 0 0 28px;
+}
+.social-row { display: block; width: min(340px, 80%); height: auto; margin: 0 auto 40px; }
+.footer-rule { max-width: 480px; margin: 0 auto 32px; }
+.site-footer .masthead-row { justify-content: center; gap: 48px; text-align: center; margin-bottom: 32px; }
+.site-footer .masthead-eyebrow { margin-top: 0; }
+.site-footer .masthead-credits { justify-content: center; text-align: left; }
+.site-footer .crest { margin-top: 8px; }
+
+/* ---------------- Paw trinket ---------------- */
+/* A real photo paw (deliberately photographic against the illustrated
+   system — a small surreal wink), fixed to the viewport, kept off-screen
+   by default and slid in occasionally by main.js: either an idle
+   enter/wave/leave, or a cursor-chase when the pointer nears a side edge.
+   Stays in its natural vertical orientation for every edge — reaching in
+   at an angle reads fine and avoids fighting rotation math with the
+   independent wave-wiggle animation. */
+
+.paw-trinket {
+  position: fixed;
+  width: 76px;
+  pointer-events: none;
+  z-index: 90;
+}
+.paw-wave-inner { transform-origin: 50% 0%; }
+.paw-wave-inner img { display: block; width: 100%; height: auto; }
+
+.paw-trinket.edge-bottom {
+  bottom: -220px;
+  left: 50%;
+  margin-left: -38px;
+  transition: bottom 0.7s cubic-bezier(0.22, 0.85, 0.32, 1);
+}
+.paw-trinket.edge-bottom.is-active { bottom: -30px; }
+
+.paw-trinket.edge-left {
+  top: 40%;
+  left: -90px;
+  transition: left 0.7s cubic-bezier(0.22, 0.85, 0.32, 1);
+}
+.paw-trinket.edge-left.is-active { left: -14px; }
+
+.paw-trinket.edge-right {
+  top: 40%;
+  right: -90px;
+  transition: right 0.7s cubic-bezier(0.22, 0.85, 0.32, 1);
+}
+.paw-trinket.edge-right.is-active { right: -14px; }
+
+.paw-trinket.is-waving .paw-wave-inner { animation: paw-wave 0.6s ease-in-out 2; }
+@keyframes paw-wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-14deg); }
+  75% { transform: rotate(14deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .paw-trinket { display: none !important; }
+}
