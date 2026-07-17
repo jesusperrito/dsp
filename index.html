@@ -1,783 +1,762 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Times of the Wild — Dubai Safari Park</title>
-<link rel="stylesheet" href="src/styles.css">
+<link href="src/styles.css" rel="stylesheet"/>
 </head>
 <body>
-
 <!-- Reusable icon sprites -->
-<svg style="display:none" aria-hidden="true">
-  <symbol id="icon-paw" viewBox="0 0 64 64">
-    <ellipse cx="32" cy="42" rx="16" ry="13"/>
-    <ellipse cx="12" cy="24" rx="7" ry="9" transform="rotate(-18 12 24)"/>
-    <ellipse cx="27" cy="14" rx="7.5" ry="9.5" transform="rotate(-6 27 14)"/>
-    <ellipse cx="44" cy="14" rx="7.5" ry="9.5" transform="rotate(6 44 14)"/>
-    <ellipse cx="58" cy="25" rx="7" ry="9" transform="rotate(20 58 25)"/>
-  </symbol>
-  <symbol id="icon-x" viewBox="0 0 24 24">
-    <path d="M4 4 L20 20 M20 4 L4 20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-  </symbol>
-  <symbol id="icon-search" viewBox="0 0 24 24">
-    <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
-    <path d="M19.5 19.5 15 15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-  </symbol>
-  <symbol id="icon-reg" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.3"/>
-    <path d="M12 1v6M12 17v6M1 12h6M17 12h6" stroke="currentColor" stroke-width="1.3"/>
-  </symbol>
-  <symbol id="icon-image" viewBox="0 0 24 24">
-    <rect x="2" y="4" width="20" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
-    <circle cx="8" cy="10" r="1.6" fill="currentColor"/>
-    <path d="M3 17.5 8.8 11.7a1.5 1.5 0 0 1 2.1 0L15 15.8l1.6-1.6a1.5 1.5 0 0 1 2.1 0L21.5 17" fill="none" stroke="currentColor" stroke-width="1.5"/>
-  </symbol>
+<svg aria-hidden="true" style="display:none">
+<symbol id="icon-paw" viewBox="0 0 64 64">
+<ellipse cx="32" cy="42" rx="16" ry="13"></ellipse>
+<ellipse cx="12" cy="24" rx="7" ry="9" transform="rotate(-18 12 24)"></ellipse>
+<ellipse cx="27" cy="14" rx="7.5" ry="9.5" transform="rotate(-6 27 14)"></ellipse>
+<ellipse cx="44" cy="14" rx="7.5" ry="9.5" transform="rotate(6 44 14)"></ellipse>
+<ellipse cx="58" cy="25" rx="7" ry="9" transform="rotate(20 58 25)"></ellipse>
+</symbol>
+<symbol id="icon-x" viewBox="0 0 24 24">
+<path d="M4 4 L20 20 M20 4 L4 20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+</symbol>
+<symbol id="icon-search" viewBox="0 0 24 24">
+<circle cx="10.5" cy="10.5" fill="none" r="6.5" stroke="currentColor" stroke-width="1.7"></circle>
+<path d="M19.5 19.5 15 15" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"></path>
+</symbol>
+<symbol id="icon-reg" viewBox="0 0 24 24">
+<circle cx="12" cy="12" fill="none" r="7" stroke="currentColor" stroke-width="1.3"></circle>
+<path d="M12 1v6M12 17v6M1 12h6M17 12h6" stroke="currentColor" stroke-width="1.3"></path>
+</symbol>
+<symbol id="icon-image" viewBox="0 0 24 24">
+<rect fill="none" height="16" rx="1.5" stroke="currentColor" stroke-width="1.5" width="20" x="2" y="4"></rect>
+<circle cx="8" cy="10" fill="currentColor" r="1.6"></circle>
+<path d="M3 17.5 8.8 11.7a1.5 1.5 0 0 1 2.1 0L15 15.8l1.6-1.6a1.5 1.5 0 0 1 2.1 0L21.5 17" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+</symbol>
 </svg>
-
 <!-- Blob clip-shapes, in their own zero-size (not display:none) SVG: some
      engines won't resolve clip-path: url(#id) references into a
      display:none ancestor, so these live separately from the icon sprite
      above. blob-1 traces the studio's clipping-mask-1.svg exactly;
      blob-2/blob-3 are generated variants (rotation + a non-uniform stretch)
      in the same quatrefoil family, for visual variety across hero spots. -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <clipPath id="blob-1" clipPathUnits="objectBoundingBox">
-      <path d="M0.07897,0.46397 C0.02986,0.41473 0.00000,0.34990 0.00000,0.27881 0.00000,0.12260 0.14402,-0.00361 0.32005,0.00007 c0.06715,0.00141 0.12922,0.02203 0.17962,0.05587 C0.55381,0.01959 0.62161,-0.00147 0.69499,0.00007 c0.16679,0.00349 0.30239,0.12552 0.30497,0.27433 0.00125,0.07275 -0.02877,0.13922 -0.07882,0.18946 -0.02063,0.02071 -0.02063,0.05158 0.00000,0.07228 0.05005,0.05024 0.08007,0.11669 0.07882,0.18946 -0.00256,0.14881 -0.13818,0.27083 -0.30497,0.27433 -0.07338,0.00154 -0.14118,-0.01952 -0.19533,-0.05587 -0.05040,0.03385 -0.11247,0.05446 -0.17962,0.05587 C0.14402,1.00361 0.00000,0.87742 0.00000,0.72119 c0.00000,-0.07110 0.02986,-0.13595 0.07897,-0.18518 0.02056,-0.02061 0.02056,-0.05145 0.00000,-0.07204 Z"/>
-    </clipPath>
-    <clipPath id="blob-2" clipPathUnits="objectBoundingBox">
-      <path transform="rotate(90 0.5 0.5)" d="M0.07897,0.46397 C0.02986,0.41473 0.00000,0.34990 0.00000,0.27881 0.00000,0.12260 0.14402,-0.00361 0.32005,0.00007 c0.06715,0.00141 0.12922,0.02203 0.17962,0.05587 C0.55381,0.01959 0.62161,-0.00147 0.69499,0.00007 c0.16679,0.00349 0.30239,0.12552 0.30497,0.27433 0.00125,0.07275 -0.02877,0.13922 -0.07882,0.18946 -0.02063,0.02071 -0.02063,0.05158 0.00000,0.07228 0.05005,0.05024 0.08007,0.11669 0.07882,0.18946 -0.00256,0.14881 -0.13818,0.27083 -0.30497,0.27433 -0.07338,0.00154 -0.14118,-0.01952 -0.19533,-0.05587 -0.05040,0.03385 -0.11247,0.05446 -0.17962,0.05587 C0.14402,1.00361 0.00000,0.87742 0.00000,0.72119 c0.00000,-0.07110 0.02986,-0.13595 0.07897,-0.18518 0.02056,-0.02061 0.02056,-0.05145 0.00000,-0.07204 Z"/>
-    </clipPath>
-    <clipPath id="blob-3" clipPathUnits="objectBoundingBox">
-      <path transform="rotate(38 0.5 0.5) scale(1.08 0.94)" transform-origin="0.5 0.5" d="M0.07897,0.46397 C0.02986,0.41473 0.00000,0.34990 0.00000,0.27881 0.00000,0.12260 0.14402,-0.00361 0.32005,0.00007 c0.06715,0.00141 0.12922,0.02203 0.17962,0.05587 C0.55381,0.01959 0.62161,-0.00147 0.69499,0.00007 c0.16679,0.00349 0.30239,0.12552 0.30497,0.27433 0.00125,0.07275 -0.02877,0.13922 -0.07882,0.18946 -0.02063,0.02071 -0.02063,0.05158 0.00000,0.07228 0.05005,0.05024 0.08007,0.11669 0.07882,0.18946 -0.00256,0.14881 -0.13818,0.27083 -0.30497,0.27433 -0.07338,0.00154 -0.14118,-0.01952 -0.19533,-0.05587 -0.05040,0.03385 -0.11247,0.05446 -0.17962,0.05587 C0.14402,1.00361 0.00000,0.87742 0.00000,0.72119 c0.00000,-0.07110 0.02986,-0.13595 0.07897,-0.18518 0.02056,-0.02061 0.02056,-0.05145 0.00000,-0.07204 Z"/>
-    </clipPath>
-  </defs>
+<svg aria-hidden="true" height="0" style="position:absolute" width="0">
+<defs>
+<clipPath clipPathUnits="objectBoundingBox" id="blob-1">
+<path d="M0.07897,0.46397 C0.02986,0.41473 0.00000,0.34990 0.00000,0.27881 0.00000,0.12260 0.14402,-0.00361 0.32005,0.00007 c0.06715,0.00141 0.12922,0.02203 0.17962,0.05587 C0.55381,0.01959 0.62161,-0.00147 0.69499,0.00007 c0.16679,0.00349 0.30239,0.12552 0.30497,0.27433 0.00125,0.07275 -0.02877,0.13922 -0.07882,0.18946 -0.02063,0.02071 -0.02063,0.05158 0.00000,0.07228 0.05005,0.05024 0.08007,0.11669 0.07882,0.18946 -0.00256,0.14881 -0.13818,0.27083 -0.30497,0.27433 -0.07338,0.00154 -0.14118,-0.01952 -0.19533,-0.05587 -0.05040,0.03385 -0.11247,0.05446 -0.17962,0.05587 C0.14402,1.00361 0.00000,0.87742 0.00000,0.72119 c0.00000,-0.07110 0.02986,-0.13595 0.07897,-0.18518 0.02056,-0.02061 0.02056,-0.05145 0.00000,-0.07204 Z"></path>
+</clipPath>
+<clipPath clipPathUnits="objectBoundingBox" id="blob-2">
+<path d="M0.07897,0.46397 C0.02986,0.41473 0.00000,0.34990 0.00000,0.27881 0.00000,0.12260 0.14402,-0.00361 0.32005,0.00007 c0.06715,0.00141 0.12922,0.02203 0.17962,0.05587 C0.55381,0.01959 0.62161,-0.00147 0.69499,0.00007 c0.16679,0.00349 0.30239,0.12552 0.30497,0.27433 0.00125,0.07275 -0.02877,0.13922 -0.07882,0.18946 -0.02063,0.02071 -0.02063,0.05158 0.00000,0.07228 0.05005,0.05024 0.08007,0.11669 0.07882,0.18946 -0.00256,0.14881 -0.13818,0.27083 -0.30497,0.27433 -0.07338,0.00154 -0.14118,-0.01952 -0.19533,-0.05587 -0.05040,0.03385 -0.11247,0.05446 -0.17962,0.05587 C0.14402,1.00361 0.00000,0.87742 0.00000,0.72119 c0.00000,-0.07110 0.02986,-0.13595 0.07897,-0.18518 0.02056,-0.02061 0.02056,-0.05145 0.00000,-0.07204 Z" transform="rotate(90 0.5 0.5)"></path>
+</clipPath>
+<clipPath clipPathUnits="objectBoundingBox" id="blob-3">
+<path d="M0.07897,0.46397 C0.02986,0.41473 0.00000,0.34990 0.00000,0.27881 0.00000,0.12260 0.14402,-0.00361 0.32005,0.00007 c0.06715,0.00141 0.12922,0.02203 0.17962,0.05587 C0.55381,0.01959 0.62161,-0.00147 0.69499,0.00007 c0.16679,0.00349 0.30239,0.12552 0.30497,0.27433 0.00125,0.07275 -0.02877,0.13922 -0.07882,0.18946 -0.02063,0.02071 -0.02063,0.05158 0.00000,0.07228 0.05005,0.05024 0.08007,0.11669 0.07882,0.18946 -0.00256,0.14881 -0.13818,0.27083 -0.30497,0.27433 -0.07338,0.00154 -0.14118,-0.01952 -0.19533,-0.05587 -0.05040,0.03385 -0.11247,0.05446 -0.17962,0.05587 C0.14402,1.00361 0.00000,0.87742 0.00000,0.72119 c0.00000,-0.07110 0.02986,-0.13595 0.07897,-0.18518 0.02056,-0.02061 0.02056,-0.05145 0.00000,-0.07204 Z" transform="rotate(38 0.5 0.5) scale(1.08 0.94)" transform-origin="0.5 0.5"></path>
+</clipPath>
+</defs>
 </svg>
-
 <!-- Corner registration marks (decorative, print-crop-mark motif) -->
-<div class="registration-marks" aria-hidden="true">
-  <svg class="reg-mark reg-mark--tl"><use href="#icon-reg"/></svg>
-  <svg class="reg-mark reg-mark--tr"><use href="#icon-reg"/></svg>
-  <svg class="reg-mark reg-mark--bl"><use href="#icon-reg"/></svg>
-  <svg class="reg-mark reg-mark--br"><use href="#icon-reg"/></svg>
+<div aria-hidden="true" class="registration-marks">
+<svg class="reg-mark reg-mark--tl"><use href="#icon-reg"></use></svg>
+<svg class="reg-mark reg-mark--tr"><use href="#icon-reg"></use></svg>
+<svg class="reg-mark reg-mark--bl"><use href="#icon-reg"></use></svg>
+<svg class="reg-mark reg-mark--br"><use href="#icon-reg"></use></svg>
 </div>
-
 <!-- Masthead -->
 <header class="masthead">
-  <div class="masthead-row">
-    <p class="masthead-eyebrow">Season Opening · Edition 01 · DSPN</p>
-    <div class="masthead-credits">
-      <div class="credit"><span class="credit-role">Editor-in-chief</span><span class="credit-name">Molly, The Meerkat</span></div>
-      <div class="credit"><span class="credit-role">Assistant Editor</span><span class="credit-name">G. Raph Longlook</span></div>
-    </div>
-  </div>
-  <div class="crest crest--header">
-    <img class="crest-art" src="assets/images/totw-logo-header.svg" alt="Times of the Wild" width="581" height="249">
-    <span class="crest-eye crest-eye--left" aria-hidden="true"></span>
-    <span class="crest-eye crest-eye--right" aria-hidden="true"></span>
-  </div>
-  <p class="masthead-tagline">The official paper of unofficial wild business.</p>
-</header>
-
-<!-- Breaking news ticker -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track">
-    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
-    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
-    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
-    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
-    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
-    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
-    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
-    <span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"/></svg></span>
-  </div>
+<div class="masthead-row">
+<p class="masthead-eyebrow">Season Opening · Edition 01 · DSPN</p>
+<div class="masthead-credits">
+<div class="credit"><span class="credit-role">Editor-in-chief</span><span class="credit-name">Molly, The Meerkat</span></div>
+<div class="credit"><span class="credit-role">Assistant Editor</span><span class="credit-name">G. Raph Longlook</span></div>
+<div class="credit"><span class="credit-role">Curator</span><span class="credit-name">Serviceplan Middle East</span></div>
 </div>
-
+</div>
+<div class="crest crest--header">
+<img alt="Times of the Wild" class="crest-art" height="249" src="assets/images/totw-logo-header.svg" width="581"/>
+<span aria-hidden="true" class="crest-eye crest-eye--left"></span>
+<span aria-hidden="true" class="crest-eye crest-eye--right"></span>
+</div>
+<p class="masthead-tagline">The official paper of unofficial wild business.</p>
+</header>
+<!-- Breaking news ticker -->
+<div aria-hidden="true" class="ticker">
+<div class="ticker-track">
+<span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"></use></svg></span>
+<span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"></use></svg></span>
+<span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"></use></svg></span>
+<span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"></use></svg></span>
+<span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"></use></svg></span>
+<span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"></use></svg></span>
+<span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"></use></svg></span>
+<span class="ticker-item">BREAKING NEWS! <svg class="ticker-paw"><use href="#icon-paw"></use></svg></span>
+</div>
+</div>
 <!-- Section tab bar -->
-<nav class="tabbar" id="navRail" aria-label="Sections">
-  <a class="tabbar-brand" href="#front-page" data-target="front-page" aria-label="Times of the Wild — back to top">
-    <img src="assets/images/totw-wordmark.svg" alt="" width="581" height="110">
-  </a>
-  <ol class="tabbar-list" id="railList">
-    <li><a href="#front-page" data-target="front-page">Front Page</a></li>
-    <li><a href="#park-affairs" data-target="park-affairs">Park Affairs</a></li>
-    <li><a href="#fashion" data-target="fashion">Fashion</a></li>
-    <li><a href="#ad-merch" data-target="ad-merch">Ad Break</a></li>
-    <li><a href="#art-design" data-target="art-design">Art &amp; Design</a></li>
-    <li><a href="#wild-moodcast" data-target="wild-moodcast">The Wild Moodcast</a></li>
-    <li><a href="#media-tech" data-target="media-tech">Media &amp; Tech</a></li>
-    <li><a href="#health-science" data-target="health-science">Health &amp; Science</a></li>
-    <li><a href="#sports-fitness" data-target="sports-fitness">Sports &amp; Fitness</a></li>
-    <li><a href="#ad-ooh-digital" data-target="ad-ooh-digital">Ad Break</a></li>
-    <li><a href="#classifieds" data-target="classifieds">Classifieds</a></li>
-    <li><a href="#puzzles-comic" data-target="puzzles-comic">Puzzles &amp; Comic Strip</a></li>
-  </ol>
-  <button class="tabbar-search" type="button" aria-label="Search">
-    <svg><use href="#icon-search"/></svg>
-  </button>
+<nav aria-label="Sections" class="tabbar" id="navRail">
+<a aria-label="Times of the Wild — back to top" class="tabbar-brand" data-target="front-page" href="#front-page">
+<img alt="" height="110" src="assets/images/totw-wordmark.svg" width="581"/>
+</a>
+<ol class="tabbar-list" id="railList">
+<li><a data-target="front-page" href="#front-page">Front Page</a></li>
+<li><a data-target="park-affairs" href="#park-affairs">Park Affairs</a></li>
+<li><a data-target="fashion" href="#fashion">Fashion</a></li>
+<li><a data-target="art-design" href="#art-design">Art &amp; Design</a></li>
+<li><a data-target="wild-moodcast" href="#wild-moodcast">The Wild Moodcast</a></li>
+<li><a data-target="media-tech" href="#media-tech">Media &amp; Tech</a></li>
+<li><a data-target="health-science" href="#health-science">Health &amp; Science</a></li>
+<li><a data-target="sports-fitness" href="#sports-fitness">Sports &amp; Fitness</a></li>
+<li><a data-target="classifieds" href="#classifieds">Classifieds</a></li>
+<li><a data-target="puzzles-comic" href="#puzzles-comic">Puzzles &amp; Comic Strip</a></li>
+</ol>
+<button aria-label="Search" class="tabbar-search" type="button">
+<svg><use href="#icon-search"></use></svg>
+</button>
 </nav>
-
 <main>
+<!-- FRONT PAGE -->
+<section class="issue-section front-page" data-nav-label="Front Page" id="front-page">
+<article class="hero-article" data-reveal="">
+<div class="hero-media">
+<img alt="A hippo bites through the ribbon at the African Village gate opening, surrounded by photographers and rangers" class="hero-media-photo" src="assets/images/DSP_-_Pitch_-_Not_Billable_In_an_AFRIKAN_VILLAGE_themed_opening_a_large_ud3j2Egn.png"/>
+</div>
+<div class="hero-card-wrap">
+<div class="hero-card">
+<p class="eyebrow front-page-eyebrow">Front Page</p>
+<h2 class="headline headline--hero">Crocodile Turns Things Turn Salty At Park Opening Rehearsal</h2>
+<p class="dek">Hippo intervenes, crocodile objects, and tortoise brokers compromise before ceremony loses all remaining dignity entirely.</p>
+<p class="byline">Sept 25 · Beatrice Hornbill, Civic Affairs Correspondent</p>
+</div>
+</div>
+<div class="hero-body-wrap">
+<hr/>
+<div class="body-cols">
+<p>The official rehearsal for Dubai Safari Park’s season opening faced an unexpected delay yesterday after the appointed chief guest, a saltwater crocodile, failed to appear for the ceremonial ribbon cutting on time.</p>
+<p>The crocodile had been selected for the role due to what organisers described as “a natural understanding of sharp gestures.” However, when the ribbon was placed, the photographers assembled, and the opening music began, the chief guest was still absent.</p>
+<p>After several minutes of silence, the hippo stepped forward and took a decisive chew at the ribbon. The act was not formally approved, though some witnesses admitted it moved the programme along.</p>
+<p>The crocodile arrived shortly after and objected strongly to what he called “a clear breach of ceremonial protocol.” Sources confirmed tears were visible, though the newsroom has been advised to avoid speculation.</p>
+<p>The hippo responded with a series of grunts interpreted as “first come, first served.” Tensions eased only when a tortoise suggested that the hippo be credited with the rehearsal opening, while the crocodile retain the official opening duties.</p>
+<p>The proposal was accepted slowly, which helped.</p>
+</div>
+</div>
+</article>
+</section>
+<!-- PARK AFFAIRS -->
+<section class="issue-section" data-nav-label="Park Affairs" id="park-affairs">
+<div class="section-head">
+<p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"></use></svg>Section</p>
+<h2 class="section-title">Park Affairs</h2>
+</div>
+<div class="section-content" data-reveal="">
+<div class="card-pager" data-pager=""><div class="card-pager-track"><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--blob is-blob-2">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Rangers Deny Favouritism After Baby Gazelle Receives 17 Nicknames</h3>
+<p class="dek">Officials insist extra attention is standard procedure, despite mounting cuddle-based evidence.</p>
+<p class="byline">Sept 22 · Nora Noseworthy, Park Affairs Correspondent</p>
+<hr/>
+<p>Rangers at Dubai Safari Park have denied claims of favouritism after a baby gazelle, born during the summer closure, was reportedly given seventeen nicknames by members of staff.</p>
+<p>The gazelle, whose official name remains “under careful consideration,” has also been called Tiny Hooves, Madam Bounce, Little Madam, The Blur, Biscuit, Princess Sprint, and, according to one emotional ranger, “my reason for checking the morning rounds twice.”</p>
+<p>Management insists the additional attention was purely professional and in line with the park’s animal care standards. However, sources confirmed the gazelle’s first steps were witnessed by six rangers, two keepers, one nutritionist, and a maintenance officer who “just happened to be nearby.”</p>
+<p>A naming committee has since been formed to restore order. It has already suggested three more nicknames.</p>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">New Wayfinding After Giraffe Complains Directions Were “Too Low”</h3>
+<p class="dek">Direction signages get upgraded following repeated visibility concerns from taller residents.</p>
+<p class="byline">Sept 22 · Cedric D. Cat, Civic Reporter</p>
+<hr/>
+<p>Dubai Safari Park has completed a refresh of its visitor signage after a giraffe raised concerns that several directions were positioned “unnecessarily close to the ground.”</p>
+<p>The complaint, submitted verbally and from a considerable height, argued that previous signs failed to consider residents with “a broader visual relationship with the horizon.”</p>
+<p>The giraffe has welcomed the changes, though he has requested that future maps include “lane assist.” Meerkats, meanwhile, have criticised the update, claiming that people who know where they are going are “harder to monitor.”</p>
+<p>The signage team has declined to comment on whether any animals were consulted officially. Unofficially, everyone had notes.</p>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Unidentified Footprints Cause Stir As Animals Refuse To Name Names</h3>
+<p class="dek">Mysterious overnight tracks trigger rumours, theories, and one suspiciously quiet ostrich.</p>
+<p class="byline">Sept 19 · Percy Parrotalia, Investigations Desk</p>
+<hr/>
+<p>Unidentified footprints discovered near one of Dubai Safari Park’s internal pathways have caused considerable speculation among residents, according to sources who immediately asked not to be quoted.</p>
+<p>Early theories suggested a lion, a ranger, a restless flamingo, or “someone new who has not yet been formally introduced.”</p>
+<p>Park teams inspected the area and confirmed there was no cause for concern. They did not, however, confirm whose footprints they were. This has done little to stop the rumours.</p>
+<p>The ostrich has denied involvement, despite refusing to make eye contact.</p>
+</article></div><div class="card-pager-controls"><button aria-label="Previous article" class="card-pager-btn card-pager-prev" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 5 7 12l8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><span class="card-pager-count"><span class="card-pager-current">1</span> / 3</span><button aria-label="Next article" class="card-pager-btn card-pager-next" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5l8 7-8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button></div></div>
+</div>
+</section>
+<!-- FASHION -->
+<section class="issue-section" data-nav-label="Fashion" id="fashion">
+<div class="section-head">
+<p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"></use></svg>Section</p>
+<h2 class="section-title">Fashion</h2>
+</div>
+<div class="section-content" data-reveal="">
+<div class="card-pager" data-pager=""><div class="card-pager-track"><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--blob is-blob-3">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Flamingo Met Gala Hit By Forty-Three Identical Pink Looks</h3>
+<p class="dek">Wardrobe crisis unfolds as guests discover everyone understood the theme too well.</p>
+<p class="byline">Sept 22 · Celeste Crane, Fashion Correspondent</p>
+<hr/>
+<p>The annual Flamingo Met Gala was thrown into mild but beautifully balanced chaos last night after forty-three attendees arrived wearing nearly identical shades of pink.</p>
+<p>Witnesses reported several long silences, followed by aggressive preening. One guest described the situation as “deeply unfortunate,” before admitting she looked excellent.</p>
+<p>No official winner was announced, as all forty-three looks were considered too similar to separate without causing further tension. The after-party was delayed by seventeen minutes while everyone tried to enter last.</p>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Giraffe’s New Hairstyle Goes Viral Across The Savannah</h3><p class="dek">Long-necked layers spark copycat cuts and several height-related styling concerns.</p><p class="byline">Sept 22 · Mimi Macaw, Style Reporter</p><hr/><p>A giraffe’s new hairstyle has become the most discussed look of the season after witnesses described it as “effortless,” “architectural,” and “difficult to reach without a ladder.”</p><p>The style, a softly tousled mane with a confident side sweep, was first spotted during morning rounds. Within hours, several animals had reportedly asked whether the look could be adapted for shorter necks, different fur textures, or those with no hair at all. The giraffe has denied setting a trend, saying the look was the result of wind, leaves, and “standing above the conversation.”</p><p>Beauty experts praised the cut for its vertical drama and natural movement. However, stylists have warned that recreating it may require patience, neck length, and a complete disregard for practical grooming angles.</p><p>A warthog has already attempted a version of the look.</p><p>Reviews were mixed, though generously described as “brave.”</p>
 
-  <!-- FRONT PAGE -->
-  <section id="front-page" class="issue-section front-page" data-nav-label="Front Page">
-    <p class="eyebrow front-page-eyebrow" data-reveal>Front Page</p>
-    <article class="hero-article" data-reveal>
-      <div class="hero-media">
-        <div class="media-slot media-slot--hero-full" aria-hidden="true">
-          <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-        </div>
-      </div>
-      <div class="hero-card-wrap">
-        <div class="hero-card">
-          <h2 class="headline headline--hero">Crocodile Turns Things Turn Salty At Park Opening Rehearsal</h2>
-          <p class="dek">Hippo intervenes, crocodile objects, and tortoise brokers compromise before ceremony loses all remaining dignity entirely.</p>
-          <p class="byline">Sept 25 · Beatrice Hornbill, Civic Affairs Correspondent</p>
-        </div>
-      </div>
-      <div class="hero-body-wrap">
-        <hr>
-        <div class="body-cols">
-          <p>The official rehearsal for Dubai Safari Park&rsquo;s season opening faced an unexpected delay yesterday after the appointed chief guest, a saltwater crocodile, failed to appear for the ceremonial ribbon cutting on time.</p>
-          <p>The crocodile had been selected for the role due to what organisers described as &ldquo;a natural understanding of sharp gestures.&rdquo; However, when the ribbon was placed, the photographers assembled, and the opening music began, the chief guest was still absent.</p>
-          <p>After several minutes of silence, the hippo stepped forward and took a decisive chew at the ribbon. The act was not formally approved, though some witnesses admitted it moved the programme along.</p>
-          <p>The crocodile arrived shortly after and objected strongly to what he called &ldquo;a clear breach of ceremonial protocol.&rdquo; Sources confirmed tears were visible, though the newsroom has been advised to avoid speculation.</p>
-          <p>The hippo responded with a series of grunts interpreted as &ldquo;first come, first served.&rdquo; Tensions eased only when a tortoise suggested that the hippo be credited with the rehearsal opening, while the crocodile retain the official opening duties.</p>
-          <p>The proposal was accepted slowly, which helped.</p>
-        </div>
-      </div>
-    </article>
-  </section>
 
-  <!-- PARK AFFAIRS -->
-  <section id="park-affairs" class="issue-section" data-nav-label="Park Affairs">
-    <div class="section-head">
-      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
-      <h2 class="section-title">Park Affairs</h2>
-    </div>
-      <div class="section-content" data-reveal>
-        <div class="card-deck" data-swipe>
 
-          <article class="card">
-            <div class="media-slot media-slot--blob is-blob-2" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Rangers Deny Favouritism After Baby Gazelle Receives 17 Nicknames</h3>
-            <p class="dek">Officials insist extra attention is standard procedure, despite mounting cuddle-based evidence.</p>
-            <p class="byline">Sept 22 · Nora Noseworthy, Park Affairs Correspondent</p>
-            <hr>
-            <p>Rangers at Dubai Safari Park have denied claims of favouritism after a baby gazelle, born during the summer closure, was reportedly given seventeen nicknames by members of staff.</p>
-            <p>The gazelle, whose official name remains &ldquo;under careful consideration,&rdquo; has also been called Tiny Hooves, Madam Bounce, Little Madam, The Blur, Biscuit, Princess Sprint, and, according to one emotional ranger, &ldquo;my reason for checking the morning rounds twice.&rdquo;</p>
-            <p>Management insists the additional attention was purely professional and in line with the park&rsquo;s animal care standards. However, sources confirmed the gazelle&rsquo;s first steps were witnessed by six rangers, two keepers, one nutritionist, and a maintenance officer who &ldquo;just happened to be nearby.&rdquo;</p>
-            <p>A naming committee has since been formed to restore order. It has already suggested three more nicknames.</p>
-          </article>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">New Wayfinding After Giraffe Complains Directions Were &ldquo;Too Low&rdquo;</h3>
-            <p class="dek">Direction signages get upgraded following repeated visibility concerns from taller residents.</p>
-            <p class="byline">Sept 22 · Cedric D. Cat, Civic Reporter</p>
-            <hr>
-            <p>Dubai Safari Park has completed a refresh of its visitor signage after a giraffe raised concerns that several directions were positioned &ldquo;unnecessarily close to the ground.&rdquo;</p>
-            <p>The complaint, submitted verbally and from a considerable height, argued that previous signs failed to consider residents with &ldquo;a broader visual relationship with the horizon.&rdquo;</p>
-            <p>The giraffe has welcomed the changes, though he has requested that future maps include &ldquo;lane assist.&rdquo; Meerkats, meanwhile, have criticised the update, claiming that people who know where they are going are &ldquo;harder to monitor.&rdquo;</p>
-            <p>The signage team has declined to comment on whether any animals were consulted officially. Unofficially, everyone had notes.</p>
-          </article>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Unidentified Footprints Cause Stir As Animals Refuse To Name Names</h3>
-            <p class="dek">Mysterious overnight tracks trigger rumours, theories, and one suspiciously quiet ostrich.</p>
-            <p class="byline">Sept 19 · Percy Parrotalia, Investigations Desk</p>
-            <hr>
-            <p>Unidentified footprints discovered near one of Dubai Safari Park&rsquo;s internal pathways have caused considerable speculation among residents, according to sources who immediately asked not to be quoted.</p>
-            <p>Early theories suggested a lion, a ranger, a restless flamingo, or &ldquo;someone new who has not yet been formally introduced.&rdquo;</p>
-            <p>Park teams inspected the area and confirmed there was no cause for concern. They did not, however, confirm whose footprints they were. This has done little to stop the rumours.</p>
-            <p>The ostrich has denied involvement, despite refusing to make eye contact.</p>
-          </article>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Safari Chic Declared Official Look Of The New Season</h3><p class="dek">Rangers, guides and drivers debut refreshed uniforms built for dust, sun and sudden tantrums.</p><p class="byline">Sept 22 · Penelope Peacock, Fashion Correspondent</p><hr/><p>Safari chic has officially been declared the look of the new season after Dubai Safari Park unveiled refreshed uniforms for its rangers, guides and safari drivers ahead of reopening.</p><p>The new fieldwear is designed to bring the park’s updated identity into the visitor experience, while helping guests quickly spot the humans most likely to know where things are, what things are, and whether that thing behind the tree is definitely moving.</p><p>Early reviews from residents have been cautiously admiring. The zebras approved the practicality.</p><p>The flamingos asked if there would be a more dramatic evening version. A lion described the look as “appropriately authoritative, for humans.”</p><p>Park officials say the uniforms were created for comfort, movement, visibility and long days spent under the sun, across trails, habitats, vehicles and visitor routes.</p><p>The guides have welcomed the update. The safari drivers are reportedly standing slightly taller. The rangers remain focused on the work.</p>
 
-        </div>
-      </div>
-  </section>
 
-  <!-- FASHION -->
-  <section id="fashion" class="issue-section" data-nav-label="Fashion">
-    <div class="section-head">
-      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
-      <h2 class="section-title">Fashion</h2>
-    </div>
-      <div class="section-content" data-reveal>
-        <div class="card-deck" data-swipe>
 
-          <article class="card">
-            <div class="media-slot media-slot--blob is-blob-3" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Flamingo Met Gala Hit By Forty-Three Identical Pink Looks</h3>
-            <p class="dek">Wardrobe crisis unfolds as guests discover everyone understood the theme too well.</p>
-            <p class="byline">Sept 22 · Celeste Crane, Fashion Correspondent</p>
-            <hr>
-            <p>The annual Flamingo Met Gala was thrown into mild but beautifully balanced chaos last night after forty-three attendees arrived wearing nearly identical shades of pink.</p>
-            <p>Witnesses reported several long silences, followed by aggressive preening. One guest described the situation as &ldquo;deeply unfortunate,&rdquo; before admitting she looked excellent.</p>
-            <p>No official winner was announced, as all forty-three looks were considered too similar to separate without causing further tension. The after-party was delayed by seventeen minutes while everyone tried to enter last.</p>
-          </article>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Giraffe&rsquo;s New Hairstyle Goes Viral Across The Savannah</h3>
-            <p class="dek">Long-necked layers spark copycat cuts and several height-related styling concerns.</p>
-            <p class="byline">Sept 22 · Mimi Macaw, Style Reporter</p>
-            <hr>
-            <p>A giraffe&rsquo;s new hairstyle has become the most discussed look of the season after witnesses described it as &ldquo;effortless,&rdquo; &ldquo;architectural,&rdquo; and &ldquo;difficult to reach without a ladder.&rdquo;</p>
-            <p>A warthog has already attempted a version of the look. Reviews were mixed, though generously described as &ldquo;brave.&rdquo;</p>
-          </article>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Safari Chic Declared Official Look Of The New Season</h3>
-            <p class="dek">Rangers, guides and drivers debut refreshed uniforms built for dust, sun and sudden tantrums.</p>
-            <p class="byline">Sept 22 · Penelope Peacock, Fashion Correspondent</p>
-            <hr>
-            <p>Safari chic has officially been declared the look of the new season after Dubai Safari Park unveiled refreshed uniforms for its rangers, guides and safari drivers ahead of reopening.</p>
-            <p>The flamingos asked if there would be a more dramatic evening version. A lion described the look as &ldquo;appropriately authoritative, for humans.&rdquo;</p>
-            <p>The safari drivers are reportedly standing slightly taller. The rangers remain focused on the work.</p>
-          </article>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Zebra Print Returns To Fashion. Zebras Ask When It Left.</h3>
-            <p class="dek">Striped residents question human trend cycles after centuries of consistent styling.</p>
-            <p class="byline">Sept 23 · Felix Finch, Trends Desk</p>
-            <hr>
-            <p>&ldquo;We don&rsquo;t follow trends,&rdquo; said one zebra, standing perfectly inside one. &ldquo;Trends follow us, usually badly.&rdquo;</p>
-            <p>The zebras objected to the word &ldquo;pattern,&rdquo; calling it &ldquo;a lifestyle.&rdquo; The leopard declined to comment, but looked prepared.</p>
-          </article>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Zebra Print Returns To Fashion. Zebras Ask When It Left.</h3><p class="dek">Striped residents question human trend cycles after centuries of consistent styling.</p><p class="byline">Sept 23 · Felix Finch, Trends Desk</p><hr/><p>Zebras across Dubai Safari Park have responded with mild confusion to reports that zebra print is “back in fashion,” questioning when, exactly, it was supposed to have gone away.</p><p>The discussion began after several visitors were heard describing stripes as “having a moment.” This caused visible concern among the zebra community, who have maintained the look without interruption, revision, or seasonal panic for generations.</p><p>“We don’t follow trends,” said one zebra, standing perfectly inside one. “Trends follow us, usually badly.”</p><p>Fashion analysts praised the pattern for its bold contrast, natural confidence, and ability to say everything while technically being two colours. The zebras agreed with this assessment but objected to the word “pattern,” calling it “a lifestyle.”</p><p>A small group of animals has since requested clarity on whether spots are also due for a comeback.</p><p>The leopard declined to comment, but looked prepared.</p>
 
-        </div>
-      </div>
-  </section>
 
-  <!-- AD BREAK: MERCH -->
-  <section id="ad-merch" class="issue-section ad-break" data-ad="merch" data-ad-title="Ad Break — Merch">
-    <div class="ad-inline" data-reveal>
-      <p class="eyebrow">Ad Break — Merch</p>
-      <div class="ad-tiles">
-        <div class="ad-tile">
-          <div class="qr" aria-hidden="true"></div>
-          <h3>Get Your New Field-Trip Drip.</h3>
-          <p>Visit the gift shop at Dubai Safari Park.</p>
-          <p class="fine-print">Park Opens on Oct 01</p>
-        </div>
-        <div class="ad-tile">
-          <div class="qr" aria-hidden="true"></div>
-          <h3>For Those Who Like Their Wonder Branded.</h3>
-          <p>Visit the gift shop at Dubai Safari Park.</p>
-          <p class="fine-print">Park Opens on Oct 01</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ART & DESIGN -->
-  <section id="art-design" class="issue-section" data-nav-label="Art & Design">
-    <div class="section-head">
-      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
-      <h2 class="section-title">Art &amp; Design</h2>
-    </div>
-      <div class="section-content" data-reveal>
-        <div class="card-deck" data-swipe>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Park Logo Celebrates Ancient Human Symbol Of Snoopery</h3>
-            <p class="dek">Residents react as Dubai Safari Park&rsquo;s fresh mark makes its first public appearance.</p>
-            <p class="byline">Sept 18 · Viola Vulture, Art &amp; Design Correspondent</p>
-            <hr>
-            <p>According to the Design Desk, the logo is inspired by a behaviour long observed across the park: humans suddenly becoming detectives.</p>
-            <p>The new logo takes that little human gesture &mdash; the looking, the searching, the almost comical need to know what&rsquo;s hiding just beyond the obvious &mdash; and turns it into the park&rsquo;s new mark.</p>
-            <p>By late afternoon, several animals had gathered near the entrance to stare at the logo in silence. Sources say it stared back beautifully.</p>
-          </article>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Colour Palette Approved After Heated Debate At The Watering Hole</h3>
-            <p class="dek">Flamingos pushed pink, lions backed gold, and nature quietly won the room.</p>
-            <p class="byline">Sept 18 · Iris Ibis, Colour Desk</p>
-            <hr>
-            <p>Earth, foliage, sunlight, shade, texture, habitat, feather, fur, and sky all found their way into the new identity. Design observers praised the result for feeling alive without screaming.</p>
-            <p>The flamingos have accepted the decision, though they maintain the palette would benefit from &ldquo;a touch more flamingo.&rdquo; Rhino, as usual, declined to comment. It had already made the point.</p>
-          </article>
+</article></div><div class="card-pager-controls"><button aria-label="Previous article" class="card-pager-btn card-pager-prev" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 5 7 12l8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><span class="card-pager-count"><span class="card-pager-current">1</span> / 4</span><button aria-label="Next article" class="card-pager-btn card-pager-next" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5l8 7-8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button></div></div>
+</div>
+</section>
+<!-- AD BREAK: MERCH -->
+<section class="issue-section ad-break" data-ad="merch" data-ad-title="Ad Break — Merch" id="ad-merch">
+<div class="ad-inline" data-reveal="">
+<p class="eyebrow">Ad Break — Merch</p>
+<div class="ad-tiles">
+<div class="ad-tile">
+<div aria-hidden="true" class="qr"></div>
+<h3>Get Your New Field-Trip Drip.</h3>
+<p>Visit the gift shop at Dubai Safari Park.</p>
+<p class="fine-print">Park Opens on Oct 01</p>
+</div>
+<div class="ad-tile">
+<div aria-hidden="true" class="qr"></div>
+<h3>For Those Who Like Their Wonder Branded.</h3>
+<p>Visit the gift shop at Dubai Safari Park.</p>
+<p class="fine-print">Park Opens on Oct 01</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ART & DESIGN -->
+<section class="issue-section" data-nav-label="Art &amp; Design" id="art-design">
+<div class="section-head">
+<p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"></use></svg>Section</p>
+<h2 class="section-title">Art &amp; Design</h2>
+</div>
+<div class="section-content" data-reveal="">
+<div class="card-pager" data-pager=""><div class="card-pager-track"><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Park Logo Celebrates Ancient Human Symbol Of Snoopery</h3>
+<p class="dek">Residents react as Dubai Safari Park’s fresh mark makes its first public appearance.</p>
+<p class="byline">Sept 18 · Viola Vulture, Art &amp; Design Correspondent</p>
+<hr/>
+<p>According to the Design Desk, the logo is inspired by a behaviour long observed across the park: humans suddenly becoming detectives.</p>
+<p>The new logo takes that little human gesture — the looking, the searching, the almost comical need to know what’s hiding just beyond the obvious — and turns it into the park’s new mark.</p>
+<p>By late afternoon, several animals had gathered near the entrance to stare at the logo in silence. Sources say it stared back beautifully.</p>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Colour Palette Approved After Heated Debate At The Watering Hole</h3><p class="dek">Flamingos pushed pink, lions backed gold, and nature quietly won the room.</p><p class="byline">Sept 18 · Iris Ibis, Colour Desk</p><hr/><p>Dubai Safari Park’s new colour palette has been approved following what witnesses described as “a passionate but mostly unnecessary” debate at the watering hole.</p><p>The discussion began peacefully, until the flamingos formally nominated pink as “the only serious colour.” Lions argued for gold, citing heritage, warmth, and personal branding. Zebras suggested black and white, then refused to elaborate.</p><p>After several strong opinions and one dramatic wing display, the final palette was revealed: warm, natural, expressive colours drawn from the park itself.</p><p>Earth, foliage, sunlight, shade, texture, habitat, feather, fur, and sky all found their way into the new identity. Design observers praised the result for feeling alive without screaming.</p><p>The flamingos have accepted the decision, though they maintain the palette would benefit from “a touch more flamingo.”</p><p>Rhino, as usual, declined to comment. It had already made the point.</p>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">The Letters Speak: Porcupine Gives Sharp Review Of New Typeface</h3>
-            <p class="dek">A quilled expert discusses serifs, spacing, and why good letters need manners.</p>
-            <p class="byline">Sept 18 · Interview by Tilly Toucan, Design Editor</p>
-            <hr>
-            <p><strong>TWT:</strong> Serif or sans-serif?</p>
-            <p><strong>Professor Quill:</strong> A serif is like a tiny paw at the end of a letter. Charming, traditional, sometimes a little overdressed. For a park, clarity matters.</p>
-            <p><strong>TWT:</strong> Final verdict?</p>
-            <p><strong>Professor Quill:</strong> Nicely shaped. Well-spaced. No unnecessary drama. I&rsquo;d give it four and a half quills.</p>
-          </article>
 
-        </div>
-      </div>
-  </section>
 
-  <!-- WILD MOODCAST -->
-  <section id="wild-moodcast" class="issue-section" data-nav-label="Wild Moodcast">
-    <div class="section-head">
-      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
-      <h2 class="section-title">The Wild Moodcast</h2>
-    </div>
-      <div class="section-content" data-reveal>
-        <p class="dek">High excitement, scattered drama, and visibility excellent for wonder.</p>
-        <p class="byline">Sept 18 · Interview by Tilly Toucan, Design Editor</p>
-        <hr>
-        <p class="moodcast-note">Hover (or tap) a pin for the reading.</p>
-        <div class="moodcast-map">
-          <img class="moodcast-map-bg" src="assets/images/moodcast-map.svg" alt="Illustrated map of Dubai Safari Park">
-          <img class="moodcast-compass" src="assets/images/mooncast-compass.svg" alt="" aria-hidden="true">
 
-          <button class="moodcast-pin" style="left:22%;top:32%" type="button" aria-label="Moon Bears mood">
-            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
-            <span class="moodcast-tooltip">
-              <span class="moodcast-portrait">
-                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
-                <img class="moodcast-face" src="assets/images/mooncast-bear.svg" alt="">
-              </span>
-              <strong>Moon Bears</strong>
-              <span>Thoughtful pacing, with a chance of sudden emotional appearance.</span>
-            </span>
-          </button>
 
-          <button class="moodcast-pin" style="left:68%;top:16%" type="button" aria-label="Red-Crowned Cranes mood">
-            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
-            <span class="moodcast-tooltip">
-              <span class="moodcast-portrait">
-                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
-                <img class="moodcast-face" src="assets/images/mooncast-crane.svg" alt="">
-              </span>
-              <strong>Red-Crowned Cranes</strong>
-              <span>Grace levels rising. Ceremonial movement possible.</span>
-            </span>
-          </button>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">The Letters Speak: Porcupine Gives Sharp Review Of New Typeface</h3>
+<p class="dek">A quilled expert discusses serifs, spacing, and why good letters need manners.</p>
+<p class="byline">Sept 18 · Interview by Tilly Toucan, Design Editor</p>
+<hr/>
+<p>To understand Dubai Safari Park&rsquo;s new typeface, Times of the Wild spoke to Professor Percival Quill, a crested porcupine, handwriting traditionalist, and the park&rsquo;s leading authority on sharp points.</p>
+<p><strong>TWT:</strong> Professor Quill, why are you the right animal to discuss typography?</p>
+<p><strong>Professor Quill:</strong> I come from a long line of pointed instruments. Quills, marks, scratches, footnotes. Also, I have strong opinions and limited patience.</p>
+<p><strong>TWT:</strong> First impression of the new typeface?</p>
+<p><strong>Professor Quill:</strong> Clear. Warm. Approachable. It has personality without arriving late in sunglasses. That is important. Letters must welcome people, not perform at them.</p>
+<p><strong>TWT:</strong> Serif or sans-serif?</p>
+<p><strong>Professor Quill:</strong> Ah, the eternal mud bath. A serif is like a tiny paw at the end of a letter. Charming, traditional, sometimes a little overdressed. Sans-serif is cleaner, more direct, easier to read when a child is holding ice cream and walking sideways. For a park, clarity matters.</p>
+<p><strong>TWT:</strong> And kerning?</p>
+<p><strong>Professor Quill:</strong> Kerning is the space between letters. Too close, and they crowd each other like flamingos at a mirror. Too far, and they look like they&rsquo;ve had an argument. Good kerning is peaceful co-existence.</p>
+<p><strong>TWT:</strong> What does this new typeface do for the park?</p>
+<p><strong>Professor Quill:</strong> It helps the new voice travel. On signs, maps, tickets, uniforms, little notices telling humans not to tap glass. It makes the park feel friendly, curious, and properly awake.</p>
+<p><strong>TWT:</strong> Final verdict?</p>
+<p><strong>Professor Quill:</strong> Nicely shaped. Well-spaced. No unnecessary drama. I&rsquo;d give it four and a half quills.</p>
 
-          <button class="moodcast-pin" style="left:14%;top:64%" type="button" aria-label="Arabian Wolves mood">
-            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
-            <span class="moodcast-tooltip">
-              <span class="moodcast-portrait">
-                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
-                <img class="moodcast-face" src="assets/images/mooncast-wolf.svg" alt="">
-              </span>
-              <strong>Arabian Wolves</strong>
-              <span>Quiet confidence after sunset. Ears on high alert.</span>
-            </span>
-          </button>
 
-          <button class="moodcast-pin" style="left:46%;top:78%" type="button" aria-label="Ostriches mood">
-            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
-            <span class="moodcast-tooltip">
-              <span class="moodcast-portrait">
-                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
-                <img class="moodcast-face" src="assets/images/mooncast-ostrich.svg" alt="">
-              </span>
-              <strong>Ostriches</strong>
-              <span>Gossip winds active. Eye contact unlikely.</span>
-            </span>
-          </button>
 
-          <button class="moodcast-pin" style="left:66%;top:48%" type="button" aria-label="Pygmy Hippos mood">
-            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
-            <span class="moodcast-tooltip">
-              <span class="moodcast-portrait">
-                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
-                <img class="moodcast-face" src="assets/images/mooncast-hippo.svg" alt="">
-              </span>
-              <strong>Pygmy Hippos</strong>
-              <span>Charm humidity rising near water.</span>
-            </span>
-          </button>
 
-          <button class="moodcast-pin" style="left:80%;top:62%" type="button" aria-label="Mandarin Ducks mood">
-            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
-            <span class="moodcast-tooltip">
-              <span class="moodcast-portrait">
-                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
-                <img class="moodcast-face" src="assets/images/mooncast-duck.svg" alt="">
-              </span>
-              <strong>Mandarin Ducks</strong>
-              <span>Colour confidence high. Pattern visibility excellent.</span>
-            </span>
-          </button>
 
-          <button class="moodcast-pin" style="left:38%;top:22%" type="button" aria-label="Lemurs mood">
-            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
-            <span class="moodcast-tooltip">
-              <span class="moodcast-portrait">
-                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
-                <img class="moodcast-face" src="assets/images/mooncast-lemur.svg" alt="">
-              </span>
-              <strong>Lemurs</strong>
-              <span>Joy scattered. Tail visibility strong.</span>
-            </span>
-          </button>
 
-          <button class="moodcast-pin" style="left:56%;top:34%" type="button" aria-label="Arabian Oryx mood">
-            <img class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg" alt="">
-            <span class="moodcast-tooltip">
-              <span class="moodcast-portrait">
-                <img class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg" alt="">
-                <img class="moodcast-face" src="assets/images/mooncast-onyx.svg" alt="">
-              </span>
-              <strong>Arabian Oryx</strong>
-              <span>Elegant visibility. Horn drama holding steady.</span>
-            </span>
-          </button>
-        </div>
-        <p class="moodcast-note">Also reporting this week: Gibbons (high energy, acrobatics from the canopy), Sand Gazelles (light-footed optimism, sudden dashes likely), Komodo Dragons (stillness expected, intensity somehow increasing) — portraits coming once their art arrives.</p>
-      </div>
-  </section>
 
-  <!-- MEDIA & TECH -->
-  <section id="media-tech" class="issue-section" data-nav-label="Media & Tech">
-    <div class="section-head">
-      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
-      <h2 class="section-title">Media &amp; Tech</h2>
-    </div>
-      <div class="section-content" data-reveal>
-        <div class="card-deck" data-swipe>
+</article></div><div class="card-pager-controls"><button aria-label="Previous article" class="card-pager-btn card-pager-prev" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 5 7 12l8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><span class="card-pager-count"><span class="card-pager-current">1</span> / 3</span><button aria-label="Next article" class="card-pager-btn card-pager-next" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5l8 7-8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button></div></div>
+</div>
+</section>
+<!-- WILD MOODCAST -->
+<section class="issue-section" data-nav-label="Wild Moodcast" id="wild-moodcast">
+<div class="section-head">
+<p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"></use></svg>Section</p>
+<h2 class="section-title">The Wild Moodcast</h2>
+</div>
+<div class="section-content" data-reveal="">
+<p class="dek">High excitement, scattered drama, and visibility excellent for wonder.</p>
+<p class="byline">Sept 18 · Interview by Tilly Toucan, Design Editor</p>
+<hr/>
+<p class="moodcast-note">Hover (or tap) a pin for the reading.</p>
+<div class="moodcast-map">
+<img alt="Illustrated map of Dubai Safari Park" class="moodcast-map-bg" src="assets/images/moodcast-map.svg"/>
+<img alt="" aria-hidden="true" class="moodcast-compass" src="assets/images/mooncast-compass.svg"/>
+<button aria-label="Moon Bears mood" class="moodcast-pin" style="left:18%;top:35%" type="button">
+<span class="moodcast-pin-face">
+<img alt="" class="moodcast-face moodcast-face--bear" src="assets/images/mooncast-bear.svg"/>
+</span>
+<img alt="" class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg"/>
+<span class="moodcast-tooltip">
+<span class="moodcast-portrait">
+<img alt="" class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg"/>
+<span class="moodcast-portrait-clip">
+<img alt="" class="moodcast-face moodcast-face--bear" src="assets/images/mooncast-bear.svg"/>
+</span>
+</span>
+<strong>Moon Bears</strong>
+<span>Thoughtful pacing, with a chance of sudden emotional appearance.</span>
+</span>
+</button>
+<button aria-label="Red-Crowned Cranes mood" class="moodcast-pin" style="left:82%;top:19%" type="button">
+<span class="moodcast-pin-face">
+<img alt="" class="moodcast-face moodcast-face--crane" src="assets/images/mooncast-crane.svg"/>
+</span>
+<img alt="" class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg"/>
+<span class="moodcast-tooltip">
+<span class="moodcast-portrait">
+<img alt="" class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg"/>
+<span class="moodcast-portrait-clip">
+<img alt="" class="moodcast-face moodcast-face--crane" src="assets/images/mooncast-crane.svg"/>
+</span>
+</span>
+<strong>Red-Crowned Cranes</strong>
+<span>Grace levels rising. Ceremonial movement possible.</span>
+</span>
+</button>
+<button aria-label="Arabian Wolves mood" class="moodcast-pin" style="left:26%;top:50%" type="button">
+<span class="moodcast-pin-face">
+<img alt="" class="moodcast-face moodcast-face--wolf" src="assets/images/mooncast-wolf.svg"/>
+</span>
+<img alt="" class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg"/>
+<span class="moodcast-tooltip">
+<span class="moodcast-portrait">
+<img alt="" class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg"/>
+<span class="moodcast-portrait-clip">
+<img alt="" class="moodcast-face moodcast-face--wolf" src="assets/images/mooncast-wolf.svg"/>
+</span>
+</span>
+<strong>Arabian Wolves</strong>
+<span>Quiet confidence after sunset. Ears on high alert.</span>
+</span>
+</button>
+<button aria-label="Ostriches mood" class="moodcast-pin" style="left:18%;top:68%" type="button">
+<span class="moodcast-pin-face">
+<img alt="" class="moodcast-face moodcast-face--ostrich" src="assets/images/mooncast-ostrich.svg"/>
+</span>
+<img alt="" class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg"/>
+<span class="moodcast-tooltip">
+<span class="moodcast-portrait">
+<img alt="" class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg"/>
+<span class="moodcast-portrait-clip">
+<img alt="" class="moodcast-face moodcast-face--ostrich" src="assets/images/mooncast-ostrich.svg"/>
+</span>
+</span>
+<strong>Ostriches</strong>
+<span>Gossip winds active. Eye contact unlikely.</span>
+</span>
+</button>
+<button aria-label="Pygmy Hippos mood" class="moodcast-pin" style="left:88%;top:44%" type="button">
+<span class="moodcast-pin-face">
+<img alt="" class="moodcast-face moodcast-face--hippo" src="assets/images/mooncast-hippo.svg"/>
+</span>
+<img alt="" class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg"/>
+<span class="moodcast-tooltip">
+<span class="moodcast-portrait">
+<img alt="" class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg"/>
+<span class="moodcast-portrait-clip">
+<img alt="" class="moodcast-face moodcast-face--hippo" src="assets/images/mooncast-hippo.svg"/>
+</span>
+</span>
+<strong>Pygmy Hippos</strong>
+<span>Charm humidity rising near water.</span>
+</span>
+</button>
+<button aria-label="Mandarin Ducks mood" class="moodcast-pin" style="left:91%;top:60%" type="button">
+<span class="moodcast-pin-face">
+<img alt="" class="moodcast-face moodcast-face--duck" src="assets/images/mooncast-duck.svg"/>
+</span>
+<img alt="" class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg"/>
+<span class="moodcast-tooltip">
+<span class="moodcast-portrait">
+<img alt="" class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg"/>
+<span class="moodcast-portrait-clip">
+<img alt="" class="moodcast-face moodcast-face--duck" src="assets/images/mooncast-duck.svg"/>
+</span>
+</span>
+<strong>Mandarin Ducks</strong>
+<span>Colour confidence high. Pattern visibility excellent.</span>
+</span>
+</button>
+<button aria-label="Lemurs mood" class="moodcast-pin" style="left:46%;top:15%" type="button">
+<span class="moodcast-pin-face">
+<img alt="" class="moodcast-face moodcast-face--lemur" src="assets/images/mooncast-lemur.svg"/>
+</span>
+<img alt="" class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg"/>
+<span class="moodcast-tooltip">
+<span class="moodcast-portrait">
+<img alt="" class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg"/>
+<span class="moodcast-portrait-clip">
+<img alt="" class="moodcast-face moodcast-face--lemur" src="assets/images/mooncast-lemur.svg"/>
+</span>
+</span>
+<strong>Lemurs</strong>
+<span>Joy scattered. Tail visibility strong.</span>
+</span>
+</button>
+<button aria-label="Arabian Oryx mood" class="moodcast-pin" style="left:54%;top:45%" type="button">
+<span class="moodcast-pin-face">
+<img alt="" class="moodcast-face moodcast-face--onyx" src="assets/images/mooncast-onyx.svg"/>
+</span>
+<img alt="" class="moodcast-pin-icon" src="assets/images/mooncast-pin.svg"/>
+<span class="moodcast-tooltip">
+<span class="moodcast-portrait">
+<img alt="" class="moodcast-holder-frame" src="assets/images/moodcast-holder.svg"/>
+<span class="moodcast-portrait-clip">
+<img alt="" class="moodcast-face moodcast-face--onyx" src="assets/images/mooncast-onyx.svg"/>
+</span>
+</span>
+<strong>Arabian Oryx</strong>
+<span>Elegant visibility. Horn drama holding steady.</span>
+</span>
+</button>
+</div>
+<p class="moodcast-note">Also reporting this week: Gibbons (high energy, acrobatics from the canopy), Sand Gazelles (light-footed optimism, sudden dashes likely), Komodo Dragons (stillness expected, intensity somehow increasing) — portraits coming once their art arrives.</p>
+</div>
+</section>
+<!-- MEDIA & TECH -->
+<section class="issue-section" data-nav-label="Media &amp; Tech" id="media-tech">
+<div class="section-head">
+<p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"></use></svg>Section</p>
+<h2 class="section-title">Media &amp; Tech</h2>
+</div>
+<div class="section-content" data-reveal="">
+<div class="card-pager" data-pager=""><div class="card-pager-track"><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Times Of The Wild Launches The Pawdcast</h3>
+<p class="dek">After years of being observed, the wild would like to own the narrative.</p>
+<p class="byline">Sept 18 · Hugo Hornbill, Media Correspondent</p>
+<hr/>
+<p>Times of the Wild has announced the launch of The Pawdcast, a new radio series hosted by Editor-in-Chief Molly D. Meerkat and Assistant Editor G. Raph Longlook.</p>
+<p>“For too long, we have been watched, described, captioned, narrated, misidentified, and occasionally called ‘cute’ by people with no formal training in our personalities,” said Molly. “It is time the wild had the microphone.”</p>
+<p>The first episode, ‘WHAT DO HUMANS WONDER ABOUT?,’ will be the season opener.</p>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Dubai Safari Park Launches First Aerospace Mission With News Satellite</h3><p class="dek">Dr. Otto Ostrich confirms floating news satellite will transmit wild headlines across human society.</p><p class="byline">Sept 21 · Stella Starling, Tech Reporter</p><hr/><p>Dubai Safari Park has announced the successful launch of its first aerospace mission, following the deployment of a floating news satellite over selected public locations across Dubai.</p><p>The satellite, which some humans continue to describe as “a hot air balloon,” will carry the Times of the Wild masthead, the park’s new logo, a scan code, and a dangling scroll carrying fresh bulletins from inside the park.</p><p>The mission is being led by Dr. Otto Ostrich, Head of Aerospace, who has no personal experience with flight but, according to colleagues, “exceptional upward ambition.”</p><p>“For too long, wild news has remained at ground level,” said Dr. Ostrich. “This satellite will transmit important headlines across human society, including reopening updates, John’s highly discussed promotion to Ranger, the possible arrival of a new species, unidentified footprints near African Village, baby gazelle nickname controversy, flamingo wardrobe incidents, and anything the meerkats describe as developing.”</p><p>Officials confirmed each appearance will carry a new wild bulletin.</p><p>The first test was declared successful after the satellite remained airborne, visible, and almost entirely unpecked.</p>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Times Of The Wild Launches The Pawdcast</h3>
-            <p class="dek">After years of being observed, the wild would like to own the narrative.</p>
-            <p class="byline">Sept 18 · Hugo Hornbill, Media Correspondent</p>
-            <hr>
-            <p>Times of the Wild has announced the launch of The Pawdcast, a new radio series hosted by Editor-in-Chief Molly D. Meerkat and Assistant Editor G. Raph Longlook.</p>
-            <p>&ldquo;For too long, we have been watched, described, captioned, narrated, misidentified, and occasionally called &lsquo;cute&rsquo; by people with no formal training in our personalities,&rdquo; said Molly. &ldquo;It is time the wild had the microphone.&rdquo;</p>
-            <p>The first episode, &lsquo;WHAT DO HUMANS WONDER ABOUT?,&rsquo; will be the season opener.</p>
-          </article>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Dubai Safari Park Launches First Aerospace Mission With News Satellite</h3>
-            <p class="dek">Dr. Otto Ostrich confirms floating news satellite will transmit wild headlines across human society.</p>
-            <p class="byline">Sept 21 · Stella Starling, Tech Reporter</p>
-            <hr>
-            <p>The satellite, which some humans continue to describe as &ldquo;a hot air balloon,&rdquo; will carry the Times of the Wild masthead, the park&rsquo;s new logo, a scan code, and a dangling scroll carrying fresh bulletins from inside the park.</p>
-            <p>The first test was declared successful after the satellite remained airborne, visible, and almost entirely unpecked.</p>
-          </article>
 
-        </div>
-      </div>
-  </section>
 
-  <!-- HEALTH & SCIENCE -->
-  <section id="health-science" class="issue-section" data-nav-label="Health & Science">
-    <div class="section-head">
-      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
-      <h2 class="section-title">Health &amp; Science</h2>
-    </div>
-      <div class="section-content" data-reveal>
-        <div class="card-deck" data-swipe>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">New CareBnB Designs Reach Full Occupancy Across The Park</h3>
-            <p class="dek">Residents praise custom habitats, with cooling rocks voted best wellness retreat by a landslide.</p>
-            <p class="byline">Sept 18 · Amara Antie, Conservation &amp; Care Correspondent</p>
-            <hr>
-            <p>Unlike ordinary accommodation, these homes do not come with tiny shampoo bottles, questionable pillows, or confusing light switches. Instead, they offer shade, space, privacy, movement, comfort and enrichment.</p>
-            <p>A tortoise reportedly gave his CareBnB five stars, though the review took most of the afternoon to arrive.</p>
-          </article>
+</article></div><div class="card-pager-controls"><button aria-label="Previous article" class="card-pager-btn card-pager-prev" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 5 7 12l8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><span class="card-pager-count"><span class="card-pager-current">1</span> / 2</span><button aria-label="Next article" class="card-pager-btn card-pager-next" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5l8 7-8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button></div></div>
+</div>
+</section>
+<!-- HEALTH & SCIENCE -->
+<section class="issue-section" data-nav-label="Health &amp; Science" id="health-science">
+<div class="section-head">
+<p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"></use></svg>Section</p>
+<h2 class="section-title">Health &amp; Science</h2>
+</div>
+<div class="section-content" data-reveal="">
+<div class="card-pager" data-pager=""><div class="card-pager-track"><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">New CareBnB Designs Reach Full Occupancy Across The Park</h3>
+<p class="dek">Residents praise custom habitats, with cooling rocks voted best wellness retreat by a landslide.</p>
+<p class="byline">Sept 18 · Amara Antie, Conservation &amp; Care Correspondent</p>
+<hr/>
+<p>Unlike ordinary accommodation, these homes do not come with tiny shampoo bottles, questionable pillows, or confusing light switches. Instead, they offer shade, space, privacy, movement, comfort and enrichment.</p>
+<p>A tortoise reportedly gave his CareBnB five stars, though the review took most of the afternoon to arrive.</p>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">MasterChef: Wild Edition Returns With 3,000 Very Particular Diners</h3><p class="dek">Smart feeding technology helps care teams create the right nutrition for every resident.</p><p class="byline">Sept 21 · Basil Baboon, Food & Welfare Critic</p><hr/><p>The kitchens of Dubai Safari Park are once again operating at full pressure as MasterChef: Wild Edition returns with more than 3,000 residents, each with a different idea of what counts as lunch.</p><p>There are no mystery boxes, but there are leaves, grains, fish, fruit, hay, insects, supplements, carefully weighed portions, and several diners who believe the garnish is personally important.</p><p>Behind the scenes, the nutrition team works with expert precision to create species-specific diets that support health, energy, growth, recovery, and daily wellbeing.</p><p>Helping them look even closer is smart feeding technology that can support the monitoring of animal vitals, nutrition, and early signs of health concerns during feeding routines.</p><p>In short, the vending machine does not simply serve food. It helps the team understand who is eating well, who needs attention, and who may be pretending not to like something for dramatic effect.</p><p>Judges remain demanding.</p><p>One resident gave breakfast four stars, then ate all of it.</p>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">MasterChef: Wild Edition Returns With 3,000 Very Particular Diners</h3>
-            <p class="dek">Smart feeding technology helps care teams create the right nutrition for every resident.</p>
-            <p class="byline">Sept 21 · Basil Baboon, Food &amp; Welfare Critic</p>
-            <hr>
-            <p>Behind the scenes, the nutrition team works with expert precision to create species-specific diets that support health, energy, growth, recovery, and daily wellbeing.</p>
-            <p>One resident gave breakfast four stars, then ate all of it.</p>
-          </article>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Baby Boom Declared As 144 Newborns Join Park Family</h3>
-            <p class="dek">Nursery teams celebrate tiny paws, hooves, feathers, and several emotional first steps.</p>
-            <p class="byline">Sept 21 · Laila Lemurosa, Family Affairs Reporter</p>
-            <hr>
-            <p>Keepers, veterinarians, nutritionists and welfare teams have worked closely to support mothers, monitor young residents, and make sure each new arrival receives the right care from the very beginning.</p>
-            <p>The babies, meanwhile, have declined comment, citing naps, milk, and the urgent business of being impossibly small.</p>
-          </article>
 
-        </div>
-      </div>
-  </section>
 
-  <!-- AD BREAK: OOH & DIGITAL -->
-  <section id="ad-ooh-digital" class="issue-section ad-break" data-ad="ooh-digital" data-ad-title="Ad Break — OOH & Digital">
-    <div class="ad-inline" data-reveal>
-      <p class="eyebrow">Ad Break — OOH &amp; Digital Ads</p>
-      <div class="ad-tiles">
-        <div class="ad-tile">
-          <div class="qr" aria-hidden="true"></div>
-          <h3>The Wild Is Back On Record.</h3>
-          <p>Catch all the news about Dubai&rsquo;s Safari Park&rsquo;s new season.</p>
-          <p class="fine-print">Park Opens on Oct 01</p>
-        </div>
-        <div class="ad-tile">
-          <div class="qr" aria-hidden="true"></div>
-          <h3>The Wild Reopens Soon. The Drama Is Ongoing.</h3>
-          <p>Catch all the news about Dubai&rsquo;s Safari Park&rsquo;s new season.</p>
-          <p class="fine-print">Park Opens on Oct 01</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- SPORTS & FITNESS -->
-  <section id="sports-fitness" class="issue-section" data-nav-label="Sports & Fitness">
-    <div class="section-head">
-      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
-      <h2 class="section-title">Sports &amp; Fitness</h2>
-    </div>
-      <div class="section-content" data-reveal>
-        <div class="card-deck" data-swipe>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Baby Boom Declared As 144 Newborns Join Park Family</h3><p class="dek">Nursery teams celebrate tiny paws, hooves, feathers, and several emotional first steps.</p><p class="byline">Sept 21 · Laila Lemurosa, Family Affairs Reporter</p><hr/><p>Dubai Safari Park has confirmed a joyful baby boom, with 144 newborns joining the park family during the past season.</p><p>The arrivals have caused widespread delight across the care teams, along with an increase in whispered voices, careful footsteps, and fully grown adults saying “look at the little one” with no professional detachment whatsoever.</p><p>The newborns represent more than adorable faces and unsteady legs. They are a sign of healthy habitats, expert care, close monitoring, and the kind of daily attention that helps animals feel safe enough to thrive.</p><p>Keepers, veterinarians, nutritionists and welfare teams have worked closely to support mothers, monitor young residents, and make sure each new arrival receives the right care from the very beginning.</p><p>Sources confirm several first steps were treated with the seriousness of a royal announcement.</p><p>The nursery department has asked the public to remain calm, respectful, and prepared for sudden feelings.</p><p>The babies, meanwhile, have declined comment, citing naps, milk, and the urgent business of being impossibly small.</p>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Gibbons Sweep Canopy Gymnastics Amid Home Advantage Claims</h3>
-            <p class="dek">Officials defend branch selection after gold-medal routine sparks complaints from ground-based rivals.</p>
-            <p class="byline">Sept 21 · Oscar Oryx, Sports Desk</p>
-            <hr>
-            <p>The gibbons denied any unfair advantage during a press conference conducted entirely from above the reporters&rsquo; heads.</p>
-            <p>&ldquo;We simply trained hard,&rdquo; said one gold medallist, while eating fruit upside down.</p>
-          </article>
 
-          <article class="card">
-            <div class="media-slot media-slot--card" aria-hidden="true">
-              <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-            </div>
-            <h3 class="headline">Mandarin Ducks Clinch Synchronised Swim Gold Despite Gloss Inquiry</h3>
-            <p class="dek">Officials confirm dazzling plumage was legal, coordinated, and frankly difficult to ignore.</p>
-            <p class="byline">Sept 21 · Daphne Duck, Sports Desk</p>
-            <hr>
-            <p>&ldquo;The plumage is legal,&rdquo; confirmed one official. &ldquo;It is also distracting, but that is not currently against the rules.&rdquo;</p>
-            <p>The silver medallists have requested stricter lighting conditions next season.</p>
-          </article>
 
-        </div>
-      </div>
-  </section>
 
-  <!-- CLASSIFIEDS -->
-  <section id="classifieds" class="issue-section" data-nav-label="Classifieds">
-    <div class="section-head">
-      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
-      <h2 class="section-title">Classifieds</h2>
-    </div>
-      <div class="section-content" data-reveal>
-        <div class="placeholder-note">
-          <p>Classified ads go here — send over the copy and we&rsquo;ll wire them into this grid as small stamped tiles.</p>
-        </div>
-      </div>
-  </section>
 
-  <!-- AD BREAK: SOCIAL APP -->
-  <section id="ad-social" class="issue-section ad-break" data-ad="social" data-ad-title="Ad Break — Social App">
-    <div class="ad-inline" data-reveal>
-      <p class="eyebrow">Ad Break — Social App</p>
-      <div class="phone-mock">
-        <div class="phone-notch"></div>
-        <div class="phone-icons">
-          <div class="app-icon"></div>
-          <div class="app-icon"></div>
-          <div class="app-icon"></div>
-          <div class="app-icon"></div>
-          <div class="app-icon"></div>
-          <div class="app-icon"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+</article></div><div class="card-pager-controls"><button aria-label="Previous article" class="card-pager-btn card-pager-prev" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 5 7 12l8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><span class="card-pager-count"><span class="card-pager-current">1</span> / 3</span><button aria-label="Next article" class="card-pager-btn card-pager-next" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5l8 7-8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button></div></div>
+</div>
+</section>
+<!-- AD BREAK: OOH & DIGITAL -->
+<section class="issue-section ad-break" data-ad="ooh-digital" data-ad-title="Ad Break — OOH &amp; Digital" id="ad-ooh-digital">
+<div class="ad-inline" data-reveal="">
+<p class="eyebrow">Ad Break — OOH &amp; Digital Ads</p>
+<div class="ad-tiles">
+<div class="ad-tile">
+<div aria-hidden="true" class="qr"></div>
+<h3>The Wild Is Back On Record.</h3>
+<p>Catch all the news about Dubai’s Safari Park’s new season.</p>
+<p class="fine-print">Park Opens on Oct 01</p>
+</div>
+<div class="ad-tile">
+<div aria-hidden="true" class="qr"></div>
+<h3>The Wild Reopens Soon. The Drama Is Ongoing.</h3>
+<p>Catch all the news about Dubai’s Safari Park’s new season.</p>
+<p class="fine-print">Park Opens on Oct 01</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SPORTS & FITNESS -->
+<section class="issue-section" data-nav-label="Sports &amp; Fitness" id="sports-fitness">
+<div class="section-head">
+<p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"></use></svg>Section</p>
+<h2 class="section-title">Sports &amp; Fitness</h2>
+</div>
+<div class="section-content" data-reveal="">
+<div class="card-pager" data-pager=""><div class="card-pager-track"><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Gibbons Sweep Canopy Gymnastics Amid Home Advantage Claims</h3>
+<p class="dek">Officials defend branch selection after gold-medal routine sparks complaints from ground-based rivals.</p>
+<p class="byline">Sept 21 · Oscar Oryx, Sports Desk</p>
+<hr/>
+<p>The gibbons denied any unfair advantage during a press conference conducted entirely from above the reporters’ heads.</p>
+<p>“We simply trained hard,” said one gold medallist, while eating fruit upside down.</p>
+</article><article class="card">
+<div aria-hidden="true" class="media-slot media-slot--card">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+<h3 class="headline">Mandarin Ducks Clinch Synchronised Swim Gold Despite Gloss Inquiry</h3><p class="dek">Officials confirm dazzling plumage was legal, coordinated, and frankly difficult to ignore.</p><p class="byline">Sept 21 · Daphne Duck, Sports Desk</p><hr/><p>Mandarin ducks claimed gold in the Animalympics synchronised swim final yesterday, despite a brief inquiry into what officials called “unusually camera-ready plumage.”</p><p>The winning pair delivered a flawless routine featuring mirrored turns, elegant paddling, and a level of colour coordination that caused several judges to remove their sunglasses indoors.</p><p>Questions were raised after rival teams suggested the ducks may have used performance-enhancing gloss before entering the water. Officials immediately ordered a full feather inspection, including shine analysis, waterproofing review, and a very awkward conversation about natural beauty.</p><p>The results cleared the athletes of any wrongdoing.</p><p>“The plumage is legal,” confirmed one official. “It is also distracting, but that is not currently against the rules.”</p><p>The ducks accepted their medals with quiet dignity, followed by twelve minutes of posing that sources described as “technically not part of the event.”</p><p>The silver medallists have requested stricter lighting conditions next season.</p><p>Judges are reviewing the proposal, mostly because they are just hooked watching reruns of the performance.</p>
 
-  <!-- PUZZLES & COMIC STRIP -->
-  <section id="puzzles-comic" class="issue-section" data-nav-label="Puzzles & Comic">
-    <div class="section-head">
-      <p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"/></svg>Section</p>
-      <h2 class="section-title">Puzzles &amp; Comic Strip</h2>
-    </div>
-      <div class="section-content" data-reveal>
-        <div class="puzzle-row">
-          <div class="puzzle-tile puzzle-tile--logo">
-            <img src="assets/images/wild-times-puzzle-logo.svg" alt="The Wild Times" width="519" height="282">
-          </div>
-          <div class="puzzle-tile puzzle-tile--sudoku">
-            <div class="sudoku-grid" id="sudokuGrid">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="5" readonly data-row="0" data-col="0" data-box="0" tabindex="-1" aria-label="Row 1 column 1, given 5">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="3" readonly data-row="0" data-col="1" data-box="0" tabindex="-1" aria-label="Row 1 column 2, given 3">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="2" data-box="0" aria-label="Row 1 column 3, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="3" data-box="1" aria-label="Row 1 column 4, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="7" readonly data-row="0" data-col="4" data-box="1" tabindex="-1" aria-label="Row 1 column 5, given 7">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="5" data-box="1" aria-label="Row 1 column 6, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="6" data-box="2" aria-label="Row 1 column 7, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="7" data-box="2" aria-label="Row 1 column 8, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="0" data-col="8" data-box="2" aria-label="Row 1 column 9, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="6" readonly data-row="1" data-col="0" data-box="0" tabindex="-1" aria-label="Row 2 column 1, given 6">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="1" data-col="1" data-box="0" aria-label="Row 2 column 2, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="1" data-col="2" data-box="0" aria-label="Row 2 column 3, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="1" readonly data-row="1" data-col="3" data-box="1" tabindex="-1" aria-label="Row 2 column 4, given 1">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="9" readonly data-row="1" data-col="4" data-box="1" tabindex="-1" aria-label="Row 2 column 5, given 9">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="5" readonly data-row="1" data-col="5" data-box="1" tabindex="-1" aria-label="Row 2 column 6, given 5">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="1" data-col="6" data-box="2" aria-label="Row 2 column 7, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="1" data-col="7" data-box="2" aria-label="Row 2 column 8, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="1" data-col="8" data-box="2" aria-label="Row 2 column 9, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="0" data-box="0" aria-label="Row 3 column 1, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="9" readonly data-row="2" data-col="1" data-box="0" tabindex="-1" aria-label="Row 3 column 2, given 9">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="8" readonly data-row="2" data-col="2" data-box="0" tabindex="-1" aria-label="Row 3 column 3, given 8">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="3" data-box="1" aria-label="Row 3 column 4, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="4" data-box="1" aria-label="Row 3 column 5, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="5" data-box="1" aria-label="Row 3 column 6, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="6" data-box="2" aria-label="Row 3 column 7, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="6" readonly data-row="2" data-col="7" data-box="2" tabindex="-1" aria-label="Row 3 column 8, given 6">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="2" data-col="8" data-box="2" aria-label="Row 3 column 9, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="8" readonly data-row="3" data-col="0" data-box="3" tabindex="-1" aria-label="Row 4 column 1, given 8">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="1" data-box="3" aria-label="Row 4 column 2, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="2" data-box="3" aria-label="Row 4 column 3, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="3" data-box="4" aria-label="Row 4 column 4, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="6" readonly data-row="3" data-col="4" data-box="4" tabindex="-1" aria-label="Row 4 column 5, given 6">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="5" data-box="4" aria-label="Row 4 column 6, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="6" data-box="5" aria-label="Row 4 column 7, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="3" data-col="7" data-box="5" aria-label="Row 4 column 8, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="3" readonly data-row="3" data-col="8" data-box="5" tabindex="-1" aria-label="Row 4 column 9, given 3">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="4" readonly data-row="4" data-col="0" data-box="3" tabindex="-1" aria-label="Row 5 column 1, given 4">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="4" data-col="1" data-box="3" aria-label="Row 5 column 2, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="4" data-col="2" data-box="3" aria-label="Row 5 column 3, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="8" readonly data-row="4" data-col="3" data-box="4" tabindex="-1" aria-label="Row 5 column 4, given 8">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="4" data-col="4" data-box="4" aria-label="Row 5 column 5, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="3" readonly data-row="4" data-col="5" data-box="4" tabindex="-1" aria-label="Row 5 column 6, given 3">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="4" data-col="6" data-box="5" aria-label="Row 5 column 7, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="4" data-col="7" data-box="5" aria-label="Row 5 column 8, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="1" readonly data-row="4" data-col="8" data-box="5" tabindex="-1" aria-label="Row 5 column 9, given 1">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="7" readonly data-row="5" data-col="0" data-box="3" tabindex="-1" aria-label="Row 6 column 1, given 7">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="1" data-box="3" aria-label="Row 6 column 2, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="2" data-box="3" aria-label="Row 6 column 3, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="3" data-box="4" aria-label="Row 6 column 4, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="2" readonly data-row="5" data-col="4" data-box="4" tabindex="-1" aria-label="Row 6 column 5, given 2">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="5" data-box="4" aria-label="Row 6 column 6, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="6" data-box="5" aria-label="Row 6 column 7, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="5" data-col="7" data-box="5" aria-label="Row 6 column 8, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="6" readonly data-row="5" data-col="8" data-box="5" tabindex="-1" aria-label="Row 6 column 9, given 6">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="0" data-box="6" aria-label="Row 7 column 1, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="6" readonly data-row="6" data-col="1" data-box="6" tabindex="-1" aria-label="Row 7 column 2, given 6">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="2" data-box="6" aria-label="Row 7 column 3, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="3" data-box="7" aria-label="Row 7 column 4, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="4" data-box="7" aria-label="Row 7 column 5, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="5" data-box="7" aria-label="Row 7 column 6, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="2" readonly data-row="6" data-col="6" data-box="8" tabindex="-1" aria-label="Row 7 column 7, given 2">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="8" readonly data-row="6" data-col="7" data-box="8" tabindex="-1" aria-label="Row 7 column 8, given 8">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="6" data-col="8" data-box="8" aria-label="Row 7 column 9, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="7" data-col="0" data-box="6" aria-label="Row 8 column 1, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="7" data-col="1" data-box="6" aria-label="Row 8 column 2, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="7" data-col="2" data-box="6" aria-label="Row 8 column 3, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="4" readonly data-row="7" data-col="3" data-box="7" tabindex="-1" aria-label="Row 8 column 4, given 4">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="1" readonly data-row="7" data-col="4" data-box="7" tabindex="-1" aria-label="Row 8 column 5, given 1">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="9" readonly data-row="7" data-col="5" data-box="7" tabindex="-1" aria-label="Row 8 column 6, given 9">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="7" data-col="6" data-box="8" aria-label="Row 8 column 7, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="7" data-col="7" data-box="8" aria-label="Row 8 column 8, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="5" readonly data-row="7" data-col="8" data-box="8" tabindex="-1" aria-label="Row 8 column 9, given 5">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="0" data-box="6" aria-label="Row 9 column 1, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="1" data-box="6" aria-label="Row 9 column 2, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="2" data-box="6" aria-label="Row 9 column 3, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="3" data-box="7" aria-label="Row 9 column 4, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="8" readonly data-row="8" data-col="4" data-box="7" tabindex="-1" aria-label="Row 9 column 5, given 8">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="5" data-box="7" aria-label="Row 9 column 6, empty">
-              <input class="sudoku-cell" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" data-row="8" data-col="6" data-box="8" aria-label="Row 9 column 7, empty">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="7" readonly data-row="8" data-col="7" data-box="8" tabindex="-1" aria-label="Row 9 column 8, given 7">
-              <input class="sudoku-cell given" type="text" inputmode="numeric" pattern="[1-9]" maxlength="1" value="9" readonly data-row="8" data-col="8" data-box="8" tabindex="-1" aria-label="Row 9 column 9, given 9">
-            </div>
-            <p class="sudoku-solved-note" aria-live="polite">Solved! You've earned your safari stripes.</p>
-          </div>
-          <div class="media-slot media-slot--card puzzle-tile" aria-hidden="true">
-            <svg class="media-slot-icon"><use href="#icon-image"/></svg>
-          </div>
-        </div>
-        <img class="comic-strip-art" src="assets/images/strip.svg" alt="Wild on Safari comic strip: a meerkat and a camera-toting rabbit spot a lion who has struck a pose, captioned RAD" width="1173" height="372">
-      </div>
-  </section>
 
-  <!-- FIN -->
-  <footer id="fin" class="issue-section fin" data-nav-label="Fin.">
-    <p class="fin-mark" data-reveal>Fin.</p>
-    <p class="credits" data-reveal>Times of the Wild — Season Opening, Edition 01, DSPN.<br>Editor-in-Chief: Molly, The Meerkat &middot; Assistant Editor: G. Raph Longlook</p>
-  </footer>
 
+
+
+</article></div><div class="card-pager-controls"><button aria-label="Previous article" class="card-pager-btn card-pager-prev" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 5 7 12l8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button><span class="card-pager-count"><span class="card-pager-current">1</span> / 2</span><button aria-label="Next article" class="card-pager-btn card-pager-next" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5l8 7-8 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg></button></div></div>
+</div>
+</section>
+<!-- CLASSIFIEDS -->
+<section class="issue-section" data-nav-label="Classifieds" id="classifieds">
+<div class="section-head">
+<p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"></use></svg>Section</p>
+<h2 class="section-title">Classifieds</h2>
+</div>
+<div class="section-content" data-reveal="">
+<div class="placeholder-note">
+<p>Classified ads go here — send over the copy and we’ll wire them into this grid as small stamped tiles.</p>
+</div>
+</div>
+</section>
+<!-- AD BREAK: SOCIAL APP -->
+<section class="issue-section ad-break" data-ad="social" data-ad-title="Ad Break — Social App" id="ad-social">
+<div class="ad-inline" data-reveal="">
+<p class="eyebrow">Ad Break — Social App</p>
+<div class="phone-mock">
+<div class="phone-notch"></div>
+<div class="phone-icons">
+<div class="app-icon"></div>
+<div class="app-icon"></div>
+<div class="app-icon"></div>
+<div class="app-icon"></div>
+<div class="app-icon"></div>
+<div class="app-icon"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- PUZZLES & COMIC STRIP -->
+<section class="issue-section" data-nav-label="Puzzles &amp; Comic" id="puzzles-comic">
+<div class="section-head">
+<p class="eyebrow eyebrow--tag"><svg class="eyebrow-paw"><use href="#icon-paw"></use></svg>Section</p>
+<h2 class="section-title">Puzzles &amp; Comic Strip</h2>
+</div>
+<div class="section-content" data-reveal="">
+<div class="puzzle-row">
+<div class="puzzle-tile puzzle-tile--logo">
+<img alt="The Wild Times" height="282" src="assets/images/wild-times-puzzle-logo.svg" width="519"/>
+</div>
+<div class="puzzle-tile puzzle-tile--sudoku">
+<div class="sudoku-grid" id="sudokuGrid">
+<input aria-label="Row 1 column 1, given 5" class="sudoku-cell given" data-box="0" data-col="0" data-row="0" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="5"/>
+<input aria-label="Row 1 column 2, given 3" class="sudoku-cell given" data-box="0" data-col="1" data-row="0" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="3"/>
+<input aria-label="Row 1 column 3, empty" class="sudoku-cell" data-box="0" data-col="2" data-row="0" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 1 column 4, empty" class="sudoku-cell" data-box="1" data-col="3" data-row="0" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 1 column 5, given 7" class="sudoku-cell given" data-box="1" data-col="4" data-row="0" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="7"/>
+<input aria-label="Row 1 column 6, empty" class="sudoku-cell" data-box="1" data-col="5" data-row="0" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 1 column 7, empty" class="sudoku-cell" data-box="2" data-col="6" data-row="0" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 1 column 8, empty" class="sudoku-cell" data-box="2" data-col="7" data-row="0" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 1 column 9, empty" class="sudoku-cell" data-box="2" data-col="8" data-row="0" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 2 column 1, given 6" class="sudoku-cell given" data-box="0" data-col="0" data-row="1" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="6"/>
+<input aria-label="Row 2 column 2, empty" class="sudoku-cell" data-box="0" data-col="1" data-row="1" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 2 column 3, empty" class="sudoku-cell" data-box="0" data-col="2" data-row="1" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 2 column 4, given 1" class="sudoku-cell given" data-box="1" data-col="3" data-row="1" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="1"/>
+<input aria-label="Row 2 column 5, given 9" class="sudoku-cell given" data-box="1" data-col="4" data-row="1" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="9"/>
+<input aria-label="Row 2 column 6, given 5" class="sudoku-cell given" data-box="1" data-col="5" data-row="1" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="5"/>
+<input aria-label="Row 2 column 7, empty" class="sudoku-cell" data-box="2" data-col="6" data-row="1" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 2 column 8, empty" class="sudoku-cell" data-box="2" data-col="7" data-row="1" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 2 column 9, empty" class="sudoku-cell" data-box="2" data-col="8" data-row="1" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 3 column 1, empty" class="sudoku-cell" data-box="0" data-col="0" data-row="2" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 3 column 2, given 9" class="sudoku-cell given" data-box="0" data-col="1" data-row="2" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="9"/>
+<input aria-label="Row 3 column 3, given 8" class="sudoku-cell given" data-box="0" data-col="2" data-row="2" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="8"/>
+<input aria-label="Row 3 column 4, empty" class="sudoku-cell" data-box="1" data-col="3" data-row="2" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 3 column 5, empty" class="sudoku-cell" data-box="1" data-col="4" data-row="2" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 3 column 6, empty" class="sudoku-cell" data-box="1" data-col="5" data-row="2" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 3 column 7, empty" class="sudoku-cell" data-box="2" data-col="6" data-row="2" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 3 column 8, given 6" class="sudoku-cell given" data-box="2" data-col="7" data-row="2" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="6"/>
+<input aria-label="Row 3 column 9, empty" class="sudoku-cell" data-box="2" data-col="8" data-row="2" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 4 column 1, given 8" class="sudoku-cell given" data-box="3" data-col="0" data-row="3" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="8"/>
+<input aria-label="Row 4 column 2, empty" class="sudoku-cell" data-box="3" data-col="1" data-row="3" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 4 column 3, empty" class="sudoku-cell" data-box="3" data-col="2" data-row="3" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 4 column 4, empty" class="sudoku-cell" data-box="4" data-col="3" data-row="3" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 4 column 5, given 6" class="sudoku-cell given" data-box="4" data-col="4" data-row="3" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="6"/>
+<input aria-label="Row 4 column 6, empty" class="sudoku-cell" data-box="4" data-col="5" data-row="3" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 4 column 7, empty" class="sudoku-cell" data-box="5" data-col="6" data-row="3" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 4 column 8, empty" class="sudoku-cell" data-box="5" data-col="7" data-row="3" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 4 column 9, given 3" class="sudoku-cell given" data-box="5" data-col="8" data-row="3" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="3"/>
+<input aria-label="Row 5 column 1, given 4" class="sudoku-cell given" data-box="3" data-col="0" data-row="4" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="4"/>
+<input aria-label="Row 5 column 2, empty" class="sudoku-cell" data-box="3" data-col="1" data-row="4" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 5 column 3, empty" class="sudoku-cell" data-box="3" data-col="2" data-row="4" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 5 column 4, given 8" class="sudoku-cell given" data-box="4" data-col="3" data-row="4" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="8"/>
+<input aria-label="Row 5 column 5, empty" class="sudoku-cell" data-box="4" data-col="4" data-row="4" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 5 column 6, given 3" class="sudoku-cell given" data-box="4" data-col="5" data-row="4" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="3"/>
+<input aria-label="Row 5 column 7, empty" class="sudoku-cell" data-box="5" data-col="6" data-row="4" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 5 column 8, empty" class="sudoku-cell" data-box="5" data-col="7" data-row="4" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 5 column 9, given 1" class="sudoku-cell given" data-box="5" data-col="8" data-row="4" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="1"/>
+<input aria-label="Row 6 column 1, given 7" class="sudoku-cell given" data-box="3" data-col="0" data-row="5" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="7"/>
+<input aria-label="Row 6 column 2, empty" class="sudoku-cell" data-box="3" data-col="1" data-row="5" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 6 column 3, empty" class="sudoku-cell" data-box="3" data-col="2" data-row="5" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 6 column 4, empty" class="sudoku-cell" data-box="4" data-col="3" data-row="5" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 6 column 5, given 2" class="sudoku-cell given" data-box="4" data-col="4" data-row="5" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="2"/>
+<input aria-label="Row 6 column 6, empty" class="sudoku-cell" data-box="4" data-col="5" data-row="5" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 6 column 7, empty" class="sudoku-cell" data-box="5" data-col="6" data-row="5" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 6 column 8, empty" class="sudoku-cell" data-box="5" data-col="7" data-row="5" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 6 column 9, given 6" class="sudoku-cell given" data-box="5" data-col="8" data-row="5" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="6"/>
+<input aria-label="Row 7 column 1, empty" class="sudoku-cell" data-box="6" data-col="0" data-row="6" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 7 column 2, given 6" class="sudoku-cell given" data-box="6" data-col="1" data-row="6" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="6"/>
+<input aria-label="Row 7 column 3, empty" class="sudoku-cell" data-box="6" data-col="2" data-row="6" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 7 column 4, empty" class="sudoku-cell" data-box="7" data-col="3" data-row="6" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 7 column 5, empty" class="sudoku-cell" data-box="7" data-col="4" data-row="6" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 7 column 6, empty" class="sudoku-cell" data-box="7" data-col="5" data-row="6" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 7 column 7, given 2" class="sudoku-cell given" data-box="8" data-col="6" data-row="6" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="2"/>
+<input aria-label="Row 7 column 8, given 8" class="sudoku-cell given" data-box="8" data-col="7" data-row="6" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="8"/>
+<input aria-label="Row 7 column 9, empty" class="sudoku-cell" data-box="8" data-col="8" data-row="6" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 8 column 1, empty" class="sudoku-cell" data-box="6" data-col="0" data-row="7" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 8 column 2, empty" class="sudoku-cell" data-box="6" data-col="1" data-row="7" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 8 column 3, empty" class="sudoku-cell" data-box="6" data-col="2" data-row="7" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 8 column 4, given 4" class="sudoku-cell given" data-box="7" data-col="3" data-row="7" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="4"/>
+<input aria-label="Row 8 column 5, given 1" class="sudoku-cell given" data-box="7" data-col="4" data-row="7" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="1"/>
+<input aria-label="Row 8 column 6, given 9" class="sudoku-cell given" data-box="7" data-col="5" data-row="7" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="9"/>
+<input aria-label="Row 8 column 7, empty" class="sudoku-cell" data-box="8" data-col="6" data-row="7" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 8 column 8, empty" class="sudoku-cell" data-box="8" data-col="7" data-row="7" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 8 column 9, given 5" class="sudoku-cell given" data-box="8" data-col="8" data-row="7" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="5"/>
+<input aria-label="Row 9 column 1, empty" class="sudoku-cell" data-box="6" data-col="0" data-row="8" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 9 column 2, empty" class="sudoku-cell" data-box="6" data-col="1" data-row="8" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 9 column 3, empty" class="sudoku-cell" data-box="6" data-col="2" data-row="8" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 9 column 4, empty" class="sudoku-cell" data-box="7" data-col="3" data-row="8" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 9 column 5, given 8" class="sudoku-cell given" data-box="7" data-col="4" data-row="8" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="8"/>
+<input aria-label="Row 9 column 6, empty" class="sudoku-cell" data-box="7" data-col="5" data-row="8" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 9 column 7, empty" class="sudoku-cell" data-box="8" data-col="6" data-row="8" inputmode="numeric" maxlength="1" pattern="[1-9]" type="text"/>
+<input aria-label="Row 9 column 8, given 7" class="sudoku-cell given" data-box="8" data-col="7" data-row="8" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="7"/>
+<input aria-label="Row 9 column 9, given 9" class="sudoku-cell given" data-box="8" data-col="8" data-row="8" inputmode="numeric" maxlength="1" pattern="[1-9]" readonly="" tabindex="-1" type="text" value="9"/>
+</div>
+<p aria-live="polite" class="sudoku-solved-note">Solved! You've earned your safari stripes.</p>
+</div>
+<div aria-hidden="true" class="media-slot media-slot--card puzzle-tile">
+<svg class="media-slot-icon"><use href="#icon-image"></use></svg>
+</div>
+</div>
+<img alt="Wild on Safari comic strip: a meerkat and a camera-toting rabbit spot a lion who has struck a pose, captioned RAD" class="comic-strip-art" height="372" src="assets/images/strip.svg" width="1173"/>
+</div>
+</section>
+<!-- FIN -->
+<footer class="issue-section fin" data-nav-label="Fin." id="fin">
+<p class="fin-mark" data-reveal="">Fin.</p>
+<p class="credits" data-reveal="">Times of the Wild — Season Opening, Edition 01, DSPN.<br/>Editor-in-Chief: Molly, The Meerkat · Assistant Editor: G. Raph Longlook</p>
+</footer>
 </main>
-
 <!-- Site footer -->
 <footer class="site-footer">
-  <svg class="footer-paw" aria-hidden="true"><use href="#icon-paw"/></svg>
-  <p class="footer-tagline">Welcome to The Wild Times<br>the official magazine from Dubai Safari Park.</p>
-  <img class="social-row" src="assets/images/social-icons.svg" alt="Follow Times of the Wild on Facebook, Instagram, TikTok, Snapchat and YouTube" width="497" height="33">
-  <hr class="footer-rule">
-  <div class="masthead-row">
-    <p class="masthead-eyebrow">Season Opening · Edition 01 · DSPN</p>
-    <div class="masthead-credits">
-      <div class="credit"><span class="credit-role">Editor-in-chief</span><span class="credit-name">Molly, The Meerkat</span></div>
-      <div class="credit"><span class="credit-role">Assistant Editor</span><span class="credit-name">G. Raph Longlook</span></div>
-    </div>
-  </div>
-  <div class="crest crest--footer">
-    <img class="crest-art" src="assets/images/totw-footer-no-eyes.svg" alt="Times of the Wild" width="497" height="216">
-  </div>
+<svg aria-hidden="true" class="footer-paw"><use href="#icon-paw"></use></svg>
+<p class="footer-tagline">Welcome to The Wild Times<br/>the official magazine from Dubai Safari Park.</p>
+<img alt="Follow Times of the Wild on Facebook, Instagram, TikTok, Snapchat and YouTube" class="social-row" height="33" src="assets/images/social-icons.svg" width="497"/>
+<hr class="footer-rule"/>
+<div class="masthead-row">
+<p class="masthead-eyebrow">Season Opening · Edition 01 · DSPN</p>
+<div class="masthead-credits">
+<div class="credit"><span class="credit-role">Editor-in-chief</span><span class="credit-name">Molly, The Meerkat</span></div>
+<div class="credit"><span class="credit-role">Assistant Editor</span><span class="credit-name">G. Raph Longlook</span></div>
+<div class="credit"><span class="credit-role">Curator</span><span class="credit-name">Serviceplan Middle East</span></div>
+</div>
+</div>
+<div class="crest crest--footer">
+<img alt="Times of the Wild" class="crest-art" height="216" src="assets/images/totw-footer-no-eyes.svg" width="497"/>
+<span aria-hidden="true" class="crest-eye crest-eye--left"></span>
+<span aria-hidden="true" class="crest-eye crest-eye--right"></span>
+</div>
 </footer>
-
 <!-- Paw trinket: occasional idle animation, positioned/triggered by main.js -->
-<div class="paw-trinket edge-bottom" id="pawTrinket" aria-hidden="true">
-  <div class="paw-wave-inner"><img src="assets/images/paw.png" alt=""></div>
+<div aria-hidden="true" class="paw-trinket edge-bottom" id="pawTrinket">
+<div class="paw-orient">
+<div class="paw-wave-inner"><img alt="" src="assets/images/paw.png"/></div>
 </div>
-
+</div>
 <!-- Ad popup overlay (populated by JS) -->
-<div class="ad-popup-overlay" id="adPopupOverlay" hidden>
-  <div class="ad-popup" id="adPopup" role="dialog" aria-modal="true">
-    <button class="ad-popup-close" id="adPopupClose" type="button" aria-label="Close ad">
-      <svg><use href="#icon-paw"/></svg>
-    </button>
-    <div class="ad-popup-content" id="adPopupContent"></div>
-  </div>
+<div class="ad-popup-overlay" hidden="" id="adPopupOverlay">
+<div aria-modal="true" class="ad-popup" id="adPopup" role="dialog">
+<button aria-label="Close ad" class="ad-popup-close" id="adPopupClose" type="button">
+<svg><use href="#icon-paw"></use></svg>
+</button>
+<div class="ad-popup-content" id="adPopupContent"></div>
 </div>
-
-<script src="src/main.js" defer></script>
+</div>
+<script defer="" src="src/main.js"></script>
 </body>
 </html>

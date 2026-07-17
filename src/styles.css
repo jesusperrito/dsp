@@ -35,7 +35,6 @@
   --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 
   --rail-w: 190px;
-  --edge: 18px; /* stamp bump radius */
 }
 
 * { box-sizing: border-box; }
@@ -144,12 +143,16 @@ hr {
   transform: translate(-50%, -50%);
   transition: transform 0.05s linear;
 }
-/* Coordinates calibrated visually against totw-logo-header.svg's own
-   socket openings via a grid-overlay test (this file's crest sits in a
-   different composition/canvas than the plain crest-only asset, so
-   simple viewBox-ratio math didn't line up — verified pixel-by-pixel). */
-.crest--header .crest-eye--left { left: 48%; top: 37%; }
-.crest--header .crest-eye--right { left: 63%; top: 37%; }
+/* Coordinates calibrated against each asset's own socket openings via a
+   labeled percentage-grid overlay, read directly off the rendered art
+   (earlier passes eyeballed this without a grid and landed noticeably off
+   — in particular, the header file's crest occupies only the top ~45% of
+   the image's total height, since the file also includes the wordmark
+   below it; percentages measured against the crest alone don't transfer). */
+.crest--header .crest-eye--left { left: 44.5%; top: 26.5%; }
+.crest--header .crest-eye--right { left: 69.5%; top: 26.5%; }
+.crest--footer .crest-eye--left { left: 45.5%; top: 60.5%; }
+.crest--footer .crest-eye--right { left: 75%; top: 60.5%; }
 @media (prefers-reduced-motion: reduce) {
   .crest-eye { transition: none; }
 }
@@ -177,13 +180,17 @@ hr {
 .ticker-item {
   display: inline-flex;
   align-items: center;
-  gap: 18px;
+  /* The gap between the paw and its own "BREAKING NEWS!" and the gap to
+     the NEXT item's text are two different things (an inline flex gap
+     vs. this item's padding meeting the next item's padding) — they must
+     be set to the same value or the paw reads as off-center in its slot. */
+  gap: 40px;
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 13px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 10px 24px;
+  padding: 10px 20px;
 }
 .ticker-paw { width: 14px; height: 14px; fill: var(--ink); opacity: 0.7; }
 @keyframes ticker-scroll {
@@ -261,18 +268,22 @@ hr {
   align-items: center;
   height: 100%;
   min-height: 44px; /* touch target minimum */
-  padding: 0 16px;
+  padding: 0 12px;
   text-decoration: none;
   white-space: nowrap;
   font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink);
   opacity: 0.65; /* 0.55 failed WCAG AA (3.99:1) at this font size; 0.65 matches the byline convention at 5.5:1 */
   transition: opacity 0.15s, background 0.15s, color 0.15s;
 }
-.tabbar-list a:hover { opacity: 0.9; }
+.tabbar-list a:hover {
+  opacity: 1;
+  background: var(--bg-dim);
+}
+.tabbar-list a.is-active:hover { background: var(--accent); }
 .tabbar-list a.is-active {
   opacity: 1;
   background: var(--accent);
@@ -381,40 +392,60 @@ main { display: block; }
 
 .section-content { padding-top: 28px; }
 
-/* ---------------- Swipe card decks ---------------- */
+/* ---------------- Article pager ---------------- */
+/* One full-width article at a time per section, paged with prev/next
+   arrows, instead of a row of fixed-width cards — the section now reads
+   as a single focal piece rather than a shelf to browse. The track holds
+   every article in the section at flex:0 0 100%; .card-pager clips to one
+   at a time and main.js slides the track via transform. */
 
-.card-deck {
+.card-pager { position: relative; }
+.card-pager-track {
   display: flex;
-  gap: 22px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding-bottom: 14px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
 }
 .card {
-  flex: 0 0 min(540px, 86vw);
-  scroll-snap-align: start;
+  flex: 0 0 100%;
+  width: 100%;
   background: var(--paper);
   border: 2px solid var(--ink);
   border-radius: 4px;
-  padding: 32px 26px 26px;
+  padding: 26px;
   position: relative;
 }
-.card::before,
-.hero-card::before {
-  /* stamped/torn top edge, zigzag via clip-path (cheap — no mask/gradient rasterization) */
-  content: "";
-  position: absolute;
-  top: -2px; left: -2px; right: -2px;
-  height: var(--edge);
-  background: var(--bg);
-  clip-path: polygon(
-    0% 100%, 0% 20%, 5% 100%, 10% 20%, 15% 100%, 20% 20%, 25% 100%, 30% 20%,
-    35% 100%, 40% 20%, 45% 100%, 50% 20%, 55% 100%, 60% 20%, 65% 100%, 70% 20%,
-    75% 100%, 80% 20%, 85% 100%, 90% 20%, 95% 100%, 100% 20%, 100% 100%
-  );
+.card-pager-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 16px;
 }
+.card-pager-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+.card-pager-btn svg { width: 18px; height: 18px; }
+.card-pager-btn:hover:not(:disabled) { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.card-pager-btn:disabled { opacity: 0.3; cursor: default; }
+.card-pager-count {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  min-width: 3.5em;
+  text-align: center;
+}
+
 
 /* ---------------- Front page hero ---------------- */
 /* Full-bleed hero photo (breaks out of the standard 920px column) with the
@@ -425,33 +456,37 @@ main { display: block; }
 
 .issue-section.front-page {
   max-width: none;
+  padding-top: 0;
   padding-left: 0;
   padding-right: 0;
 }
-.front-page-eyebrow {
-  max-width: 872px;
-  margin: 0 auto 16px;
-  padding: 0 24px;
-}
 .hero-media { width: 100%; }
-.media-slot--hero-full {
+.media-slot--hero-full,
+.hero-media-photo {
+  display: block;
   width: 100%;
   height: min(60vh, 600px);
   min-height: 320px;
   border-radius: 0;
+  object-fit: cover;
+  object-position: 50% 30%;
 }
 .hero-card-wrap {
   max-width: 920px;
   margin: 0 auto;
   padding: 0 24px;
+  display: flex;
+  justify-content: center;
 }
 .hero-card {
   position: relative;
   max-width: 600px;
+  width: 100%;
   margin-top: -64px;
   background: var(--paper);
   border: 2px solid var(--ink);
-  padding: 32px 26px 26px;
+  padding: 26px;
+  text-align: center;
 }
 .hero-body-wrap {
   max-width: 872px;
@@ -460,7 +495,8 @@ main { display: block; }
 }
 .hero-body-wrap hr { margin-top: 48px; }
 @media (max-width: 640px) {
-  .media-slot--hero-full { height: 46vh; min-height: 260px; }
+  .media-slot--hero-full,
+  .hero-media-photo { height: 46vh; min-height: 260px; }
   .hero-card { margin-top: -40px; max-width: none; }
 }
 
@@ -488,6 +524,9 @@ main { display: block; }
   transform: translate(-50%, -100%);
   width: 6.5%;
   min-width: 26px;
+  /* Same reasoning as .moodcast-portrait above: .moodcast-pin-face's
+     height:48% needs a definite ancestor height to resolve against. */
+  aspect-ratio: 103.72 / 140.33;
   background: none;
   border: none;
   padding: 0;
@@ -500,10 +539,33 @@ main { display: block; }
   height: auto;
   transition: transform 0.15s ease;
 }
+/* A small preview of the animal sits inset in the pin's own white circle
+   (measured via a labeled percentage-grid overlaid directly on the
+   rendered mooncast-pin.svg — the circle isn't centered in the pin's full
+   bounding box, since the box also includes the teardrop point below it;
+   an earlier radial-scan estimate landed noticeably undersized and too
+   low, leaving visible white gaps around a too-small face) so a reader
+   can identify the animal before ever opening the tooltip. */
+.moodcast-pin-face {
+  position: absolute;
+  left: 48.5%;
+  top: 39.5%;
+  width: 49%;
+  height: 41%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1; /* sits in front of the pin icon's white circle, painted after it in the source SVG */
+}
 .moodcast-pin:hover .moodcast-pin-icon,
 .moodcast-pin:focus-visible .moodcast-pin-icon,
 .moodcast-pin.is-open .moodcast-pin-icon {
   transform: translateY(-3px);
+}
+.moodcast-pin:hover .moodcast-pin-face,
+.moodcast-pin:focus-visible .moodcast-pin-face,
+.moodcast-pin.is-open .moodcast-pin-face {
+  transform: translate(-50%, -50%) translateY(-3px);
 }
 .moodcast-pin:hover,
 .moodcast-pin:focus-visible,
@@ -546,16 +608,62 @@ main { display: block; }
   position: relative;
   display: block;
   width: 64px;
+  /* A percentage `height` on an absolutely-positioned descendant only
+     resolves against a *definite* ancestor height — with no explicit
+     height here (just a width, height coming from content) that ancestor
+     height counts as indefinite, so .moodcast-portrait-clip's height:88%
+     silently failed instead of clipping. aspect-ratio, matching the
+     holder art's own viewBox, gives it a definite height to resolve against. */
+  aspect-ratio: 224.57 / 265.21;
   margin: 0 auto 8px;
 }
 .moodcast-holder-frame { display: block; width: 100%; height: auto; }
-.moodcast-face {
+/* The holder's illustrated lens is a circle inset within the frame image
+   (measured off moodcast-holder.svg directly — it isn't the full box,
+   since the frame also includes the two paw shapes above it). This clip
+   is the one true "visible circle" both here and on the map pin below;
+   the face image inside is positioned/sized the same way in both places. */
+.moodcast-portrait-clip {
   position: absolute;
-  width: 58%;
   left: 50%;
   top: 58%;
+  width: 94%;
+  height: 84%;
   transform: translate(-50%, -50%);
+  border-radius: 50%;
+  overflow: hidden;
 }
+/* Each source face SVG has wildly different internal aspect ratio and
+   padding (a tall narrow crane neck vs. a wide hippo head). Sizing was
+   previously "contain" (whole canvas fit inside, letterboxed) which read
+   as a tiny floating icon for anything with a lot of internal padding.
+   `object-fit: cover` fills the circle edge to edge like a cropped
+   portrait photo; `object-position`, measured directly off each SVG's own
+   non-transparent pixels (as a % of that image's own natural width/height,
+   not a normalized square — cover crops using the image's real aspect
+   ratio, so measuring in any other space gave a mismatched crop and
+   several animals, worst of all the crane, cropped to nothing visible),
+   keeps the actual drawn content centered instead of the empty canvas. */
+.moodcast-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.moodcast-face--bear { object-position: 49.24% 30.67%; }
+/* Crane and ostrich are thin subjects (a neck, a head-on-a-stick) even
+   within their own frame — a plain cover fill left them reading small
+   next to the others, so these two get an extra zoom on top of the cover
+   crop; the crop stays centered since scale's default origin is the box
+   center, the same point object-position already centered on. */
+.moodcast-face--crane { object-position: 49% 15.33%; transform: scale(1.7); }
+.moodcast-face--wolf { object-position: 22.46% 27%; }
+.moodcast-face--ostrich { object-position: 70% 17.67%; transform: scale(1.5); }
+.moodcast-face--hippo { object-position: 34.65% 52.67%; }
+.moodcast-face--duck { object-position: 44% 58%; }
+.moodcast-face--lemur { object-position: 36% 43.33%; }
+.moodcast-face--onyx { object-position: 27.93% 23.67%; }
 @media (prefers-reduced-motion: reduce) {
   .moodcast-pin-icon, .moodcast-tooltip { transition: none; }
 }
@@ -876,36 +984,63 @@ main { display: block; }
    at an angle reads fine and avoids fighting rotation math with the
    independent wave-wiggle animation. */
 
+/* The photo's pad end sits at the top of the source file and its raw
+   (uninteresting) cropped end at the bottom. `.paw-orient` carries a fixed
+   per-edge rotation so the pad always leads into the page and the cropped
+   end trails off past the screen edge, invisible — never a visible "cut"
+   mid-page. `.paw-wave-inner` wiggles independently, nested inside, so the
+   wave keyframes never fight the base orientation. */
+
 .paw-trinket {
   position: fixed;
   width: 76px;
   pointer-events: none;
   z-index: 90;
+  /* A single transitioned property, always. Earlier this transitioned
+     left/right/top/bottom per-edge — switching edges (e.g. right → left)
+     meant the property removing (right → auto) and the property arriving
+     (left, freshly transitioning) could both be in flight at once, which
+     on some renders visibly dragged the paw across the whole screen
+     instead of it simply appearing at its own edge. Docking position
+     (top/left/right/bottom) is now set instantly, never transitioned;
+     only the slide-in/out transform animates, so a mid-transition edge
+     switch has nothing stale left to interpolate from. */
+  transition: transform 0.7s cubic-bezier(0.22, 0.85, 0.32, 1);
 }
-.paw-wave-inner { transform-origin: 50% 0%; }
+.paw-orient { width: 100%; }
+.paw-wave-inner { transform-origin: 50% 100%; }
 .paw-wave-inner img { display: block; width: 100%; height: auto; }
 
-.paw-trinket.edge-bottom {
-  bottom: -220px;
-  left: 50%;
-  margin-left: -38px;
-  transition: bottom 0.7s cubic-bezier(0.22, 0.85, 0.32, 1);
+.paw-trinket.edge-top {
+  top: -35px;
+  left: var(--paw-offset, 50%);
+  transform: translateY(-260px);
 }
-.paw-trinket.edge-bottom.is-active { bottom: -30px; }
+.paw-trinket.edge-top .paw-orient { transform: rotate(180deg); }
+.paw-trinket.edge-top.is-active { transform: translateY(0); }
+
+.paw-trinket.edge-bottom {
+  bottom: -35px;
+  left: var(--paw-offset, 50%);
+  transform: translateY(260px);
+}
+.paw-trinket.edge-bottom.is-active { transform: translateY(0); }
 
 .paw-trinket.edge-left {
-  top: 40%;
-  left: -90px;
-  transition: left 0.7s cubic-bezier(0.22, 0.85, 0.32, 1);
+  top: var(--paw-offset, 40%);
+  left: -35px;
+  transform: translateX(-260px);
 }
-.paw-trinket.edge-left.is-active { left: -14px; }
+.paw-trinket.edge-left .paw-orient { transform: rotate(90deg); }
+.paw-trinket.edge-left.is-active { transform: translateX(0); }
 
 .paw-trinket.edge-right {
-  top: 40%;
-  right: -90px;
-  transition: right 0.7s cubic-bezier(0.22, 0.85, 0.32, 1);
+  top: var(--paw-offset, 40%);
+  right: -35px;
+  transform: translateX(260px);
 }
-.paw-trinket.edge-right.is-active { right: -14px; }
+.paw-trinket.edge-right .paw-orient { transform: rotate(-90deg); }
+.paw-trinket.edge-right.is-active { transform: translateX(0); }
 
 .paw-trinket.is-waving .paw-wave-inner { animation: paw-wave 0.6s ease-in-out 2; }
 @keyframes paw-wave {

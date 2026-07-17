@@ -62,15 +62,32 @@
     function update() {
       raf = null;
       crests.forEach((crest) => {
+        const crestRect = crest.getBoundingClientRect();
+        // Socket radius was measured directly off both crest assets (a
+        // percentage-grid overlay, not eyeballed) at roughly 7% of crest
+        // width — the header and footer sockets differ slightly, so this
+        // uses the smaller of the two with a safety margin, shared across
+        // every crest instance rather than tuned per-asset.
+        const maxMove = crestRect.width * 0.055;
         crest.querySelectorAll(".crest-eye").forEach((eye) => {
           const r = eye.getBoundingClientRect();
+          // Once the crest has scrolled well clear of the viewport, its
+          // rect is way off-screen (huge/negative top) while the pointer
+          // is still constrained to the viewport — the math below would
+          // then compute a dx/dy dominated entirely by that offset,
+          // making the eyes look "stuck" pointing one way (mostly
+          // downward/away) no matter where the cursor actually is, until
+          // the header scrolled back near the top. Skip and reset instead.
+          if (r.bottom < -200 || r.top > window.innerHeight + 200) {
+            if (eye.style.transform) eye.style.transform = "";
+            return;
+          }
           const cx = r.left + r.width / 2;
           const cy = r.top + r.height / 2;
           const dx = pointerX - cx;
           const dy = pointerY - cy;
           const dist = Math.hypot(dx, dy) || 1;
-          const maxMove = r.width * 0.4;
-          const move = Math.min(dist * 0.05, maxMove);
+          const move = Math.min(dist * 0.15, maxMove);
           const nx = (dx / dist) * move;
           const ny = (dy / dist) * move;
           eye.style.transform = `translate(-50%, -50%) translate(${nx}px, ${ny}px)`;
@@ -83,6 +100,13 @@
       pointerY = e.clientY;
       if (!raf) raf = requestAnimationFrame(update);
     });
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!raf) raf = requestAnimationFrame(update);
+      },
+      { passive: true }
+    );
   })();
 
   /* ---------------- Scroll reveal ---------------- */
@@ -147,33 +171,43 @@
   );
   sections.forEach((s) => sectionObserver.observe(s));
 
-  /* ---------------- Swipe card decks: mouse-drag support ---------------- */
-  /* Native scroll-snap already handles touch + trackpad; this adds
-     click-and-drag for desktop mice so nothing feels stuck. */
+  /* ---------------- Article pager ---------------- */
+  /* One article visible at a time per section; prev/next arrows slide the
+     track by one card width. Clamped at both ends (no wrap) so "1 / 3"
+     always matches what disabled/enabled arrows imply. */
 
-  document.querySelectorAll(".card-deck").forEach((deck) => {
-    let isDown = false;
-    let startX = 0;
-    let startScroll = 0;
+  document.querySelectorAll(".card-pager").forEach((pager) => {
+    const track = pager.querySelector(".card-pager-track");
+    const cards = Array.from(pager.querySelectorAll(".card"));
+    const prevBtn = pager.querySelector(".card-pager-prev");
+    const nextBtn = pager.querySelector(".card-pager-next");
+    const currentEl = pager.querySelector(".card-pager-current");
+    if (!track || cards.length < 2) {
+      if (prevBtn) prevBtn.hidden = true;
+      if (nextBtn) nextBtn.hidden = true;
+      return;
+    }
+    let index = 0;
 
-    deck.addEventListener("pointerdown", (e) => {
-      isDown = true;
-      deck.setPointerCapture(e.pointerId);
-      startX = e.clientX;
-      startScroll = deck.scrollLeft;
-      deck.style.scrollSnapType = "none";
+    function render() {
+      track.style.transform = `translateX(-${index * 100}%)`;
+      if (currentEl) currentEl.textContent = index + 1;
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === cards.length - 1;
+    }
+    prevBtn.addEventListener("click", () => {
+      if (index > 0) {
+        index -= 1;
+        render();
+      }
     });
-    deck.addEventListener("pointermove", (e) => {
-      if (!isDown) return;
-      deck.scrollLeft = startScroll - (e.clientX - startX);
+    nextBtn.addEventListener("click", () => {
+      if (index < cards.length - 1) {
+        index += 1;
+        render();
+      }
     });
-    const release = () => {
-      isDown = false;
-      deck.style.scrollSnapType = "";
-    };
-    deck.addEventListener("pointerup", release);
-    deck.addEventListener("pointerleave", release);
-    deck.addEventListener("pointercancel", release);
+    render();
   });
 
   /* ---------------- Ad break popups ---------------- */
@@ -241,6 +275,15 @@
         e.stopPropagation();
       }
     });
+    // A tapped-open pin (.is-open, CSS-driven) doesn't get cleared by
+    // simply hovering a different pin afterwards — :hover and .is-open
+    // are independent triggers, so without this two tooltips could show
+    // at once. Hovering any other pin always closes a tapped-open one.
+    pin.addEventListener("mouseenter", () => {
+      moodcastPins.forEach((p) => {
+        if (p !== pin) p.classList.remove("is-open");
+      });
+    });
   });
   document.addEventListener("click", (e) => {
     if (!e.target.closest(".moodcast-pin")) {
@@ -262,30 +305,42 @@
 
     let busy = false;
 
-    function play(edge, holdMs) {
+    // offsetPct: where along the edge it enters (15–85%, clear of the
+    // corners so it never clips a registration mark or nav corner).
+    function play(edge, holdMs, offsetPct) {
       if (busy) return;
       busy = true;
-      paw.classList.remove("edge-bottom", "edge-left", "edge-right");
+      paw.classList.remove("edge-top", "edge-bottom", "edge-left", "edge-right", "is-active", "is-waving");
       paw.classList.add("edge-" + edge);
-      // Force reflow so the class swap above is committed before we
-      // toggle is-active — otherwise the slide-in transition can be
-      // skipped if the browser coalesces both class changes into one frame.
-      void paw.offsetWidth;
-      paw.classList.add("is-active");
-      const waveTimer = setTimeout(() => paw.classList.add("is-waving"), 450);
-      const leaveTimer = setTimeout(() => {
-        paw.classList.remove("is-active", "is-waving");
-        setTimeout(() => { busy = false; }, 800);
-      }, holdMs);
-      // Stash timers on the element in case a future change needs to
-      // cancel an in-flight sequence (not used yet, cheap insurance).
-      paw._timers = [waveTimer, leaveTimer];
+      const pct = offsetPct == null ? 15 + Math.random() * 70 : offsetPct;
+      paw.style.setProperty("--paw-offset", pct + "%");
+      // A synchronous reflow-force (reading offsetWidth right after the
+      // class swap) used to sit between the hidden and active states, but
+      // proved unreliable at actually preventing a real paint of the
+      // hidden state first — occasionally the transition would animate
+      // from the *previous* edge's position instead, visibly dragging the
+      // paw across the screen. Two nested rAFs guarantee an actual paint
+      // has happened with the new edge's hidden transform before is-active
+      // flips it to visible, which a synchronous property read doesn't.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          paw.classList.add("is-active");
+          const waveTimer = setTimeout(() => paw.classList.add("is-waving"), 450);
+          const leaveTimer = setTimeout(() => {
+            paw.classList.remove("is-active", "is-waving");
+            setTimeout(() => { busy = false; }, 800);
+          }, holdMs);
+          // Stash timers on the element in case a future change needs to
+          // cancel an in-flight sequence (not used yet, cheap insurance).
+          paw._timers = [waveTimer, leaveTimer];
+        });
+      });
     }
 
     function scheduleIdleWave() {
       const delay = 20000 + Math.random() * 25000; // 20–45s
       setTimeout(() => {
-        const edges = ["bottom", "left", "right"];
+        const edges = ["top", "bottom", "left", "right"];
         play(edges[Math.floor(Math.random() * edges.length)], 2200);
         scheduleIdleWave();
       }, delay);
@@ -302,7 +357,9 @@
       if (!edge) return;
       cooldownUntil = Date.now() + 20000; // don't retrigger for a while regardless
       if (Math.random() > 0.35) return; // and even then, only sometimes
-      play(edge, 1800);
+      // Reach in roughly level with the cursor, so it reads as "chasing" it.
+      const offsetPct = Math.max(15, Math.min(85, (e.clientY / window.innerHeight) * 100));
+      play(edge, 1800, offsetPct);
     });
   })();
 
