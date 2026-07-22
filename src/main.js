@@ -63,12 +63,14 @@
       raf = null;
       crests.forEach((crest) => {
         const crestRect = crest.getBoundingClientRect();
-        // Socket radius was measured directly off both crest assets (a
-        // percentage-grid overlay, not eyeballed) at roughly 7% of crest
-        // width — the header and footer sockets differ slightly, so this
-        // uses the smaller of the two with a safety margin, shared across
-        // every crest instance rather than tuned per-asset.
-        const maxMove = crestRect.width * 0.055;
+        // Socket radius was measured by rendering each crest asset to a
+        // canvas and running connected-component analysis on the alpha
+        // channel to find the true transparent hole (not eyeballed, not a
+        // grid overlay read by hand — both of those were tried and both
+        // were off by double digits at one point). Header socket ≈5% of
+        // crest width, footer ≈6.5%; this uses the smaller with margin,
+        // shared across every crest instance rather than tuned per-asset.
+        const maxMove = crestRect.width * 0.032;
         crest.querySelectorAll(".crest-eye").forEach((eye) => {
           const r = eye.getBoundingClientRect();
           // Once the crest has scrolled well clear of the viewport, its
@@ -124,6 +126,40 @@
     { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
   );
   revealEls.forEach((el) => revealObserver.observe(el));
+  // Safety net: content must never stay permanently hidden if the observer
+  // never fires (headless renderers, prerender, some crawlers, a throttled
+  // tab). Shortly after load, reveal anything still not visible — the
+  // animation is a nice-to-have, the content is not optional.
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      revealEls.forEach((el) => el.classList.add("is-visible"));
+    }, 1200);
+  });
+
+  /* ---------------- Tab bar: brand wordmark appears once the masthead scrolls away ---------------- */
+  /* The full crest + wordmark are already on screen at load — showing the
+     small wordmark in the sticky bar too is redundant until the masthead
+     itself has scrolled out of view. */
+
+  (function initBrandOnScroll() {
+    const tabbar = document.querySelector(".tabbar");
+    const masthead = document.querySelector(".masthead");
+    if (!tabbar || !masthead) return;
+    // Plain scroll check rather than IntersectionObserver: it's a single
+    // threshold (has the masthead's bottom passed above the sticky bar?),
+    // and a direct scrollY comparison is more robust than IO across
+    // environments. The work is two property reads + a class toggle, cheap
+    // enough to run straight from the scroll handler with no rAF/observer
+    // plumbing that could stall.
+    function update() {
+      const mastheadBottom = masthead.offsetTop + masthead.offsetHeight;
+      // 52px ≈ the sticky tab bar's own height, so it flips right as the
+      // masthead disappears behind the bar rather than a bit after.
+      tabbar.classList.toggle("is-scrolled", window.scrollY > mastheadBottom - 52);
+    }
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+  })();
 
   /* ---------------- Tab bar: active section + hybrid open/collapse ---------------- */
 
@@ -189,11 +225,24 @@
     }
     let index = 0;
 
+    // Match the track's height to the CURRENT card so a short article
+    // (e.g. the 3-paragraph Park Logo piece) doesn't inherit the tallest
+    // card's height and leave a big empty gap below it.
+    function syncHeight() {
+      track.style.height = cards[index].offsetHeight + "px";
+    }
     function render() {
       track.style.transform = `translateX(-${index * 100}%)`;
       if (currentEl) currentEl.textContent = index + 1;
       prevBtn.disabled = index === 0;
       nextBtn.disabled = index === cards.length - 1;
+      // Mark which card is on-screen so the video layer only ever plays the
+      // featured card's video, never a hidden sibling's (which was audible
+      // but invisible before).
+      cards.forEach((c, i) => c.classList.toggle("is-featured", i === index));
+      syncHeight();
+      // Let the video layer re-evaluate which video (if any) should run.
+      pager.dispatchEvent(new CustomEvent("pagerchange", { bubbles: true }));
     }
     prevBtn.addEventListener("click", () => {
       if (index > 0) {
@@ -208,6 +257,14 @@
       }
     });
     render();
+    // Re-measure once late-loading media (images/videos) settle, and on
+    // resize, since the active card's height can change.
+    window.addEventListener("load", syncHeight);
+    window.addEventListener("resize", syncHeight);
+    pager.querySelectorAll("img, video").forEach((m) => {
+      m.addEventListener("load", syncHeight);
+      m.addEventListener("loadedmetadata", syncHeight);
+    });
   });
 
   /* ---------------- Ad break popups ---------------- */
@@ -221,7 +278,14 @@
   let dodgeCount = 0;
 
   function openAdPopup(adSection) {
-    popupContent.innerHTML = adSection.querySelector(".ad-inline").innerHTML;
+    // The popup shows its OWN creative (data-popup-img), separate from the
+    // section's inline banner — so the section and the popup aren't the
+    // same image twice.
+    const img = adSection.dataset.popupImg;
+    const alt = adSection.dataset.popupAlt || "Advertisement";
+    if (!img) return;
+    popupContent.innerHTML =
+      '<img class="ad-popup-img" src="' + img + '" alt="' + alt.replace(/"/g, "&quot;") + '">';
     overlay.hidden = false;
     dodgeCount = 0;
     popupClose.style.transform = "";
@@ -260,6 +324,30 @@
   );
   adBreaks.forEach((ad) => adObserver.observe(ad));
 
+  /* Side skyscraper ads: dismissible, and revealed only once the reader has
+     scrolled past the front-page hero — otherwise (being position:fixed and
+     vertically centred) they sit over the masthead and nav at the top. */
+  (function initSideAds() {
+    const sideAds = Array.from(document.querySelectorAll(".side-ad"));
+    if (!sideAds.length) return;
+    sideAds.forEach((ad) => {
+      const close = ad.querySelector(".side-ad-close");
+      if (close) close.addEventListener("click", () => ad.classList.add("is-dismissed"));
+    });
+    const frontPage = document.getElementById("front-page");
+    function update() {
+      // Reveal once the front-page section's bottom has passed above the
+      // viewport top (i.e. we're into the article sections).
+      const pastHeader = frontPage
+        ? window.scrollY > frontPage.offsetTop + frontPage.offsetHeight - 40
+        : window.scrollY > 400;
+      sideAds.forEach((ad) => ad.classList.toggle("is-revealed", pastHeader));
+    }
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    update();
+  })();
+
   /* ---------------- Moodcast map pins ---------------- */
   /* Hover already reveals the tooltip via CSS (:hover/:focus-visible) —
      this just adds a tap-to-toggle fallback for touch devices, where
@@ -291,6 +379,185 @@
     }
   });
 
+  /* ---------------- Media slots: video (hover, or featured autoplay) with sound ---------------- */
+  /* Two playback modes, never more than one video at a time:
+       • A slot that has a still photo (img+video) plays ONLY on hover —
+         the photo is its resting state, the video is the reward for
+         pointing at it.
+       • A slot with no still photo (video-only) has nothing to show at
+         rest, so it autoplays — but ONLY while it's the "featured" card
+         (the one the pager currently has on screen) AND actually in view.
+     "Featured" gating is the important bit: a pager keeps its other
+     articles in the DOM, just translated off to the side, so without this
+     a hidden sibling's video would play (audible, invisible) — which is
+     exactly the Fashion giraffe-hairstyle glitch. Sound is on; browsers
+     block unmuted autoplay until a gesture, so video starts muted and
+     unmutes on the first click/tap/key or via the per-slot mute button. */
+
+  (function initVideos() {
+    const slots = Array.from(document.querySelectorAll(".media-slot--has-video"));
+    if (!slots.length) return;
+
+    const muteIcon =
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5l4 4m0-4l-4 4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>';
+    const soundIcon =
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a4 4 0 010 7M18.5 6a7 7 0 010 12" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>';
+
+    let soundOn = true; // the reader's expressed preference
+    let unlocked = false; // has a real user gesture happened yet?
+    let activeSlot = null;
+    let hoveredSlot = null; // an img+video slot currently under the pointer
+
+    const entries = slots.map((slot) => {
+      const video = slot.querySelector(".media-slot-video");
+      const hasPhoto = !!slot.querySelector(".media-slot-photo");
+      // No still photo ⇒ the video is the resting visual: strip the grey
+      // icon placeholder so the video shows directly.
+      if (!hasPhoto) slot.classList.add("media-slot--video-only");
+      if (video) {
+        video.muted = true; // start muted so autoplay is always permitted
+        video.setAttribute("playsinline", "");
+        video.loop = true;
+      }
+      // Per-slot mute/unmute button.
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "media-slot-mute";
+      btn.setAttribute("aria-label", "Toggle video sound");
+      btn.innerHTML = soundOn ? soundIcon : muteIcon;
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        soundOn = !soundOn;
+        unlocked = true;
+        applySound();
+        refreshButtons();
+      });
+      slot.appendChild(btn);
+
+      const en = { slot, video, btn, hasPhoto };
+
+      // img+video ⇒ hover to play.
+      if (hasPhoto) {
+        slot.addEventListener("pointerenter", (e) => {
+          if (e.pointerType === "touch") return; // no true hover on touch
+          hoveredSlot = slot;
+          resolve();
+        });
+        slot.addEventListener("pointerleave", (e) => {
+          if (e.pointerType === "touch") return;
+          if (hoveredSlot === slot) hoveredSlot = null;
+          resolve();
+        });
+      }
+      return en;
+    });
+
+    function refreshButtons() {
+      entries.forEach((en) => (en.btn.innerHTML = soundOn ? soundIcon : muteIcon));
+    }
+
+    function applySound() {
+      entries.forEach((en) => {
+        if (!en.video) return;
+        const wantAudio = en.slot === activeSlot && soundOn && unlocked;
+        en.video.muted = !wantAudio;
+      });
+    }
+
+    function setActive(slot) {
+      if (activeSlot === slot) {
+        applySound();
+        return;
+      }
+      if (activeSlot) {
+        activeSlot.classList.remove("is-playing");
+        const prev = activeSlot.querySelector(".media-slot-video");
+        if (prev) prev.pause();
+      }
+      activeSlot = slot;
+      if (!slot) return;
+      slot.classList.add("is-playing");
+      const video = slot.querySelector(".media-slot-video");
+      if (!video) return;
+      video.muted = !(soundOn && unlocked);
+      const p = video.play();
+      if (p && p.catch) {
+        p.catch(() => {
+          video.muted = true; // unmuted autoplay refused pre-gesture
+          video.play().catch(() => {});
+        });
+      }
+    }
+
+    // A card kept off to the side by a pager isn't "featured"; the hero and
+    // any non-pager slot always are.
+    function isFeatured(slot) {
+      const card = slot.closest(".card");
+      if (!card) return true;
+      return card.classList.contains("is-featured");
+    }
+    function visibleFraction(el) {
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      if (r.height <= 0) return 0;
+      const visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+      return visible / r.height;
+    }
+
+    // Decide what should be playing: a hovered img+video wins; otherwise the
+    // most-in-view *featured* video-only slot; otherwise nothing.
+    function resolve() {
+      if (hoveredSlot) {
+        setActive(hoveredSlot);
+        return;
+      }
+      let best = null;
+      let bestFrac = 0.5; // require a solid majority in view
+      entries.forEach((en) => {
+        if (en.hasPhoto) return; // img+video only ever plays on hover
+        if (!isFeatured(en.slot)) return; // never a hidden pager sibling
+        const frac = visibleFraction(en.slot);
+        if (frac > bestFrac) {
+          bestFrac = frac;
+          best = en.slot;
+        }
+      });
+      setActive(best);
+    }
+
+    // Timestamp throttle (not rAF) so it can't stall if rAF is starved.
+    let lastRun = 0;
+    let trailing = null;
+    function onScroll() {
+      const now = Date.now();
+      if (now - lastRun >= 120) {
+        lastRun = now;
+        resolve();
+      } else {
+        clearTimeout(trailing);
+        trailing = setTimeout(() => {
+          lastRun = Date.now();
+          resolve();
+        }, 120);
+      }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    // A pager switching its featured card must re-evaluate immediately.
+    document.addEventListener("pagerchange", resolve);
+    resolve();
+
+    function unlock() {
+      if (unlocked) return;
+      unlocked = true;
+      applySound();
+    }
+    ["pointerdown", "keydown", "touchstart"].forEach((evt) =>
+      window.addEventListener(evt, unlock, { once: true, passive: true })
+    );
+  })();
+
   /* ---------------- Paw trinket ---------------- */
   /* Two behaviors: (1) an occasional unprompted enter/wave/leave from a
      random edge, on a long randomized timer so it stays a surprise rather
@@ -310,30 +577,40 @@
     function play(edge, holdMs, offsetPct) {
       if (busy) return;
       busy = true;
+
+      // THE fix for "paw enters from the wrong edge / diagonally".
+      // The CSS transitions `transform`, and each edge's hidden state uses
+      // a DIFFERENT transform axis (edge-left/right => translateX(±260),
+      // edge-top/bottom => translateY(±260)). When we swap edge classes
+      // while that transition is live, the browser interpolates the
+      // transform from the *previous* edge's axis to the new one — e.g.
+      // from translateY(260) (bottom) to translateX(260) (right) — which
+      // reads as the paw sweeping diagonally in from the wrong side.
+      // Neither a plain reflow nor a double-rAF prevented this because the
+      // transition was never actually turned OFF during the swap.
+      // So: kill the transition, snap the new edge's hidden state into
+      // place, force a reflow to COMMIT it with no animation, then
+      // re-enable the transition and slide in on the next frame. Now the
+      // only thing that ever animates is this one edge's straight,
+      // single-axis in/out — never a cross-axis interpolation.
+      paw.style.transition = "none";
       paw.classList.remove("edge-top", "edge-bottom", "edge-left", "edge-right", "is-active", "is-waving");
       paw.classList.add("edge-" + edge);
       const pct = offsetPct == null ? 15 + Math.random() * 70 : offsetPct;
       paw.style.setProperty("--paw-offset", pct + "%");
-      // A synchronous reflow-force (reading offsetWidth right after the
-      // class swap) used to sit between the hidden and active states, but
-      // proved unreliable at actually preventing a real paint of the
-      // hidden state first — occasionally the transition would animate
-      // from the *previous* edge's position instead, visibly dragging the
-      // paw across the screen. Two nested rAFs guarantee an actual paint
-      // has happened with the new edge's hidden transform before is-active
-      // flips it to visible, which a synchronous property read doesn't.
+      void paw.offsetWidth; // commit the hidden state instantly, unanimated
+      paw.style.transition = ""; // restore the CSS transition for the slide
+
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          paw.classList.add("is-active");
-          const waveTimer = setTimeout(() => paw.classList.add("is-waving"), 450);
-          const leaveTimer = setTimeout(() => {
-            paw.classList.remove("is-active", "is-waving");
-            setTimeout(() => { busy = false; }, 800);
-          }, holdMs);
-          // Stash timers on the element in case a future change needs to
-          // cancel an in-flight sequence (not used yet, cheap insurance).
-          paw._timers = [waveTimer, leaveTimer];
-        });
+        paw.classList.add("is-active");
+        const waveTimer = setTimeout(() => paw.classList.add("is-waving"), 450);
+        const leaveTimer = setTimeout(() => {
+          paw.classList.remove("is-active", "is-waving");
+          setTimeout(() => { busy = false; }, 800);
+        }, holdMs);
+        // Stash timers on the element in case a future change needs to
+        // cancel an in-flight sequence (not used yet, cheap insurance).
+        paw._timers = [waveTimer, leaveTimer];
       });
     }
 
@@ -427,5 +704,127 @@
         }
       });
     });
+  })();
+
+  /* ---------------- Snake (puzzles slot 3) ---------------- */
+  /* Classic grid snake, rendered at a tiny logical resolution and scaled
+     up crisp (image-rendering: pixelated) for a retro feel using the
+     site's own palette rather than a generic green/black arcade look.
+     Keyboard listener is bound to the canvas itself (not document), so
+     playing never hijacks arrow-key page scrolling elsewhere. */
+
+  (function initSnake() {
+    const canvas = document.getElementById("snakeCanvas");
+    const tile = document.getElementById("snakeTile");
+    const overlay = document.getElementById("snakeOverlay");
+    const overlayText = overlay ? overlay.querySelector(".snake-overlay-text") : null;
+    const scoreEl = document.getElementById("snakeScore");
+    if (!canvas || !tile) return;
+    const ctx = canvas.getContext("2d");
+
+    const COLS = 20;
+    const ROWS = 15;
+    const CELL = canvas.width / COLS;
+
+    const rootStyle = getComputedStyle(document.documentElement);
+    const inkColor = rootStyle.getPropertyValue("--ink").trim() || "#15150C";
+    const bgColor = rootStyle.getPropertyValue("--bg").trim() || "#E7FB4E";
+    const accentColor = rootStyle.getPropertyValue("--accent").trim() || "#F47568";
+
+    let snake, dir, nextDir, food, score, tickTimer, running;
+
+    function placeFood() {
+      let cell;
+      do {
+        cell = { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) };
+      } while (snake.some((s) => s.x === cell.x && s.y === cell.y));
+      food = cell;
+    }
+
+    function reset() {
+      snake = [
+        { x: 9, y: 7 },
+        { x: 8, y: 7 },
+        { x: 7, y: 7 },
+      ];
+      dir = { x: 1, y: 0 };
+      nextDir = dir;
+      score = 0;
+      if (scoreEl) scoreEl.textContent = "0";
+      placeFood();
+    }
+
+    function draw() {
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = accentColor;
+      ctx.fillRect(food.x * CELL, food.y * CELL, CELL, CELL);
+      ctx.fillStyle = inkColor;
+      snake.forEach((seg) => ctx.fillRect(seg.x * CELL, seg.y * CELL, CELL, CELL));
+    }
+
+    function stop(message) {
+      running = false;
+      clearInterval(tickTimer);
+      tile.classList.remove("is-playing");
+      if (overlayText) overlayText.textContent = message;
+    }
+
+    function tick() {
+      dir = nextDir;
+      const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+      const hitWall = head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS;
+      const hitSelf = snake.some((s) => s.x === head.x && s.y === head.y);
+      if (hitWall || hitSelf) {
+        stop(`Scored ${score} — the safari's snake is unbothered. Click or press a key to try again.`);
+        return;
+      }
+      snake.unshift(head);
+      if (head.x === food.x && head.y === food.y) {
+        score += 1;
+        if (scoreEl) scoreEl.textContent = String(score);
+        placeFood();
+      } else {
+        snake.pop();
+      }
+      draw();
+    }
+
+    function start() {
+      if (running) return;
+      reset();
+      running = true;
+      tile.classList.add("is-playing");
+      draw();
+      tickTimer = setInterval(tick, 130);
+    }
+
+    const keyMap = {
+      ArrowUp: { x: 0, y: -1 }, w: { x: 0, y: -1 }, W: { x: 0, y: -1 },
+      ArrowDown: { x: 0, y: 1 }, s: { x: 0, y: 1 }, S: { x: 0, y: 1 },
+      ArrowLeft: { x: -1, y: 0 }, a: { x: -1, y: 0 }, A: { x: -1, y: 0 },
+      ArrowRight: { x: 1, y: 0 }, d: { x: 1, y: 0 }, D: { x: 1, y: 0 },
+    };
+
+    canvas.addEventListener("keydown", (e) => {
+      const wanted = keyMap[e.key];
+      if (!wanted) return;
+      e.preventDefault();
+      if (!running) {
+        start();
+        return;
+      }
+      // Never allow a direct reversal into the snake's own neck.
+      if (wanted.x === -dir.x && wanted.y === -dir.y) return;
+      nextDir = wanted;
+    });
+    canvas.addEventListener("click", () => {
+      canvas.focus();
+      if (!running) start();
+    });
+
+    // Paint an idle frame immediately so the tile is never a blank canvas.
+    reset();
+    draw();
   })();
 })();

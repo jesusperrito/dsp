@@ -149,10 +149,10 @@ hr {
    — in particular, the header file's crest occupies only the top ~45% of
    the image's total height, since the file also includes the wordmark
    below it; percentages measured against the crest alone don't transfer). */
-.crest--header .crest-eye--left { left: 44.5%; top: 26.5%; }
-.crest--header .crest-eye--right { left: 69.5%; top: 26.5%; }
-.crest--footer .crest-eye--left { left: 45.5%; top: 60.5%; }
-.crest--footer .crest-eye--right { left: 75%; top: 60.5%; }
+.crest--header .crest-eye--left { left: 45.3%; top: 41%; }
+.crest--header .crest-eye--right { left: 57.6%; top: 40.9%; }
+.crest--footer .crest-eye--left { left: 41.1%; top: 64.4%; }
+.crest--footer .crest-eye--right { left: 57%; top: 64.3%; }
 @media (prefers-reduced-motion: reduce) {
   .crest-eye { transition: none; }
 }
@@ -245,10 +245,28 @@ hr {
   display: flex;
   align-items: center;
   flex: 0 0 auto;
-  padding: 0 16px;
-  border-right: 1px solid var(--line);
+  max-width: 0;
+  padding: 0;
+  border-right: 0 solid var(--line);
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
 }
-.tabbar-brand img { display: block; height: 16px; width: auto; }
+/* height set generously so the full "Times of the Wild" wordmark shows
+   without the descenders/edges being clipped; max-width (below) is a
+   loose cap that only gates the reveal transition, not the actual width. */
+.tabbar-brand img { display: block; height: 15px; width: auto; flex: 0 0 auto; }
+/* Redundant while the full masthead crest + wordmark are already on
+   screen at page load — it only earns its place once that's scrolled
+   past, so .tabbar.is-scrolled (set once the masthead leaves view, see
+   main.js) is what actually reveals it. max-width is generous (the
+   content is ~80px + padding) so nothing is ever cut. */
+.tabbar.is-scrolled .tabbar-brand {
+  max-width: 180px;
+  padding: 0 14px;
+  border-right-width: 1px;
+  opacity: 1;
+}
 .tabbar-list {
   list-style: none;
   margin: 0;
@@ -259,21 +277,31 @@ hr {
   scrollbar-width: none;
 }
 .tabbar-list::-webkit-scrollbar { display: none; }
+/* Sections grow to fill the bar edge to edge (flex-grow) rather than
+   sitting at natural width with gaps between them — that leftover gap was
+   both the "extra space on the right" and the "color-cut" (hover only
+   covered the natural width, leaving an uncovered strip). flex-basis:auto
+   (not 0) keeps each cell at least as wide as its label so the longest
+   one ("Puzzles & Comic Strip") never overflows; the extra space is then
+   shared out evenly, and each <a> fills its <li> so hover covers the
+   whole cell. */
 .tabbar-list li {
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   border-right: 1px solid var(--line);
 }
 .tabbar-list a {
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   height: 100%;
   min-height: 44px; /* touch target minimum */
-  padding: 0 12px;
+  padding: 0 10px;
   text-decoration: none;
   white-space: nowrap;
   font-weight: 700;
   font-size: 10.5px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--ink);
   opacity: 0.65; /* 0.55 failed WCAG AA (3.99:1) at this font size; 0.65 matches the byline convention at 5.5:1 */
@@ -399,15 +427,24 @@ main { display: block; }
    every article in the section at flex:0 0 100%; .card-pager clips to one
    at a time and main.js slides the track via transform. */
 
-.card-pager { position: relative; }
+/* overflow:hidden lives on the STATIC pager, never on the track. The
+   track is the element that gets `transform: translateX()`, and a
+   transform drags the element's own overflow clip along with it — so if
+   the track clipped, cards 2+ (which sit past its 100%-wide box) were
+   clipped away and paging just slid card 1 off into blank space. Clipping
+   on the static pager instead gives a fixed viewport the track slides
+   behind, so every card is reachable and none are cropped. */
+.card-pager { position: relative; overflow: hidden; }
 .card-pager-track {
   display: flex;
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  align-items: flex-start; /* each card keeps its own natural height */
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1),
+    height 0.35s cubic-bezier(0.65, 0, 0.35, 1);
 }
 .card {
   flex: 0 0 100%;
   width: 100%;
+  align-self: flex-start;
   background: var(--paper);
   border: 2px solid var(--ink);
   border-radius: 4px;
@@ -464,13 +501,15 @@ main { display: block; }
 .media-slot--hero-full,
 .hero-media-photo {
   display: block;
+  position: relative;
   width: 100%;
   height: min(60vh, 600px);
   min-height: 320px;
   border-radius: 0;
-  object-fit: cover;
-  object-position: 50% 30%;
+  overflow: hidden;
 }
+.hero-media-photo .media-slot-photo,
+.hero-media-photo .media-slot-video { object-position: 50% 30%; }
 .hero-card-wrap {
   max-width: 920px;
   margin: 0 auto;
@@ -637,33 +676,40 @@ main { display: block; }
    padding (a tall narrow crane neck vs. a wide hippo head). Sizing was
    previously "contain" (whole canvas fit inside, letterboxed) which read
    as a tiny floating icon for anything with a lot of internal padding.
-   `object-fit: cover` fills the circle edge to edge like a cropped
-   portrait photo; `object-position`, measured directly off each SVG's own
-   non-transparent pixels (as a % of that image's own natural width/height,
-   not a normalized square — cover crops using the image's real aspect
-   ratio, so measuring in any other space gave a mismatched crop and
-   several animals, worst of all the crane, cropped to nothing visible),
-   keeps the actual drawn content centered instead of the empty canvas. */
+   Two earlier approaches both got the crop wrong. First, `object-fit:
+   contain` on a normalized square canvas — wrong measurement space.
+   Second, `object-fit: cover` + `object-position` set to the content's own
+   center — this assumed `object-position: X% Y%` means "align image point
+   (X,Y) with the box center", but that is not what it does: it's a pan
+   slider (0% = content's left/top edge flush with the box, 100% = its
+   right/bottom edge flush, 50% = centered), identical to
+   `background-position`. Setting it to the content's own coordinates just
+   panned toward whichever corner the content happened to sit in.
+   This version drops object-fit/object-position entirely and positions the
+   image directly: `left: 50%; top: 50%` puts the image's top-left corner
+   at the box's center, then `translate(-Cx%, -Cy%)` — using the content
+   center as a % of the image's own width/height — shifts the image by
+   exactly that fraction of itself, landing the content's center (not the
+   canvas's center) on the box's center. `width` is a per-animal zoom
+   (roughly `110% / max(content width%, content height%)` of that image)
+   so the drawn content, not the empty canvas around it, reaches the box
+   edges — thin subjects (crane, ostrich) need much more zoom than a
+   nearly-full-canvas one (duck). Every value here comes from a
+   canvas/alpha-channel content-bbox scan of the actual SVG, not eyeballed. */
 .moodcast-face {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  left: 50%;
+  top: 50%;
+  height: auto;
 }
-.moodcast-face--bear { object-position: 49.24% 30.67%; }
-/* Crane and ostrich are thin subjects (a neck, a head-on-a-stick) even
-   within their own frame — a plain cover fill left them reading small
-   next to the others, so these two get an extra zoom on top of the cover
-   crop; the crop stays centered since scale's default origin is the box
-   center, the same point object-position already centered on. */
-.moodcast-face--crane { object-position: 49% 15.33%; transform: scale(1.7); }
-.moodcast-face--wolf { object-position: 22.46% 27%; }
-.moodcast-face--ostrich { object-position: 70% 17.67%; transform: scale(1.5); }
-.moodcast-face--hippo { object-position: 34.65% 52.67%; }
-.moodcast-face--duck { object-position: 44% 58%; }
-.moodcast-face--lemur { object-position: 36% 43.33%; }
-.moodcast-face--onyx { object-position: 27.93% 23.67%; }
+.moodcast-face--bear { width: 182%; transform: translate(-49.24%, -30.67%); }
+.moodcast-face--crane { width: 289%; transform: translate(-49%, -15.33%); }
+.moodcast-face--wolf { width: 246%; transform: translate(-22.46%, -27%); }
+.moodcast-face--ostrich { width: 402%; transform: translate(-70%, -17.67%); }
+.moodcast-face--hippo { width: 150%; transform: translate(-34.65%, -52.67%); }
+.moodcast-face--duck { width: 125%; transform: translate(-44%, -58%); }
+.moodcast-face--lemur { width: 179%; transform: translate(-36%, -43.33%); }
+.moodcast-face--onyx { width: 244%; transform: translate(-27.93%, -23.67%); }
 @media (prefers-reduced-motion: reduce) {
   .moodcast-pin-icon, .moodcast-tooltip { transition: none; }
 }
@@ -672,62 +718,72 @@ main { display: block; }
 
 .ad-break { border-bottom-style: solid; }
 .ad-inline { text-align: center; }
-.ad-tiles {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 24px;
-}
-.ad-tile {
-  width: min(320px, 100%);
-  background: var(--paper);
+/* One single banner per ad break (the studio's finished creative), a
+   quiet "Advertisement" label above it so it reads as a paid slot rather
+   than editorial. */
+.eyebrow--ad { opacity: 0.55; margin-bottom: 14px; }
+.ad-banner {
+  display: block;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
   border: 2px solid var(--ink);
   border-radius: 4px;
-  padding: 26px;
 }
-.ad-tile h3 {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 400;
-  margin: 16px 0 8px;
-}
-.ad-tile p { font-size: 14px; margin: 0 0 6px; }
 .fine-print { opacity: 0.6; font-size: 12px; }
-.qr {
-  width: 64px; height: 64px;
-  margin: 0 auto;
-  background:
-    repeating-linear-gradient(0deg, var(--ink) 0 4px, transparent 4px 8px),
-    repeating-linear-gradient(90deg, var(--ink) 0 4px, transparent 4px 8px);
-  background-blend-mode: multiply;
-  opacity: 0.85;
-}
 
-/* Phone mock for social app ad break */
-.phone-mock {
-  width: 220px;
-  margin: 24px auto 0;
-  background: var(--ink);
-  border-radius: 36px;
-  padding: 18px 16px;
+/* Fixed vertical "skyscraper" ads in the page's side gutters — only on
+   viewports wide enough to hold them clear of the 920px content column,
+   so they never overlap the paper. Each has a small dismiss button. */
+.side-ad {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 130px;
+  z-index: 55;
+  display: none;
 }
-.phone-notch {
-  width: 60px; height: 6px;
-  background: var(--bg);
+.side-ad--left { left: 20px; }
+.side-ad--right { right: 20px; }
+.side-ad img {
+  display: block;
+  width: 100%;
+  border: 2px solid var(--ink);
   border-radius: 4px;
-  margin: 0 auto 16px;
-  opacity: 0.4;
 }
-.phone-icons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-}
-.app-icon {
-  aspect-ratio: 1;
+.side-ad-close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
   background: var(--paper);
-  border-radius: 16px;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.side-ad.is-dismissed { display: none !important; }
+@media (min-width: 1360px) {
+  /* Shown only on wide screens AND only after the reader has scrolled past
+     the masthead/front-page hero — otherwise they'd sit over the header and
+     nav at the top of the page. `.is-revealed` is toggled by main.js on
+     scroll; visibility (not display) so the fade can animate. */
+  .side-ad {
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .side-ad.is-revealed {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 /* ---------------- Placeholder note ---------------- */
@@ -740,6 +796,43 @@ main { display: block; }
   font-size: 14px;
   opacity: 0.75;
   text-align: center;
+}
+
+/* ---------------- Classifieds ---------------- */
+/* Dense little back-page ads, packed into a masonry-ish column flow like a
+   real newspaper classifieds page: hairline dividers, a small caps category
+   kicker, tight serif body, a stamped contact line. */
+.classifieds-grid {
+  columns: 3 220px;
+  column-gap: 26px;
+}
+.classified {
+  break-inside: avoid;
+  border-top: 2px solid var(--ink);
+  padding: 12px 0 16px;
+  margin-bottom: 4px;
+}
+.classified-cat {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+}
+.classified-body {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+  margin: 0 0 8px;
+}
+.classified-contact {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  margin: 0;
+  color: var(--accent);
 }
 
 /* ---------------- Media placeholders ---------------- */
@@ -759,6 +852,60 @@ main { display: block; }
   position: relative;
 }
 .media-slot-icon { width: 26px; height: 26px; color: var(--paper); opacity: 0.6; }
+
+/* Real photo + video, dropped into an existing media-slot (keeps whatever
+   shape/aspect-ratio/clip-path that slot variant already has). Playback is
+   scroll-driven, not hover-driven: an IntersectionObserver in main.js
+   plays only the single most-in-view video at a time (never all at once)
+   and pauses the rest, with sound (falling back to muted where the
+   browser blocks unmuted autoplay until the first user gesture). */
+.media-slot-photo,
+.media-slot-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* img+video slots: the still photo is the resting state; the video fades
+   in over it only while it's the active (playing) one. */
+.media-slot-video {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.media-slot--has-video.is-playing .media-slot-video { opacity: 1; }
+/* video-only slots (no still photo): the video IS the resting visual — it
+   shows its own first frame when paused and plays when in view, so there's
+   no grey placeholder behind it. main.js tags these + strips the icon. */
+.media-slot--video-only .media-slot-icon { display: none; }
+.media-slot--video-only .media-slot-video { opacity: 1; }
+
+/* Mute / unmute toggle, injected per video slot by main.js. Sits in the
+   corner, appears on hover (and stays visible while a video is the active
+   one), so sound is always one click away without cluttering the resting
+   state. */
+.media-slot-mute {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
+  color: var(--paper);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+.media-slot--has-video:hover .media-slot-mute,
+.media-slot--has-video.is-playing .media-slot-mute,
+.media-slot-mute:focus-visible { opacity: 1; }
+.media-slot-mute svg { width: 15px; height: 15px; display: block; }
 
 .media-slot--card {
   aspect-ratio: 16/10;
@@ -872,6 +1019,77 @@ main { display: block; }
 }
 .puzzle-tile--sudoku.is-solved .sudoku-solved-note { opacity: 1; }
 
+/* ---------------- Snake (the 3rd puzzle slot) ---------------- */
+/* Retro/pixel treatment inside the same paper-card language as the rest
+   of the puzzle row — flat colour, hard edges, no gradients or blur. The
+   canvas renders at a tiny logical resolution (20x15 cells) and is scaled
+   up with `image-rendering: pixelated` so every cell reads as a crisp
+   square, not a smoothed blur. */
+.puzzle-tile--snake {
+  aspect-ratio: auto;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: var(--ink);
+  position: relative;
+}
+.snake-canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/3;
+  image-rendering: pixelated;
+  cursor: pointer;
+  outline: none;
+}
+.snake-canvas:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
+.snake-overlay {
+  position: absolute;
+  inset: 14px 14px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: color-mix(in srgb, var(--ink) 78%, transparent);
+  color: var(--bg);
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.puzzle-tile--snake.is-playing .snake-overlay { opacity: 0; }
+.snake-overlay-title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+.snake-overlay-text {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  margin: 0;
+  opacity: 0.85;
+}
+.snake-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-sans);
+  color: var(--bg);
+}
+.snake-score {
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.snake-record {
+  font-size: 9.5px;
+  opacity: 0.6;
+  font-style: italic;
+}
+
 .comic-strip-art {
   display: block;
   width: 100%;
@@ -915,9 +1133,9 @@ main { display: block; }
   border: 3px solid var(--ink);
   border-radius: 4px; /* matches the card/ad-tile radius scale */
   box-shadow: 8px 8px 0 var(--ink);
-  max-width: 420px;
+  max-width: 560px;
   width: 100%;
-  padding: 36px 30px 30px;
+  padding: 8px;
   animation: pop-in 0.35s cubic-bezier(.2,1.4,.4,1);
 }
 @media (prefers-reduced-motion: reduce) {
@@ -944,13 +1162,11 @@ main { display: block; }
 }
 .ad-popup-close svg { width: 100%; height: 100%; fill: var(--paper); }
 .ad-popup-content .eyebrow { margin-bottom: 14px; }
-.ad-popup-content h3 {
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 400;
-  margin: 0 0 10px;
+.ad-popup-img {
+  display: block;
+  width: 100%;
+  border-radius: 2px;
 }
-.ad-popup-content p { font-size: 14px; margin: 0 0 6px; }
 
 /* ---------------- Site footer ---------------- */
 
@@ -1007,7 +1223,11 @@ main { display: block; }
      switch has nothing stale left to interpolate from. */
   transition: transform 0.7s cubic-bezier(0.22, 0.85, 0.32, 1);
 }
-.paw-orient { width: 100%; }
+/* Never transitions — the base rotation must switch instantly with the
+   edge class, same tick as the dock position. If this ever animated even
+   briefly, it would compose with the slide transform into a genuinely
+   diagonal-looking motion instead of a straight one. */
+.paw-orient { width: 100%; transition: none; }
 .paw-wave-inner { transform-origin: 50% 100%; }
 .paw-wave-inner img { display: block; width: 100%; height: auto; }
 
